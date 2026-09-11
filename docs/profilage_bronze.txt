@@ -1,0 +1,192 @@
+
+== osm_idf_75_ecoles.json ==
+total: 10335, types: {'node': 4647, 'way': 5585, 'relation': 103}
+sans name: 879 (8.5%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 7454), ('kindergarten', 890), ('driving_school', 675), ('college', 561), ('university', 284), ('music_school', 229), ('language_school', 87), ('dancing_school', 52), ('surf_school', 41), ('prep_school', 34)]
+version OSM: 2026-09-07T12:11:40Z
+opencode -s ses_f9340a477ffePb00DMOh76ebe1
+== osm_idf_75_sante.json ==
+total: 5560, types: {'node': 4517, 'way': 1022, 'relation': 21}
+sans name: 624 (11.2%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 2862), ('doctors', 2070), ('hospital', 315), ('clinic', 312), ('pharmacy;hearing_aids;medical_supply', 1)]
+version OSM: 2026-09-07T12:33:06Z
+
+== osm_idf_75_shops.json ==
+total: 74152, types: {'node': 65978, 'way': 8120, 'relation': 54}
+sans name: 7575 (10.2%), sans tags: 0, shop=vacant: 3104, sans geo: 0
+top sous-types: [('clothes', 7287), ('hairdresser', 5393), ('bakery', 4302), ('convenience', 3896), ('vacant', 3095), ('beauty', 2615), ('car_repair', 2353), ('supermarket', 2136), ('optician', 1887), ('butcher', 1534)]
+version OSM: 2026-09-07T12:52:23Z
+
+== osm_idf_75_transport.json ==
+total: 18738, types: {'node': 18737, 'way': 1}
+sans name: 1302 (6.9%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 18737), ('bus_station', 1)]
+version OSM: 2026-09-07T12:26:02Z
+
+== osm_idf_77_ecoles.json ==
+total: 1869, types: {'node': 859, 'way': 996, 'relation': 14}
+sans name: 88 (4.7%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 1548), ('kindergarten', 117), ('driving_school', 83), ('music_school', 49), ('college', 34), ('university', 28), ('dancing_school', 4), ('language_school', 3), ('prep_school', 2), ('flight_school', 1)]
+version OSM: 2026-09-07T12:15:51Z
+
+== osm_idf_77_sante.json ==
+total: 535, types: {'node': 432, 'way': 100, 'relation': 3}
+sans name: 95 (17.8%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 330), ('doctors', 147), ('hospital', 30), ('clinic', 28)]
+version OSM: 2026-09-07T12:34:06Z
+
+== osm_idf_77_shops.json ==
+total: 4806, types: {'node': 3749, 'way': 1015, 'relation': 42}
+sans name: 491 (10.2%), sans tags: 0, shop=vacant: 45, sans geo: 0
+top sous-types: [('bakery', 425), ('hairdresser', 405), ('convenience', 321), ('clothes', 314), ('supermarket', 294), ('car_repair', 288), ('car', 177), ('optician', 137), ('fuel', 127), ('beauty', 120)]
+version OSM: 2026-09-07T12:55:36Z
+
+== osm_idf_77_transport.json ==
+total: 3352, types: {'node': 3352}
+sans name: 637 (19.0%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 3352)]
+version OSM: 2026-09-07T12:27:01Z
+
+== osm_idf_78_ecoles.json ==
+total: 1931, types: {'node': 752, 'way': 1150, 'relation': 29}
+sans name: 64 (3.3%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 1517), ('kindergarten', 174), ('driving_school', 111), ('college', 45), ('music_school', 43), ('university', 24), ('language_school', 10), ('prep_school', 3), ('painting_school', 1), ('boat_school', 1)]
+version OSM: 2026-09-07T12:16:51Z
+
+== osm_idf_78_sante.json ==
+total: 667, types: {'node': 581, 'way': 83, 'relation': 3}
+sans name: 52 (7.8%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 336), ('doctors', 260), ('hospital', 43), ('clinic', 28)]
+version OSM: 2026-09-07T12:34:06Z
+
+== osm_idf_78_shops.json ==
+total: 6399, types: {'node': 5588, 'way': 801, 'relation': 10}
+sans name: 549 (8.6%), sans tags: 0, shop=vacant: 199, sans geo: 0
+top sous-types: [('hairdresser', 559), ('bakery', 465), ('clothes', 411), ('convenience', 365), ('car_repair', 338), ('supermarket', 264), ('beauty', 240), ('optician', 203), ('vacant', 199), ('car', 177)]
+version OSM: 2026-09-07T12:55:36Z
+
+== osm_idf_78_transport.json ==
+total: 4560, types: {'node': 4560}
+sans name: 25 (0.5%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 4558), ('ferry_terminal', 2)]
+version OSM: 2026-09-07T12:41:21Z
+
+== osm_idf_91_ecoles.json ==
+total: 1573, types: {'node': 628, 'way': 933, 'relation': 12}
+sans name: 60 (3.8%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 1239), ('kindergarten', 123), ('driving_school', 105), ('music_school', 39), ('university', 32), ('college', 30), ('language_school', 2), ('dancing_school', 2), ('music_school;dancing_school;theatre_school', 1)]
+version OSM: 2026-09-07T12:17:50Z
+
+== osm_idf_91_sante.json ==
+total: 622, types: {'node': 511, 'way': 108, 'relation': 3}
+sans name: 46 (7.4%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 340), ('doctors', 218), ('hospital', 40), ('clinic', 24)]
+version OSM: 2026-09-07T12:35:11Z
+
+== osm_idf_91_shops.json ==
+total: 4796, types: {'node': 3809, 'way': 977, 'relation': 10}
+sans name: 447 (9.3%), sans tags: 0, shop=vacant: 99, sans geo: 0
+top sous-types: [('hairdresser', 441), ('bakery', 409), ('convenience', 306), ('supermarket', 282), ('car_repair', 263), ('clothes', 250), ('beauty', 158), ('car', 157), ('optician', 154), ('butcher', 135)]
+version OSM: 2026-09-07T12:58:36Z
+
+== osm_idf_91_transport.json ==
+total: 2177, types: {'node': 2176, 'way': 1}
+sans name: 74 (3.4%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 2177)]
+version OSM: 2026-09-07T12:42:21Z
+
+== osm_idf_92_ecoles.json ==
+total: 1515, types: {'node': 785, 'way': 707, 'relation': 23}
+sans name: 45 (3.0%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 952), ('kindergarten', 289), ('driving_school', 143), ('college', 68), ('music_school', 31), ('university', 25), ('language_school', 5), ('prep_school', 2)]
+version OSM: 2026-09-07T12:17:50Z
+
+== osm_idf_92_sante.json ==
+total: 788, types: {'node': 704, 'way': 75, 'relation': 9}
+sans name: 37 (4.7%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 447), ('doctors', 254), ('hospital', 53), ('clinic', 34)]
+version OSM: 2026-09-07T12:36:11Z
+
+== osm_idf_92_shops.json ==
+total: 7700, types: {'node': 6945, 'way': 748, 'relation': 7}
+sans name: 613 (8.0%), sans tags: 0, shop=vacant: 251, sans geo: 0
+top sous-types: [('hairdresser', 731), ('convenience', 604), ('bakery', 594), ('clothes', 470), ('beauty', 348), ('supermarket', 304), ('optician', 287), ('vacant', 250), ('butcher', 243), ('car_repair', 225)]
+version OSM: 2026-09-07T13:00:41Z
+
+== osm_idf_92_transport.json ==
+total: 2469, types: {'node': 2469}
+sans name: 28 (1.1%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 2469)]
+version OSM: 2026-09-07T12:48:21Z
+
+== osm_idf_93_ecoles.json ==
+total: 6993, types: {'node': 2610, 'way': 4287, 'relation': 96}
+sans name: 368 (5.3%), sans tags: 0, shop=vacant: 1, sans geo: 0
+top sous-types: [('school', 5374), ('kindergarten', 546), ('driving_school', 412), ('college', 250), ('university', 195), ('music_school', 128), ('dancing_school', 29), ('language_school', 18), ('ski_school', 16), ('prep_school', 11)]
+version OSM: 2026-09-07T12:18:50Z
+
+== osm_idf_93_sante.json ==
+total: 3517, types: {'node': 3003, 'way': 492, 'relation': 22}
+sans name: 355 (10.1%), sans tags: 0, shop=vacant: 1, sans geo: 0
+top sous-types: [('pharmacy', 2036), ('doctors', 962), ('clinic', 297), ('hospital', 222)]
+version OSM: 2026-09-07T12:48:21Z
+
+== osm_idf_93_shops.json ==
+total: 38729, types: {'node': 33938, 'way': 4750, 'relation': 41}
+sans name: 4613 (11.9%), sans tags: 0, shop=vacant: 1373, sans geo: 0
+top sous-types: [('clothes', 3160), ('hairdresser', 3009), ('bakery', 2996), ('convenience', 2387), ('car_repair', 1799), ('supermarket', 1610), ('vacant', 1357), ('butcher', 1042), ('beauty', 1042), ('optician', 901)]
+version OSM: 2026-09-07T13:00:41Z
+
+== osm_idf_93_transport.json ==
+total: 25954, types: {'node': 25945, 'way': 9}
+sans name: 225 (0.9%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 25945), ('ferry_terminal', 7), ('school', 1), ('shelter', 1)]
+version OSM: 2026-09-07T12:50:21Z
+
+== osm_idf_94_ecoles.json ==
+total: 1743, types: {'node': 773, 'way': 942, 'relation': 28}
+sans name: 60 (3.4%), sans tags: 0, shop=vacant: 1, sans geo: 0
+top sous-types: [('school', 1233), ('kindergarten', 216), ('driving_school', 131), ('college', 64), ('music_school', 48), ('university', 37), ('dancing_school', 6), ('language_school', 5), ('boat_school', 1), ('drama_school', 1)]
+version OSM: 2026-09-07T12:19:50Z
+
+== osm_idf_94_sante.json ==
+total: 776, types: {'node': 670, 'way': 99, 'relation': 7}
+sans name: 84 (10.8%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 479), ('doctors', 220), ('hospital', 51), ('clinic', 26)]
+version OSM: 2026-07-28T02:16:18Z
+
+== osm_idf_94_shops.json ==
+total: 8716, types: {'node': 7593, 'way': 1101, 'relation': 22}
+sans name: 973 (11.2%), sans tags: 0, shop=vacant: 187, sans geo: 0
+top sous-types: [('convenience', 716), ('bakery', 671), ('clothes', 653), ('hairdresser', 638), ('supermarket', 361), ('car_repair', 305), ('butcher', 293), ('beauty', 289), ('trade', 283), ('optician', 238)]
+version OSM: 2026-09-07T13:02:50Z
+
+== osm_idf_94_transport.json ==
+total: 2603, types: {'node': 2603}
+sans name: 57 (2.2%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 2597), ('ferry_terminal', 6)]
+version OSM: 2026-09-07T12:51:21Z
+
+== osm_idf_95_ecoles.json ==
+total: 1466, types: {'node': 639, 'way': 788, 'relation': 39}
+sans name: 45 (3.1%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('school', 1230), ('driving_school', 106), ('kindergarten', 50), ('music_school', 32), ('college', 30), ('university', 16), ('dancing_school', 1), ('language_school', 1)]
+version OSM: 2026-05-06T03:25:00Z
+
+== osm_idf_95_sante.json ==
+total: 470, types: {'node': 386, 'way': 80, 'relation': 4}
+sans name: 35 (7.4%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('pharmacy', 275), ('doctors', 118), ('clinic', 41), ('hospital', 36)]
+version OSM: 2026-09-07T12:43:21Z
+
+== osm_idf_95_shops.json ==
+total: 4095, types: {'node': 3260, 'way': 824, 'relation': 11}
+sans name: 352 (8.6%), sans tags: 0, shop=vacant: 48, sans geo: 0
+top sous-types: [('hairdresser', 378), ('bakery', 346), ('convenience', 279), ('clothes', 242), ('car_repair', 236), ('supermarket', 220), ('beauty', 159), ('butcher', 140), ('optician', 137), ('car', 119)]
+version OSM: 2026-09-07T13:03:51Z
+
+== osm_idf_95_transport.json ==
+total: 2488, types: {'node': 2488}
+sans name: 18 (0.7%), sans tags: 0, shop=vacant: 0, sans geo: 0
+top sous-types: [('stop_position', 2488)]
+version OSM: 2026-09-07T12:51:21Z

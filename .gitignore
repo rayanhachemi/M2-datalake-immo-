@@ -1,0 +1,19 @@
+# Données brutes et produites (trop lourdes pour GitHub, à régénérer via src/)
+bronze/idf/*.json
+bronze/*.csv
+bronze/*.txt
+silver/*.parquet
+gold/*.parquet
+gold/*.csv
+*.csv
+!docs/*.csv
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Système / notebooks
+.DS_Store
+.ipynb_checkpoints/
