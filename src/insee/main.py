@@ -28,6 +28,14 @@ BRONZE = Path(__file__).resolve().parents[2] / "bronze" / "insee"
 PAGE_SIZE = 5000
 PAUSE = 2.0  # secondes entre deux requêtes (limite : 30 requêtes/minute)
 
+REGIONS = {
+    "idf":       {"75", "77", "78", "91", "92", "93", "94", "95"},
+    "occitanie": {"09", "11", "12", "30", "31", "32", "34", "46", "48", "65", "66", "81", "82"},
+    "bretagne":  {"22", "29", "35", "56"},
+    "ara":       {"01", "03", "07", "15", "26", "38", "42", "43", "63", "69", "73", "74"},
+}
+DEPTS_CIBLES = {d for depts in REGIONS.values() for d in depts}
+
 
 def http_json(url: str, retries: int = 5) -> dict:
     for attempt in range(retries):
@@ -64,12 +72,18 @@ def download(dataset: str, measures: list[str], out_file: Path) -> None:
                     break
 
                 for o in observations:
+                    geo = o["dimensions"]["GEO"]
+                    # filtre : garder uniquement les communes des 4 régions cibles
+                    if "-COM-" not in geo:
+                        continue
+                    dept = geo.split("-COM-")[1][:2]
+                    if dept not in DEPTS_CIBLES:
+                        continue
+                    val = o["measures"].get("OBS_VALUE_NIVEAU", {}).get("value")
+                    cible = avec_valeur if val is not None else sans_valeur
+                    cible[mesure] += 1
                     out.write(json.dumps(o, ensure_ascii=False) + "\n")
                     total += 1
-                    if "-COM-" in o["dimensions"]["GEO"]:  # niveau communal : clé de jointure avec DVF
-                        val = o["measures"].get("OBS_VALUE_NIVEAU", {}).get("value")
-                        cible = avec_valeur if val is not None else sans_valeur
-                        cible[mesure] += 1
 
                 pages += 1
                 print(f"  {mesure} : page {page}, {total:,} observations", flush=True)
