@@ -1,19 +1,19 @@
 services:
 
   bronze-insee:
-    build: .
+    image: rayanhcm0/datalake-immo:latest
     command: python src/insee/main.py
     volumes:
       - bronze_data:/app/bronze
 
   bronze-dvf:
-    build: .
+    image: rayanhcm0/datalake-immo:latest
     command: python src/dvf/main.py
     volumes:
       - bronze_data:/app/bronze
 
   bronze-osm:
-    build: .
+    image: rayanhcm0/datalake-immo:latest
     command: python src/osm/main.py
     volumes:
       - bronze_data:/app/bronze
