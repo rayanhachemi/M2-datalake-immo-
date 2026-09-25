@@ -1,0 +1,22 @@
+services:
+
+  bronze-insee:
+    build: .
+    command: python src/insee/main.py
+    volumes:
+      - bronze_data:/app/bronze
+
+  bronze-dvf:
+    build: .
+    command: python src/dvf/main.py
+    volumes:
+      - bronze_data:/app/bronze
+
+  bronze-osm:
+    build: .
+    command: python src/osm/main.py
+    volumes:
+      - bronze_data:/app/bronze
+
+volumes:
+  bronze_data:
