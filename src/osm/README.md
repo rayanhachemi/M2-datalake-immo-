@@ -1,21 +1,23 @@
-# Module OSM (IdF)
+# Module OSM — Ingestion bronze
 
-## Scripts
+## Source
+OpenStreetMap via Overpass API — données spatiales (POI géolocalisés).
 
-| Script | Rôle | Commande |
-|---|---|---|
-| `main_idf.py` | Bronze : 8 depts x 4 cats via Overpass `area INSEE`, `nwr + out center`, sleep 15 s, reprise auto | `python3 src/osm/main_idf.py [dept] [cat]` ex : `... 75 shops`, `... ecoles` |
-| `profile_osm.py` | Profilage : volumes, types node/way/relation, sans `name`, `vacant`, top sous-types, version OSM | `python3 src/osm/profile_osm.py` |
-| `clean_osm_silver.py` | Silver : fusion 32 JSON → 1 Parquet, filtres bruit, flags, dédup `id_osm` | `python3 src/osm/clean_osm_silver.py` |
+## Script
+`main.py` — télécharge les POI pour les 4 régions cibles (IdF, Occitanie, Bretagne, ARA).
+
+## Usage
+```bash
+python src/osm/main.py                    # toutes les régions (148 requêtes)
+python src/osm/main.py bretagne           # une région
+python src/osm/main.py idf 75 ecoles     # un dept/catégorie précis
+```
+
+## Sortie
+`bronze/osm/{region}/osm_{region}_{dept}_{cat}.json` — 37 depts × 4 catégories = 148 fichiers.
 
 ## Catégories
-
-`ecoles` → education (garde school/kindergarten/college/university),
-`sante` → sante (garde pharmacy/hospital/clinic/doctors),
-`shops` → commerce (`vacant` flagué), `transport` → transport.
-
-## Sorties
-
-- `bronze/idf/osm_idf_{75,77,78,91,92,93,94,95}_{ecoles,sante,shops,transport}.json` (~90 Mo, ~252k objets)
-- `silver/osm_idf_poi.parquet` (249 197 lignes, 9 Mo) + `silver/osm_idf_silver_stats.json`
-- Prochaine étape : pivot `code_commune` (sjoin contours) → `gold/osm_idf_density.csv`
+- `ecoles` : schools, colleges, universities, kindergartens
+- `sante` : pharmacies, hospitals, clinics, doctors
+- `shops` : tous les commerces
+- `transport` : arrêts de transport en commun
