@@ -16,6 +16,14 @@ python src/osm/main.py idf 75 ecoles     # un dept/catégorie précis
 ## Sortie
 `bronze/osm/{region}/osm_{region}_{dept}_{cat}.json` — 37 depts × 4 catégories = 148 fichiers.
 
+## Profilage
+`profiling.py` — volumétrie, complétude des tags, doublons, anomalies (hors périmètre, `vacant`, hors bbox...).
+```bash
+python src/osm/profiling.py               # les 4 régions
+python src/osm/profiling.py --region idf  # une région
+```
+Sorties : `docs/profiling/osm_{fichiers,sous_types,completude_tags}.csv`.
+
 ## Catégories
 - `ecoles` : schools, colleges, universities, kindergartens
 - `sante` : pharmacies, hospitals, clinics, doctors

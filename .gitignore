@@ -10,6 +10,7 @@ gold/*.parquet
 gold/*.csv
 *.csv
 !docs/*.csv
+!docs/profiling/*.csv
 
 # Python
 __pycache__/
