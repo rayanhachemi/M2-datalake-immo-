@@ -15,6 +15,11 @@
 
 ## Qualité avant → après (profilage → silver)
 
+> ⚠ **Chiffres obsolètes.** Ils ont été calculés sur un bronze pollué : la requête Overpass
+> sans `admin_level=6` récupérait aussi la *région* de même code INSEE (75 Paris → Nouvelle-Aquitaine,
+> 93 → PACA, 94 → Corse). Bug corrigé dans `src/osm/main.py` ; silver à régénérer puis chiffres à mettre à jour.
+> Profilage à jour : `python src/osm/profiling.py` → `docs/profiling/osm_*.csv`.
+
 Brut 252 094 → silver 249 197. Écarts : ~2 775 écoles parasites
 (`driving/music/language_school`) exclues, 5 305 `vacant` flagués (gardés),
 20 679 sans nom gardés avec flag, 147 doublons `id_osm` frontières supprimés,
