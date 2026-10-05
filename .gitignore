@@ -4,6 +4,8 @@ bronze/osm/**/*.json
 bronze/contours/
 bronze/dvf/*.txt
 bronze/insee/*.jsonl
+bronze/insee/**/*.json
+src/data/
 bronze/*.csv
 bronze/*.txt
 silver/*.parquet
