@@ -1,7 +1,7 @@
 """Profiling des fichiers bronze DVF : complétude, cardinalité, stats, anomalies.
 
 Lit bronze/dvf/dvf_{year}_cibles.txt (produits par main.py) et écrit
-docs/profiling/dvf_{year}_colonnes.csv. Uniquement des agrégats : aucune
+docs/dvf/profiling/colonnes_{year}.csv. Uniquement des agrégats : aucune
 ligne ni adresse n'est exportée (CGU DGFiP).
 
 Usage :
@@ -19,7 +19,7 @@ import pyarrow.csv as pacsv
 
 from main import BRONZE, DEPTS_CIBLES, MILLÉSIMES, REGIONS
 
-PROFILING = Path(__file__).resolve().parents[2] / "docs" / "profiling"
+PROFILING = Path(__file__).resolve().parents[2] / "docs" / "dvf" / "profiling"
 
 # colonnes numériques DVF (décimales à virgule dans la source)
 NUM_COLS = [
@@ -42,7 +42,7 @@ def _region_of(dept: str) -> str:
 def profile_year(year: int) -> pd.DataFrame:
     """Profiling d'un fichier bronze DVF : complétude, cardinalité, stats, anomalies.
 
-    Écrit docs/profiling/dvf_{year}_colonnes.csv (une ligne par colonne)
+    Écrit docs/dvf/profiling/colonnes_{year}.csv (une ligne par colonne)
     et affiche un résumé console. Aucune donnée ligne à ligne n'est exportée.
     """
     src = BRONZE / f"dvf_{year}_cibles.txt"
@@ -131,7 +131,7 @@ def profile_year(year: int) -> pd.DataFrame:
         print(f"  {k:<48} {v:>10,}")
 
     PROFILING.mkdir(parents=True, exist_ok=True)
-    out = PROFILING / f"dvf_{year}_colonnes.csv"
+    out = PROFILING / f"colonnes_{year}.csv"
     prof.to_csv(out, index=False, encoding="utf-8")
     print(f"\n✔ profil colonnes → {out}")
     return prof

@@ -1,0 +1,35 @@
+{
+  "brut": 309773,
+  "sous_type_multi_valeurs": 1363,
+  "drop_hors_perimetre": 3777,
+  "commune_par_contour": 305965,
+  "commune_par_proximite": 28,
+  "drop_hors_communes": 3,
+  "par_region_brut": {
+    "idf": 109713,
+    "occitanie": 67852,
+    "bretagne": 33410,
+    "ara": 98798
+  },
+  "drop_doublons_id_osm": 68,
+  "transport_stop_positions": 69262,
+  "transport_arrets": 43996,
+  "transport_mode_inconnu": 241,
+  "name_missing": 24694,
+  "vacant_flag": 5489,
+  "untyped_flag": 1052,
+  "silver": 305925,
+  "communes_couvertes": 8488,
+  "par_categorie": {
+    "commerce": 187258,
+    "transport": 69262,
+    "education": 33700,
+    "sante": 15705
+  },
+  "par_region": {
+    "idf": 108209,
+    "ara": 97670,
+    "occitanie": 67130,
+    "bretagne": 32916
+  }
+}

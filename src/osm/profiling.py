@@ -1,10 +1,10 @@
 """Profiling des fichiers bronze OSM : volumétrie, complétude, doublons, anomalies.
 
 Lit bronze/osm/{region}/osm_{region}_{dept}_{cat}.json (produits par main.py) et écrit
-dans docs/profiling/ :
-    osm_fichiers.csv          une ligne par fichier (volumes, types, nuls, fraîcheur)
-    osm_sous_types.csv        effectifs par région × catégorie × sous-type
-    osm_completude_tags.csv   % de renseignement des tags utiles par région × catégorie
+dans docs/osm/profiling/ :
+    fichiers.csv              une ligne par fichier (volumes, types, nuls, fraîcheur)
+    sous_types.csv            effectifs par région × catégorie × sous-type
+    completude_tags.csv       % de renseignement des tags utiles par région × catégorie
 
 Usage :
     python src/osm/profiling.py               # les 4 régions
@@ -20,7 +20,7 @@ import pandas as pd
 
 from main import BRONZE, CATS, REGIONS
 
-PROFILING = Path(__file__).resolve().parents[2] / "docs" / "profiling"
+PROFILING = Path(__file__).resolve().parents[2] / "docs" / "osm" / "profiling"
 
 # tag portant le sous-type selon la catégorie
 SOUS_TYPE_TAG = {"ecoles": "amenity", "sante": "amenity", "shops": "shop", "transport": "public_transport"}
@@ -159,10 +159,10 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
         print(f"  {k:<52} {v:>10,}  ({v / len(df) * 100:5.2f}%)")
 
     PROFILING.mkdir(parents=True, exist_ok=True)
-    fich.to_csv(PROFILING / "osm_fichiers.csv", index=False, encoding="utf-8")
-    sous.to_csv(PROFILING / "osm_sous_types.csv", index=False, encoding="utf-8")
-    compl.to_csv(PROFILING / "osm_completude_tags.csv", index=False, encoding="utf-8")
-    print(f"\n✔ profils → {PROFILING}/osm_{{fichiers,sous_types,completude_tags}}.csv")
+    fich.to_csv(PROFILING / "fichiers.csv", index=False, encoding="utf-8")
+    sous.to_csv(PROFILING / "sous_types.csv", index=False, encoding="utf-8")
+    compl.to_csv(PROFILING / "completude_tags.csv", index=False, encoding="utf-8")
+    print(f"\n✔ profils → {PROFILING}/{{fichiers,sous_types,completude_tags}}.csv")
     return fich
 
 
