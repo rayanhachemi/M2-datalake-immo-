@@ -1,6 +1,7 @@
 # Données brutes et produites (trop lourdes pour GitHub, à régénérer via src/)
 bronze/idf/*.json
 bronze/osm/**/*.json
+bronze/contours/
 bronze/dvf/*.txt
 bronze/insee/*.jsonl
 bronze/*.csv
@@ -10,7 +11,7 @@ gold/*.parquet
 gold/*.csv
 *.csv
 !docs/*.csv
-!docs/profiling/*.csv
+!docs/*/profiling/*.csv
 
 # Python
 __pycache__/

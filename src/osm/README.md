@@ -22,10 +22,18 @@ python src/osm/main.py idf 75 ecoles     # un dept/catégorie précis
 python src/osm/profiling.py               # les 4 régions
 python src/osm/profiling.py --region idf  # une région
 ```
-Sorties : `docs/profiling/osm_{fichiers,sous_types,completude_tags}.csv`.
+Sorties : `docs/osm/profiling/{fichiers,sous_types,completude_tags}.csv`.
 
 ## Catégories
 - `ecoles` : schools, colleges, universities, kindergartens
 - `sante` : pharmacies, hospitals, clinics, doctors
 - `shops` : tous les commerces
 - `transport` : arrêts de transport en commun
+
+## Silver
+`silver.py` — POI nettoyés et rattachés à leur commune (`code_commune`, clé de jointure DVF / INSEE).
+```bash
+python src/osm/silver.py                  # ~3 min, télécharge les contours communaux au 1er lancement
+```
+Sorties : `silver/osm_poi.parquet` + `silver/osm_silver_stats.json`. Contours en cache dans `bronze/contours/`.
+Colonnes et chiffres : `docs/osm/dictionnaire_silver.md`. Règles : `docs/osm/qualite.md`.
