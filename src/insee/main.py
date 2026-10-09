@@ -29,7 +29,7 @@ DATASETS = (
 )
 COG_URL = 'https://www.insee.fr/fr/statistiques/fichier/8740222/v_commune_2026.csv'
 API_URL = 'https://api.insee.fr/melodi/data'
-OUTPUT = Path(__file__).resolve().parents[1] / 'data' / 'bronze' / 'insee'
+OUTPUT = Path(__file__).resolve().parents[2] / 'bronze' / 'insee'
 BATCH_SIZE = 200
 PAGE_SIZE = 100000
 MAX_URL_LENGTH = 3500

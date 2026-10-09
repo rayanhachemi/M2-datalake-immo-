@@ -1,25 +1,28 @@
-# Qualité OSM
+# Qualité des données OSM
 
-4 régions, 37 depts, 4 catégories → 148 fichiers, 309 773 objets, 119 Mo.
+Source : OpenStreetMap via l'API Overpass — 4 régions, 37 départements, 4 catégories = 148 fichiers, 309 773 objets bruts.
 
-## Problèmes identifiés
+## Problèmes détectés et corrections
 
-| # | Problème | Volume | Traitement |
+| Dimension | Problème | Volume | Correction |
 |---|---|---|---|
-| 1 | Requête sans `admin_level=6` ramenait aussi la région (même code INSEE) | 311k objets parasites (+50%) | Corrigé en ingestion |
-| 2 | `shop=vacant` compté comme commerce actif | 5 488 | Flag `is_vacant` en silver |
-| 3 | Sous-types multi-valeurs (`convenience;gas`) | 1 363 | Première valeur conservée |
-| 4 | `shop=yes` : commerce sans type | 1 052 | Flag `is_untyped` |
-| 5 | Emprises (way/relation) réduites à leur centre | 16,2 % | Accepté, `type_osm` conservé |
-| 6 | Réponses Overpass vides sans erreur (Ain) | 2 fichiers | Rejet + nouvel essai en ingestion |
-| 7 | ~80 % des objets sans adresse | — | Jointure spatiale sur contours communaux |
-| 8 | Objets sans nom | 24 978 (8 %) | Gardés + flag `name_missing` |
-| 9 | Arrêts sans mode de transport | 241 | `mode = inconnu` |
-| 10 | Écoles hors périmètre (`driving_school`, `music_school`…) | 3 777 | Supprimés en silver |
-| 11 | Snapshots sur 146 jours (pas une seule date) | 148 fichiers | `date_extract` conservé |
-| 12 | Doublons `id_osm` aux frontières départementales | 70 | Dédoublonnage silver |
-| 13 | Stop_positions surcomptés (un par sens/ligne) | ~35% redondance | Regroupement nom + 100 m → 43 996 arrêts |
+| Exactitude | La requête Overpass sans niveau administratif renvoyait aussi les objets de la région portant le même code INSEE (ex. dept 75 → Nouvelle-Aquitaine). ~50 % des objets étaient hors périmètre. | 311 210 objets parasites | Ajout du filtre `admin_level=6` dans `main.py`. Les fichiers concernés ont été ré-extraits. |
+| Exactitude | La requête "école" captait aussi les auto-écoles, écoles de musique, de ski, de danse... | 3 777 objets | Suppression en silver via une liste blanche des sous-types valides. |
+| Exactitude | Certains tags ont plusieurs valeurs séparées par `;` (ex. `convenience;gas`). | 1 363 objets | On garde la première valeur uniquement. |
+| Exactitude | `shop=vacant` = local vide, ne doit pas compter comme commerce actif. | 5 488 objets | Gardés avec flag `is_vacant`, exclus des comptages de commerces. |
+| Exactitude | `shop=yes` = commerce sans type précis. | 1 052 objets | Gardés avec flag `is_untyped`. |
+| Exactitude | Les emprises (`way`, `relation`) n'ont pas de coordonnées directes, Overpass renvoie le centre calculé. | 16 % des objets | Accepté — suffisant pour nos analyses. Le champ `type_osm` permet d'identifier ces objets. |
+| Complétude | Environ 80 % des objets n'ont pas d'adresse. Impossible de rattacher à une commune directement. | ~248 000 objets sans adresse | Jointure spatiale sur les contours communaux (geo.api.gouv.fr). Les points hors contours prennent la commune la plus proche à < 1 km. |
+| Complétude | 24 978 objets sans nom (8 %). | 24 978 objets | Gardés avec flag `name_missing`. |
+| Unicité | 70 objets présents dans deux fichiers départementaux (frontière partagée). | 70 doublons | Dédoublonnage en silver sur `(categorie, id_osm)`. |
+| Unicité | Un arrêt physique est représenté par plusieurs `stop_position` (un par sens, par ligne). Comptage brut = surreprésentation. | 69 262 → 43 996 arrêts réels | Regroupement en silver des stop_positions de même nom distants de moins de 100 m. |
 
-## Bilan bronze → silver
+## Bilan
 
-309 773 → **305 925 objets** (`silver/osm_poi.parquet`)
+| Étape | Volume |
+|---|---|
+| Bronze brut | 309 773 |
+| − Écoles hors périmètre | − 3 777 |
+| − Points hors communes (> 1 km) | − 3 |
+| − Doublons aux frontières | − 68 |
+| **Silver** | **305 925** |

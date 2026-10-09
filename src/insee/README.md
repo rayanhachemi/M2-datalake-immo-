@@ -1,47 +1,30 @@
-# Module INSEE — Ingestion bronze et silver
+# Module INSEE
 
-## Source
-API Melodi de l'INSEE — données statistiques par commune, JSON imbriqué, gratuite et sans clé
-(30 appels par minute). 7 jeux de données : revenus (Filosofi), recensement (habitants, ménages,
-logements, emploi, diplômes) et populations légales.
+Récupère les données statistiques par commune depuis l'API Melodi de l'INSEE pour les 4 régions cibles.
 
-## Script
-`main.py` — télécharge les 7 jeux pour les 4 régions cibles (IdF, Occitanie, Bretagne, ARA),
-commune par commune, par lots de 200.
+## Scripts
 
-## Usage
+| Script | Rôle |
+|---|---|
+| `main.py` | Téléchargement bronze (7 jeux de données, 4 régions) |
+| `profiling.py` | Analyse du bronze : volumétrie, complétude, couverture géographique |
+| `silver.py` | Transformation en table commune × indicateurs |
+
+## Lancer
+
 ```bash
-python src/insee/main.py                              # les 7 jeux, les 4 régions
-python src/insee/main.py --region 53                  # une région
-python src/insee/main.py --dataset DS_FILOSOFI_CC     # un jeu
+python src/insee/main.py       # bronze — tous les jeux, toutes les régions (~1-2h)
+python src/insee/profiling.py  # profiling — résultats dans docs/insee/profiling/
+python src/insee/silver.py     # silver — résultat dans silver/insee_communes.parquet
 ```
 
-## Sortie
-`{DATASET}/region_{code}_{nom}/part_XXXX.json` — 7 jeux × 4 régions = 406 fichiers,
-4 419 302 observations, 1,7 Go, 10 939 communes.
-Colonnes et modalités : `docs/insee/dictionnaire_bronze.md`.
+## Données collectées
 
-## Profilage
-`profiling.py` — volumétrie, complétude par indicateur, cardinalité des découpages, couverture
-géographique, anomalies (millésimes divergents, pages manquantes, modalités totales, doublons).
-```bash
-python src/insee/profiling.py                            # les 7 jeux
-python src/insee/profiling.py --dataset DS_FILOSOFI_CC   # un jeu
-python src/insee/profiling.py --region 53                # une région
-```
-Sorties : `docs/insee/profiling/{fichiers,indicateurs,dimensions,couverture_geo}.csv`.
+7 jeux de données : revenus (Filosofi), population par âge, logements, emploi, diplômes, ménages, populations légales historiques.
 
-## Silver
-`silver.py` — une ligne par commune, clé `code_commune` (jointure DVF / OSM).
-```bash
-python src/insee/silver.py                               # ~2 min
-```
-Sorties : `silver/insee_communes.parquet` (10 939 communes × 36 colonnes) +
-`silver/insee_silver_stats.json`.
-Colonnes et chiffres : `docs/insee/dictionnaire_silver.md`. Règles : `docs/insee/qualite.md`.
+## Sorties
 
-## Besoins couverts
-- **B1** (argumenter un prix) : revenu médian, taux de vacance, âge du parc de logements.
-- **B3** (profil familial ou jeunes actifs) : tranches d'âge, diplômes, emploi, taille des logements.
-- **B2** (communes qui montent) : **bloqué**, un seul millésime téléchargé. Les populations
-  légales existent de 1968 à 2023 : relancer `main.py` sans filtre d'année.
+- Bronze : `bronze/insee/{DATASET}/region_{code}_{nom}/part_XXXX.json` — 406 fichiers, ~1,7 Go
+- Silver : `silver/insee_communes.parquet` — 10 939 communes × 36 colonnes, colonne `code_commune` pour les jointures
+
+Licence : Licence Ouverte INSEE.
