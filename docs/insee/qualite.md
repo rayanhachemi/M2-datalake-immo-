@@ -1,21 +1,20 @@
-# Qualité INSEE
+# Qualité des données INSEE
 
-4 régions, 37 depts, 7 jeux Melodi → 406 fichiers, 4,4M observations, 1,7 Go, 10 939 communes.
+Source : API Melodi de l'INSEE — 7 jeux de données, 4 régions, 10 939 communes, 4 419 302 observations brutes.
 
-## Problèmes identifiés
+## Problèmes détectés et corrections
 
-| # | Problème | Volume | Traitement |
+| Dimension | Problème | Volume | Correction |
 |---|---|---|---|
-| 1 | Filosofi : 25 indicateurs sur 27 vides à l'échelle communale | 96 % des obs Filosofi | Seulement `MED_SL` et `PR_MD60` conservés en silver |
-| 2 | Taux de pauvreté secret statistique (commune trop petite) | 8 699 communes (80 %) | Gardé pour les communes urbaines (54 % des ventes DVF) |
-| 3 | Revenu médian secret statistique | 1 274 communes (12 %) | Valeur absente qualifiée en silver |
-| 4 | Valeur absente écrite `{}` et non `null` | Partout | Test sur la clé `value`, pas sur la clé `OBS_VALUE_NIVEAU` |
-| 5 | Millésime géographique différent : 2025 vs 2026 selon le jeu | `DS_POPULATIONS_HISTORIQUES` | Millésime retiré en silver (code commune seul) |
-| 6 | Modalités totales (`_T`) qui recouvrent les autres | 9 dimensions sur le jeu logements | Modalités fixées explicitement en silver |
-| 7 | Arrondissements Paris/Lyon/Marseille absents côté INSEE | ~5 % des ventes DVF | Rattachement à faire côté DVF |
-| 8 | Un seul millésime (2023) | Tous les jeux | Pas d'analyse d'évolution possible pour l'instant |
+| Exactitude | Melodi n'écrit pas `null` quand une valeur est absente, mais un objet vide `{}`. Un test naïf sur la clé conclut à 100 % de remplissage alors que Filosofi est rempli à seulement 4 % à la commune. | 283 408 observations vides | Test sur la clé `value` dans `OBS_VALUE_NIVEAU` dans le profiling et le silver. |
+| Complétude | Filosofi propose 27 indicateurs mais 25 ne sont pas diffusés à l'échelle communale par l'INSEE (population trop petite). | 25 indicateurs sans aucune valeur | Seuls le revenu médian (`MED_SL`) et le taux de pauvreté (`PR_MD60`) sont repris en silver. |
+| Complétude | Le taux de pauvreté est protégé par le secret statistique pour les petites communes. | 8 699 communes sans valeur (79 %) | Valeur marquée comme absente dans le silver, usage limité aux grandes communes. Revenu médian mieux couvert : 9 658 communes (88 %). |
+| Cohérence | Le code géographique inclut son millésime (`2026-COM-35238`), mais `DS_POPULATIONS_HISTORIQUES` utilise 2025. Une jointure sur le code brut échouerait entre les jeux. | 10 939 observations | En silver, on découpe le code et on ne garde que le numéro de commune (`35238`). |
+| Cohérence | Paris, Lyon et Marseille : l'INSEE publie pour la commune entière (`75056`) mais DVF utilise les codes d'arrondissement (`75115`, `75116`...). 5 % des ventes DVF sans correspondance. | ~70 000 ventes DVF | Rattachement des arrondissements à la commune côté DVF (à faire dans silver DVF). |
+| Cohérence | Certaines dimensions ont une modalité `_T` = total, qui ne doit jamais être additionnée aux autres tranches. | 9 dimensions sur le jeu logement | Silver : modalités fixées explicitement pour chaque indicateur, pas de double comptage. |
+| Cohérence | Schéma variable selon le jeu : le nom de l'indicateur change (`FILOSOFI_MEASURE`, `RP_MEASURE`, `POPREF_MEASURE`), le nombre de dimensions va de 4 à 13. | 7 jeux | Silver : filtres appliqués par nom de dimension pour chaque indicateur. |
+| Unicité | Aucun doublon d'observation détecté. | 0 | Contrôle effectué dans `profiling.py`. |
 
 ## Bilan
 
-4 419 302 observations → **10 939 communes × 36 colonnes** (`silver/insee_communes.parquet`)  
-0 doublon d'observations (contrôlé par profiling).
+4 419 302 observations bronze → **10 939 communes × 36 colonnes** (`silver/insee_communes.parquet`)

@@ -1,46 +1,56 @@
-# Silver INSEE — `silver/insee_communes.parquet`
+# Dictionnaire silver INSEE
 
-Script : `python src/insee/silver.py`  
-Résultat : **10 939 communes × 36 colonnes**
+Fichier produit par `src/insee/silver.py` — une ligne par commune.
 
-## Clés
+- **Chemin** : `silver/insee_communes.parquet`
+- **Volume** : 10 939 communes × 36 colonnes
+
+## Clé de jointure
 
 | Colonne | Description |
 |---|---|
-| `code_commune` | Code INSEE 5 caractères — **clé de jointure DVF/OSM** |
-| `departement` | Code département, déduit du code commune |
+| `code_commune` | Code INSEE commune (5 caractères) — **clé de jointure avec DVF et OSM** |
+| `departement` | Code département (déduit du code commune) |
 
-## Revenus (Filosofi)
+## Revenus
 
-| Colonne | Description | Remplissage |
+| Colonne | Description | Couverture |
 |---|---|---|
-| `revenu_median` | Revenu médian annuel (€) | 88 % |
-| `taux_pauvrete` | Part sous le seuil de pauvreté (%) | 20 % (communes urbaines surtout) |
+| `revenu_median` | Revenu médian annuel en euros (Filosofi) | 88 % des communes |
+| `taux_pauvrete` | Part de la population sous le seuil de pauvreté (%) | 20 % (grandes villes) |
 
 ## Population
 
 | Colonne | Description |
 |---|---|
-| `population` | Habitants (recensement) |
-| `population_municipale` | Population légale (contrôle croisé) |
-| `pop_moins_15` / `pop_15_24` / `pop_25_39` / `pop_40_54` / `pop_55_64` / `pop_65_plus` | Par tranche d'âge |
+| `population` | Nombre d'habitants (recensement) |
+| `population_municipale` | Population légale |
+| `pop_moins_15` | Moins de 15 ans |
+| `pop_15_24` | 15 à 24 ans |
+| `pop_25_39` | 25 à 39 ans |
+| `pop_40_54` | 40 à 54 ans |
+| `pop_55_64` | 55 à 64 ans |
+| `pop_65_plus` | 65 ans et plus |
 
 ## Logements
 
 | Colonne | Description |
 |---|---|
-| `logements` | Total |
-| `residences_principales` / `residences_secondaires` / `logements_vacants` | Par occupation |
-| `rp_avant_1919`, `rp_1919_1945`, `rp_1946_1970`, `rp_1971_1990`, `rp_1991_2005`, `rp_apres_2006` | Par époque de construction |
-| `rp_1_piece` / `rp_5_pieces_ou_plus` | Petits et grands logements |
+| `logements` | Total des logements |
+| `residences_principales` | Résidences principales |
+| `residences_secondaires` | Résidences secondaires |
+| `logements_vacants` | Logements vacants |
+| `rp_avant_1919` / `rp_1919_1945` / ... / `rp_apres_2006` | Résidences principales par époque de construction |
+| `rp_1_piece` / `rp_5_pieces_ou_plus` | Résidences principales par taille |
 
-## Diplômes et emploi
+## Emploi et diplômes
 
 | Colonne | Description |
 |---|---|
 | `pop_15_plus_diplome` | Population de 15 ans et plus non scolarisée |
 | `diplome_superieur` | Dont diplôme du supérieur |
-| `actifs_15_64` / `chomeurs_15_64` | Actifs et chômeurs (15-64 ans) |
+| `actifs_15_64` | Actifs de 15 à 64 ans |
+| `chomeurs_15_64` | Dont chômeurs |
 
 ## Indicateurs calculés
 
@@ -48,9 +58,11 @@ Résultat : **10 939 communes × 36 colonnes**
 |---|---|
 | `taux_vacance` | `logements_vacants / logements × 100` |
 | `part_residences_secondaires` | `residences_secondaires / logements × 100` |
-| `part_moins_15` / `part_25_39` / `part_65_plus` | Tranches d'âge / population × 100 |
+| `part_moins_15` | `pop_moins_15 / population × 100` |
+| `part_25_39` | `pop_25_39 / population × 100` |
+| `part_65_plus` | `pop_65_plus / population × 100` |
 | `part_diplome_superieur` | `diplome_superieur / pop_15_plus_diplome × 100` |
 | `taux_chomage` | `chomeurs_15_64 / actifs_15_64 × 100` |
 | `rp_avant_1946` | `rp_avant_1919 + rp_1919_1945` |
 
-> Paris, Lyon, Marseille : INSEE n'a que la commune entière (`75056`, `69123`, `13055`). DVF utilise les arrondissements — le rattachement se fait côté DVF.
+**Note :** Paris, Lyon et Marseille n'existent qu'en commune entière (`75056`, `69123`, `13055`). Le rattachement des arrondissements DVF se fait côté DVF.

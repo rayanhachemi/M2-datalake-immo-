@@ -1,38 +1,29 @@
-# Silver OSM — `silver/osm_poi.parquet`
+# Dictionnaire silver OSM
 
-Script : `python src/osm/silver.py`  
-Résultat : **305 925 POI × 17 colonnes** (4 régions, 8 488 communes)
+Fichier produit par `src/osm/silver.py` — une ligne par POI, toutes régions confondues.
+
+- **Chemin** : `silver/osm_poi.parquet`
+- **Volume** : 305 925 lignes × 17 colonnes
 
 | Colonne | Type | Description |
 |---|---|---|
-| `id_osm` | str | `type/id` OSM, unique par catégorie |
-| `type_osm` | str | `node` / `way` / `relation` |
-| `nom` | str/null | Nom de l'objet |
+| `id_osm` | str | Identifiant OSM (`type/id`) |
+| `type_osm` | str | `node`, `way` ou `relation` |
+| `nom` | str | Nom du lieu (`null` si absent) |
 | `lat` / `lon` | float | Coordonnées WGS84 |
-| `categorie` | str | `education` / `sante` / `commerce` / `transport` |
-| `sous_type` | str | Valeur `amenity`/`shop`/`public_transport` (1re valeur si `a;b;c`) |
-| `mode` | str/null | Transport : `bus`, `tram`, `train`, `subway`… ou `inconnu` |
-| `id_arret` | str/null | Transport : représentant du groupe d'arrêts (même nom, < 100 m) |
-| `code_commune` | str | Code INSEE commune — **clé de jointure DVF/INSEE** |
+| `categorie` | str | `education`, `sante`, `commerce`, `transport` |
+| `sous_type` | str | Valeur du tag principal (`amenity`, `shop`...) |
+| `mode` | str | Transport : mode (`bus`, `tram`, `train`...) ou `inconnu` |
+| `id_arret` | str | Transport : id de l'arrêt physique (stop_positions regroupés) |
+| `code_commune` | str | Code INSEE commune — **clé de jointure avec DVF et INSEE** |
 | `nom_commune` | str | Nom de la commune |
 | `dept` | str | Code département |
-| `region` | str | `idf` / `occitanie` / `bretagne` / `ara` |
-| `is_vacant` | bool | `shop=vacant` — local vide, à exclure des comptages |
-| `is_untyped` | bool | `shop=yes` — commerce sans type |
-| `name_missing` | bool | Objet sans nom (gardé) |
-| `date_extract` | str | Snapshot Overpass source |
+| `region` | str | `idf`, `occitanie`, `bretagne` ou `ara` |
+| `is_vacant` | bool | `True` si `shop=vacant` (local vide) |
+| `is_untyped` | bool | `True` si `shop=yes` (commerce sans type) |
+| `name_missing` | bool | `True` si le nom est absent |
+| `date_extract` | str | Date du snapshot Overpass |
 
-## Chiffres clés
-
-| Étape | Volume |
-|---|---|
-| Bronze | 309 773 |
-| − Écoles hors périmètre (`driving_school`…) | − 3 777 |
-| − Hors communes (> 1 km) | − 3 |
-| − Doublons frontières | − 68 |
-| **Silver** | **305 925** |
-
-Par catégorie : commerce 187 258 · transport 69 262 · éducation 33 700 · santé 15 705  
-Par région : IdF 108 209 · ARA 97 670 · Occitanie 67 130 · Bretagne 32 916
-
-> Pour compter les arrêts de transport, utiliser `nunique(id_arret)` et non `len()` — 69 262 stop_positions → 43 996 arrêts physiques.
+**Notes d'utilisation :**
+- Pour compter les arrêts de transport : utiliser `nunique(id_arret)`, pas le nombre de lignes.
+- Pour les commerces actifs : exclure `is_vacant = True`.

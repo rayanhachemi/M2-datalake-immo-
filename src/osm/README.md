@@ -1,39 +1,33 @@
-# Module OSM — Ingestion bronze
+# Module OSM
 
-## Source
-OpenStreetMap via Overpass API — données spatiales (POI géolocalisés).
+Récupère les points d'intérêt (POI) depuis OpenStreetMap via l'API Overpass pour les 4 régions cibles.
 
-## Script
-`main.py` — télécharge les POI pour les 4 régions cibles (IdF, Occitanie, Bretagne, ARA).
+## Scripts
 
-## Usage
+| Script | Rôle |
+|---|---|
+| `main.py` | Téléchargement bronze (148 requêtes, 4 régions × 37 depts × 4 catégories) |
+| `profiling.py` | Analyse du bronze : volumétrie, complétude des tags, anomalies |
+| `silver.py` | Nettoyage et rattachement à la commune (jointure spatiale) |
+
+## Lancer
+
 ```bash
-python src/osm/main.py                    # toutes les régions (148 requêtes)
-python src/osm/main.py bretagne           # une région
-python src/osm/main.py idf 75 ecoles     # un dept/catégorie précis
+python src/osm/main.py       # bronze — toutes les régions
+python src/osm/profiling.py  # profiling — résultats dans docs/osm/profiling/
+python src/osm/silver.py     # silver — résultat dans silver/osm_poi.parquet
 ```
 
-## Sortie
-`bronze/osm/{region}/osm_{region}_{dept}_{cat}.json` — 37 depts × 4 catégories = 148 fichiers.
+## Catégories collectées
 
-## Profilage
-`profiling.py` — volumétrie, complétude des tags, doublons, anomalies (hors périmètre, `vacant`, hors bbox...).
-```bash
-python src/osm/profiling.py               # les 4 régions
-python src/osm/profiling.py --region idf  # une région
-```
-Sorties : `docs/osm/profiling/{fichiers,sous_types,completude_tags}.csv`.
-
-## Catégories
-- `ecoles` : schools, colleges, universities, kindergartens
-- `sante` : pharmacies, hospitals, clinics, doctors
+- `ecoles` : écoles, collèges, lycées, universités, maternelles
+- `sante` : pharmacies, hôpitaux, cliniques, médecins
 - `shops` : tous les commerces
 - `transport` : arrêts de transport en commun
 
-## Silver
-`silver.py` — POI nettoyés et rattachés à leur commune (`code_commune`, clé de jointure DVF / INSEE).
-```bash
-python src/osm/silver.py                  # ~3 min, télécharge les contours communaux au 1er lancement
-```
-Sorties : `silver/osm_poi.parquet` + `silver/osm_silver_stats.json`. Contours en cache dans `bronze/contours/`.
-Colonnes et chiffres : `docs/osm/dictionnaire_silver.md`. Règles : `docs/osm/qualite.md`.
+## Sorties
+
+- Bronze : `bronze/osm/{region}/osm_{region}_{dept}_{cat}.json`
+- Silver : `silver/osm_poi.parquet` — 305 925 POI, colonne `code_commune` pour les jointures
+
+Licence : ODbL — mention « © contributeurs OpenStreetMap » obligatoire.

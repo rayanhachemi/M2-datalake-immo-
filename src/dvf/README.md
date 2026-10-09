@@ -1,6 +1,27 @@
-# Module DVF — à faire (membre 2)
+# Module DVF
 
-1. Bronze : télécharger les `.txt` DVF IdF par millésime (5 ans) dans `bronze/dvf/`.
-2. Profilage : prix à 1 €, surfaces nulles, doublons `date + parcelle + valeur`, adresses incomplètes.
-3. Silver : `silver/dvf_idf.parquet` dédupliqué, flag aberrants (IQR), `prix_m2`, géocodage BAN avec taux d'échec.
-4. Attention CGU : données personnelles, pas de ré-identification ni indexation externe.
+Récupère les données de transactions immobilières (Demandes de Valeurs Foncières) depuis data.gouv.fr pour les 4 régions cibles.
+
+## Scripts
+
+| Script | Rôle |
+|---|---|
+| `main.py` | Téléchargement bronze (5 années, filtrées aux 37 départements cibles) |
+| `profiling.py` | Analyse du bronze : volumétrie, distributions, anomalies |
+
+## Lancer
+
+```bash
+python src/dvf/main.py       # bronze — 5 millésimes (2021-2025), ~1,2 Go
+python src/dvf/profiling.py  # profiling
+```
+
+## Données collectées
+
+Transactions immobilières de 2021 à 2025 : ventes de maisons et appartements avec surface, prix, localisation (adresse, département, commune).
+
+## Sorties
+
+- Bronze : `bronze/dvf/dvf_{annee}_cibles.txt` — fichiers tabulaires (séparateur `|`), 37 départements
+
+**Attention CGU :** les DVF contiennent des données personnelles. Ne pas ré-identifier les acheteurs/vendeurs ni indexer ces données sur des services externes.
