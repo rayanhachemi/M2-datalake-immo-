@@ -5,4 +5,3 @@ geopandas>=0.14
 shapely>=2.0
 folium>=0.15
 jupyter>=1.0
-claude --resume 853a4cd8-7d7a-41e6-a633-812df75b91d7
