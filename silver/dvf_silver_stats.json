@@ -1,0 +1,142 @@
+{
+  "2021": {
+    "lignes_bronze": 2020967,
+    "lignes_apres_doublons": 1896557,
+    "lignes_vente_ou_vefa": 1865223,
+    "ventes_vente_ou_vefa": 1241640,
+    "exclues_sans_local_terrain_ou_parcelle_annexe": 623505,
+    "exclues_sans_logement_dependance_ou_pro_seuls": 76521,
+    "exclues_plusieurs_logements": 25691,
+    "exclues_logement_avec_local_pro": 8575,
+    "ventes_un_seul_logement": 507348,
+    "exclues_valeur_absente_ou_inf_1000": 832,
+    "exclues_surface_hors_9_1000": 367,
+    "exclues_prix_m2_hors_100_30000": 1777,
+    "exclues_meme_logement_meme_jour_prix_differents": 756,
+    "ventes_silver": 503616,
+    "ventes_revente_moins_30j": 760,
+    "ventes_par_type": {
+      "Appartement": 265476,
+      "Maison": 238140
+    }
+  },
+  "2022": {
+    "lignes_bronze": 2073355,
+    "lignes_apres_doublons": 1913853,
+    "lignes_vente_ou_vefa": 1885593,
+    "ventes_vente_ou_vefa": 1220113,
+    "exclues_sans_local_terrain_ou_parcelle_annexe": 619202,
+    "exclues_sans_logement_dependance_ou_pro_seuls": 77883,
+    "exclues_plusieurs_logements": 25545,
+    "exclues_logement_avec_local_pro": 8250,
+    "ventes_un_seul_logement": 489233,
+    "exclues_valeur_absente_ou_inf_1000": 833,
+    "exclues_surface_hors_9_1000": 352,
+    "exclues_prix_m2_hors_100_30000": 1786,
+    "exclues_meme_logement_meme_jour_prix_differents": 624,
+    "ventes_silver": 485638,
+    "ventes_revente_moins_30j": 797,
+    "ventes_par_type": {
+      "Appartement": 266232,
+      "Maison": 219406
+    }
+  },
+  "2023": {
+    "lignes_bronze": 1668783,
+    "lignes_apres_doublons": 1548275,
+    "lignes_vente_ou_vefa": 1521492,
+    "ventes_vente_ou_vefa": 1006822,
+    "exclues_sans_local_terrain_ou_parcelle_annexe": 533100,
+    "exclues_sans_logement_dependance_ou_pro_seuls": 69155,
+    "exclues_plusieurs_logements": 19114,
+    "exclues_logement_avec_local_pro": 6380,
+    "ventes_un_seul_logement": 379073,
+    "exclues_valeur_absente_ou_inf_1000": 758,
+    "exclues_surface_hors_9_1000": 324,
+    "exclues_prix_m2_hors_100_30000": 1605,
+    "exclues_meme_logement_meme_jour_prix_differents": 602,
+    "ventes_silver": 375784,
+    "ventes_revente_moins_30j": 625,
+    "ventes_par_type": {
+      "Appartement": 205956,
+      "Maison": 169828
+    }
+  },
+  "2024": {
+    "lignes_bronze": 1524087,
+    "lignes_apres_doublons": 1402684,
+    "lignes_vente_ou_vefa": 1375902,
+    "ventes_vente_ou_vefa": 908517,
+    "exclues_sans_local_terrain_ou_parcelle_annexe": 487401,
+    "exclues_sans_logement_dependance_ou_pro_seuls": 63336,
+    "exclues_plusieurs_logements": 16726,
+    "exclues_logement_avec_local_pro": 5352,
+    "ventes_un_seul_logement": 335702,
+    "exclues_valeur_absente_ou_inf_1000": 708,
+    "exclues_surface_hors_9_1000": 268,
+    "exclues_prix_m2_hors_100_30000": 1349,
+    "exclues_meme_logement_meme_jour_prix_differents": 583,
+    "ventes_silver": 332794,
+    "ventes_revente_moins_30j": 336,
+    "ventes_par_type": {
+      "Appartement": 178431,
+      "Maison": 154363
+    }
+  },
+  "2025": {
+    "lignes_bronze": 1594815,
+    "lignes_apres_doublons": 1472007,
+    "lignes_vente_ou_vefa": 1449574,
+    "ventes_vente_ou_vefa": 951661,
+    "exclues_sans_local_terrain_ou_parcelle_annexe": 486459,
+    "exclues_sans_logement_dependance_ou_pro_seuls": 66044,
+    "exclues_plusieurs_logements": 17583,
+    "exclues_logement_avec_local_pro": 5536,
+    "ventes_un_seul_logement": 376039,
+    "exclues_valeur_absente_ou_inf_1000": 794,
+    "exclues_surface_hors_9_1000": 328,
+    "exclues_prix_m2_hors_100_30000": 1479,
+    "exclues_meme_logement_meme_jour_prix_differents": 571,
+    "ventes_silver": 372867,
+    "ventes_revente_moins_30j": 356,
+    "ventes_par_type": {
+      "Appartement": 199451,
+      "Maison": 173416
+    }
+  },
+  "total": {
+    "ventes": 2070699,
+    "exclues_meme_logement_meme_jour_prix_differents": 3136,
+    "ventes_revente_moins_30j": 2874,
+    "communes": 10923,
+    "ventes_par_region": {
+      "idf": 727744,
+      "ara": 585182,
+      "occitanie": 495505,
+      "bretagne": 262268
+    },
+    "prix_m2_median_par_type": {
+      "Appartement": 3789.0,
+      "Maison": 2534.0
+    },
+    "remplissage_pct": {
+      "id_vente": 100.0,
+      "annee": 100.0,
+      "date_mutation": 100.0,
+      "nature_mutation": 100.0,
+      "type_bien": 100.0,
+      "valeur_fonciere": 100.0,
+      "surface_bati": 100.0,
+      "prix_m2": 100.0,
+      "nb_pieces": 100.0,
+      "surface_terrain": 43.2,
+      "nb_dependances": 100.0,
+      "revente_moins_30j": 100.0,
+      "region": 100.0,
+      "code_departement": 100.0,
+      "code_commune": 100.0,
+      "code_arrondissement": 8.9,
+      "nom_commune": 100.0
+    }
+  }
+}
