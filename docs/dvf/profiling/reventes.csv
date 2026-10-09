@@ -1,0 +1,14 @@
+indicateur,valeur
+ventes de logement (bien × date × prix),2452316
+date hors du millésime du fichier,0
+logements distincts,2337760
+logements vendus 1 fois,2227614
+logements vendus 2 fois,106555
+logements vendus 3 fois ou plus,3591
+"même logement, même jour, prix différents",3766
+"ventes concernées (même jour, prix différents)",7639
+reventes à date différente,110307
+revente < 30 jours,3069
+revente 30 jours – 1 an,24376
+revente >= 1 an,82862
+délai médian de revente (jours),698

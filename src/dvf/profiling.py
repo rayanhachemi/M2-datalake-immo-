@@ -7,6 +7,7 @@ ligne ni adresse n'est exportée (CGU DGFiP).
 Usage :
     python src/dvf/profiling.py              # les 5 millésimes
     python src/dvf/profiling.py --year 2024  # un seul millésime
+    python src/dvf/profiling.py --reventes   # un même logement vendu plusieurs fois (5 millésimes)
 """
 
 import argparse
@@ -137,14 +138,82 @@ def profile_year(year: int) -> pd.DataFrame:
     return prof
 
 
+# un logement = parcelle + lot + type + surface (DVF public n'a pas d'identifiant de bien)
+BIEN = ["Code departement", "Code commune", "Section", "No plan", "Type local", "1er lot",
+        "Surface reelle bati"]
+
+
+def profile_reventes() -> pd.DataFrame:
+    """Profiling inter-millésimes : un même logement vendu plusieurs fois.
+
+    Écrit docs/dvf/profiling/reventes.csv (indicateurs agrégés uniquement).
+    """
+    cols = BIEN + ["Date mutation", "Valeur fonciere"]
+    parts = []
+    for year in sorted(MILLÉSIMES):
+        t = pacsv.read_csv(
+            BRONZE / f"dvf_{year}_cibles.txt",
+            parse_options=pacsv.ParseOptions(delimiter="|"),
+            convert_options=pacsv.ConvertOptions(
+                include_columns=cols, column_types={c: pa.string() for c in cols},
+                strings_can_be_null=True,
+            ),
+        ).to_pandas()
+        t = t[t["Type local"].isin(["Maison", "Appartement"])]
+        t["annee_fichier"] = year
+        parts.append(t)
+    df = pd.concat(parts, ignore_index=True)
+    df["date"] = pd.to_datetime(df["Date mutation"], format="%d/%m/%Y")
+    print(f"\n=== Reventes 2021-2025 — {len(df):,} lignes logement ===")
+
+    # une vente de logement = (bien, date, prix) ; les lignes de culture répétées s'effacent
+    ventes = df.drop_duplicates(BIEN + ["date", "Valeur fonciere"])
+    nb_ventes = ventes.groupby(BIEN, dropna=False).size()
+
+    prix_par_jour = ventes.groupby(BIEN + ["date"], dropna=False)["Valeur fonciere"].nunique()
+    meme_jour = prix_par_jour[prix_par_jour > 1]
+
+    dates = ventes.drop_duplicates(BIEN + ["date"]).sort_values("date")
+    delai = dates.groupby(BIEN, dropna=False)["date"].diff().dt.days.dropna()
+
+    indicateurs = {
+        "ventes de logement (bien × date × prix)": len(ventes),
+        "date hors du millésime du fichier": int((ventes["date"].dt.year != ventes["annee_fichier"]).sum()),
+        "logements distincts": len(nb_ventes),
+        "logements vendus 1 fois": int((nb_ventes == 1).sum()),
+        "logements vendus 2 fois": int((nb_ventes == 2).sum()),
+        "logements vendus 3 fois ou plus": int((nb_ventes >= 3).sum()),
+        "même logement, même jour, prix différents": len(meme_jour),
+        "ventes concernées (même jour, prix différents)": int(meme_jour.sum()),
+        "reventes à date différente": len(delai),
+        "revente < 30 jours": int((delai < 30).sum()),
+        "revente 30 jours – 1 an": int(((delai >= 30) & (delai < 365)).sum()),
+        "revente >= 1 an": int((delai >= 365).sum()),
+        "délai médian de revente (jours)": int(delai.median()),
+    }
+    for k, v in indicateurs.items():
+        print(f"  {k:<48} {v:>10,}")
+
+    prof = pd.DataFrame(indicateurs.items(), columns=["indicateur", "valeur"])
+    PROFILING.mkdir(parents=True, exist_ok=True)
+    out = PROFILING / "reventes.csv"
+    prof.to_csv(out, index=False, encoding="utf-8")
+    print(f"\n✔ profil reventes → {out}")
+    return prof
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--year", type=int, choices=list(MILLÉSIMES), help="millésime unique à profiler")
+    parser.add_argument("--reventes", action="store_true", help="uniquement le profiling des reventes")
     args = parser.parse_args()
     sys.stdout.reconfigure(encoding="utf-8")  # console Windows cp1252
 
-    for year in [args.year] if args.year else sorted(MILLÉSIMES):
-        profile_year(year)
+    if not args.reventes:
+        for year in [args.year] if args.year else sorted(MILLÉSIMES):
+            profile_year(year)
+    if args.reventes or not args.year:
+        profile_reventes()
 
 
 if __name__ == "__main__":
