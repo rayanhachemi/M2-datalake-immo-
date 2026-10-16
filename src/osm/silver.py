@@ -17,6 +17,8 @@ import requests
 
 from main import BRONZE, CATS, HEADERS, REGIONS
 from profiling import MODES_TRANSPORT, PERIMETRE, SOUS_TYPE_TAG
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from db import write_table
 
 ROOT = Path(__file__).resolve().parents[2]
 CONTOURS = ROOT / "bronze" / "contours"
@@ -216,6 +218,7 @@ def main() -> None:
                           "date_extract": "string"})
     SILVER.mkdir(exist_ok=True)
     df.to_parquet(SILVER / "osm_poi.parquet", index=False)
+    write_table(df, "S_osm_poi")
     (SILVER / "osm_silver_stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False),
                                                   encoding="utf-8")
     print(json.dumps(stats, indent=2, ensure_ascii=False))
