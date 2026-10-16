@@ -1,7 +1,8 @@
+"""Téléchargement INSEE Melodi 2023 pour les 4 régions cibles.
 
-"""Télécharge les JSON Insee Melodi de 2023 pour quatre régions.
-
-
+Usage:
+    python src/insee/main.py
+    python src/insee/main.py --region 11 --dataset DS_FILOSOFI_CC
 """
 import argparse
 import csv

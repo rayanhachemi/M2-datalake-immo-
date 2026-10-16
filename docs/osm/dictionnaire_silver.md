@@ -24,6 +24,4 @@ Fichier produit par `src/osm/silver.py` — une ligne par POI, toutes régions c
 | `name_missing` | bool | `True` si le nom est absent |
 | `date_extract` | str | Date du snapshot Overpass |
 
-**Notes d'utilisation :**
-- Pour compter les arrêts de transport : utiliser `nunique(id_arret)`, pas le nombre de lignes.
-- Pour les commerces actifs : exclure `is_vacant = True`.
+Pour compter les arrêts de transport : `nunique(id_arret)`, pas le nombre de lignes. Pour les commerces actifs : exclure `is_vacant = True`.

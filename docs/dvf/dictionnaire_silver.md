@@ -25,4 +25,4 @@ Fichier produit par `src/dvf/silver.py` — une ligne par vente d'un logement un
 | `code_arrondissement` | str | Code d'arrondissement DVF d'origine (Paris, Lyon) — null sinon |
 | `nom_commune` | str | Nom de la commune |
 
-**Note :** les colonnes d'adresse (numéro, voie, parcelle) ne sont pas exportées en silver — CGU DGFiP (risque de ré-identification).
+Les colonnes d'adresse (numéro, voie, parcelle) ne sont pas exportées — CGU DGFiP.

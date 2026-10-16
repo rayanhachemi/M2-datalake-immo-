@@ -7,7 +7,7 @@ Fichiers produits par `src/dvf/main.py`.
 - **Volume** : 5 fichiers (2021-2025), ~8,9 millions de lignes, ~1,2 Go
 - **Licence** : Licence Ouverte — CGU DGFiP : ne pas ré-identifier les personnes ni indexer les adresses
 
-**Attention :** une vente est éclatée en plusieurs lignes (une par local × nature de culture du terrain). La valeur foncière est répétée sur chaque ligne — il ne faut pas les additionner.
+Une vente est éclatée en plusieurs lignes (une par local × nature de culture du terrain). La valeur foncière est répétée sur chaque ligne — ne pas les additionner.
 
 ## Colonnes principales
 

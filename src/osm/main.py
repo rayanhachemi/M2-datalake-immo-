@@ -1,9 +1,9 @@
-"""Bronze OSM — découpage par région x département x catégorie.
+"""Téléchargement OSM via Overpass pour les 4 régions cibles (148 requêtes).
 
-Pourquoi découpé : une région entière en 1 requête = timeout/429 (testé sur IdF).
-Donc région > dept > catégorie = petites requêtes, MAX_WORKERS requêtes parallèles max (politesse Overpass).
-
-4 régions cibles : idf (8 depts), occitanie (13), bretagne (4), ara (12) → 37 depts × 4 cats = 148 requêtes.
+Usage:
+    python src/osm/main.py
+    python src/osm/main.py idf
+    python src/osm/main.py idf 75 ecoles
 """
 import time
 import threading
