@@ -1,14 +1,8 @@
-"""Profiling des fichiers bronze OSM : volumétrie, complétude, doublons, anomalies.
+"""Profiling bronze OSM : volumétrie, complétude, anomalies.
 
-Lit bronze/osm/{region}/osm_{region}_{dept}_{cat}.json (produits par main.py) et écrit
-dans docs/osm/profiling/ :
-    fichiers.csv              une ligne par fichier (volumes, types, nuls, fraîcheur)
-    sous_types.csv            effectifs par région × catégorie × sous-type
-    completude_tags.csv       % de renseignement des tags utiles par région × catégorie
-
-Usage :
-    python src/osm/profiling.py               # les 4 régions
-    python src/osm/profiling.py --region idf  # une seule région
+Usage:
+    python src/osm/profiling.py
+    python src/osm/profiling.py --region idf
 """
 
 import argparse

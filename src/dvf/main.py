@@ -1,16 +1,8 @@
-"""Ingestion DVF bronze — télécharge et filtre sur les 4 régions cibles.
+"""Téléchargement DVF bronze depuis data.gouv.fr, filtré sur les 4 régions cibles.
 
-Source : data.gouv.fr (DGFiP) — fichiers .txt pipe-séparés, un par millésime.
-Filtre appliqué dès l'ingestion : uniquement les départements des 4 régions cibles.
-Justification : les fichiers source sont partitionnés par millésime (grain natif),
-le filtrage géographique est une sélection de lignes, pas une transformation métier.
-
-Contrainte légale : données à caractère personnel — ne pas exposer publiquement
-ni permettre la ré-identification indirecte (CGU DGFiP).
-
-Usage :
-    python src/dvf/main.py              # télécharge les 5 millésimes
-    python src/dvf/main.py --year 2024  # un seul millésime
+Usage:
+    python src/dvf/main.py
+    python src/dvf/main.py --year 2024
 """
 
 import argparse

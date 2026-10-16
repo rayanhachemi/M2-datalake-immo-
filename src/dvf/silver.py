@@ -1,36 +1,6 @@
-"""Silver DVF — une ligne par vente d'un logement unique (maison ou appartement), clé code_commune.
+"""Nettoyage DVF : une ligne par vente d'un logement unique, prix/m² calculé, clé code_commune.
 
-Lit bronze/dvf/dvf_{year}_cibles.txt et écrit :
-    silver/dvf_ventes.parquet      une ligne par vente, prix au m² calculé
-    silver/dvf_silver_stats.json   volumes après chaque règle, par millésime
-
-Structure DVF (cf. docs/dvf/profiling) : une vente est éclatée en plusieurs lignes, une par
-local × nature de culture du terrain. La valeur foncière est répétée sur chaque ligne et un
-même local est répété sur chaque ligne de culture : rien ne s'additionne ligne à ligne.
-
-Règles :
-    - encodage : le bronze a été décodé en latin-1 alors que la source est en UTF-8
-      ("DÃ©pendance") ; réparé ici par ré-encodage latin-1 -> UTF-8
-    - lignes strictement identiques supprimées
-    - vente = (date, nature, valeur, département, commune, section, n° de plan) ; DVF public n'a
-      pas d'identifiant de mutation. Une vente sur plusieurs parcelles est découpée par parcelle,
-      seule la parcelle portant le logement est gardée
-    - locaux dédoublonnés sur (type, surface, pièces, 1er lot), terrain sur (culture, surface)
-    - natures gardées : Vente et VEFA (adjudications, échanges, expropriations exclues)
-    - un seul logement par vente, aucun local professionnel (sinon prix non attribuable) ;
-      les dépendances (caves, parkings) sont tolérées et comptées
-    - valeur >= 1 000 €, surface bâtie entre 9 et 1 000 m², prix au m² entre 100 et 30 000 €
-    - arrondissements rattachés à leur commune (751xx -> 75056, 6938x -> 69123) pour la jointure
-      avec INSEE et OSM ; le code d'arrondissement est conservé à part
-    - un même logement (parcelle + lot + type + surface, cf. profiling --reventes) vendu le même
-      jour à des prix différents : vente en plusieurs parts ou double saisie, prix non fiable,
-      toutes ses ventes de ce jour sont exclues
-    - reventes à dates différentes gardées (vraies transactions) ; revente_moins_30j signale
-      une autre vente du même logement à moins de 30 jours, avant ou après
-
-CGU DGFiP : ni adresse, ni numéro de voie, ni parcelle dans le silver (ré-identification).
-
-Usage :
+Usage:
     python src/dvf/silver.py
 """
 

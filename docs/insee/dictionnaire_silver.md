@@ -65,4 +65,4 @@ Fichier produit par `src/insee/silver.py` — une ligne par commune.
 | `taux_chomage` | `chomeurs_15_64 / actifs_15_64 × 100` |
 | `rp_avant_1946` | `rp_avant_1919 + rp_1919_1945` |
 
-**Note :** Paris, Lyon et Marseille n'existent qu'en commune entière (`75056`, `69123`, `13055`). Le rattachement des arrondissements DVF se fait côté DVF.
+Paris, Lyon et Marseille n'existent qu'en commune entière (`75056`, `69123`, `13055`). Le rattachement des arrondissements DVF se fait côté DVF.

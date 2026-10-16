@@ -1,24 +1,6 @@
-"""Silver OSM — POI nettoyés, rattachés à leur commune (clé de jointure avec DVF / INSEE).
+"""Nettoyage OSM : POI filtrés, rattachés à leur commune via jointure spatiale, clé code_commune.
 
-Lit bronze/osm/{region}/osm_{region}_{dept}_{cat}.json et écrit :
-    silver/osm_poi.parquet           une ligne par objet OSM retenu
-    silver/osm_silver_stats.json     volumes avant / après chaque règle (traçabilité)
-
-Règles (cf. docs/osm/qualite.md) :
-    - commune par jointure spatiale sur les contours communaux (adresses absentes à ~80 %),
-      plus proche commune à moins de 1 km pour les points en bord de côte / frontière
-    - dédoublonnage id_osm (objets présents dans deux départements)
-    - sous-type multi-valeurs a;b;c → première valeur
-    - écoles / santé : liste blanche (exclut driving_school, music_school...)
-    - shop=vacant / shop=yes : gardés et flagués
-    - transport : mode (inconnu si absent) + id_arret, regroupement des stop_position
-      de même nom à moins de 100 m → compter nunique(id_arret), pas les lignes
-    - objets sans nom : gardés et flagués
-
-Contours : geo.api.gouv.fr (communes actuelles, Paris = 75056 comme dans INSEE), mis en cache
-dans bronze/contours/communes_{dept}.geojson.
-
-Usage :
+Usage:
     python src/osm/silver.py
 """
 

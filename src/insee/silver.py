@@ -1,26 +1,6 @@
-"""Silver INSEE — une ligne par commune, clé code_commune (jointure avec DVF et OSM).
+"""Nettoyage INSEE : une ligne par commune, indicateurs en colonnes, clé code_commune.
 
-Lit les JSON Melodi de bronze et écrit :
-    silver/insee_communes.parquet      une ligne par commune, indicateurs en colonnes
-    silver/insee_silver_stats.json     volumes et couverture après chaque règle
-
-Règles (cf. docs/insee/qualite.html) :
-    - code géographique 2026-COM-35238 découpé : seul le niveau COM est gardé, le millésime
-      est retiré (DS_POPULATIONS_HISTORIQUES est en 2025, les autres en 2026)
-    - valeur absente = objet vide {} et non null
-    - les 25 indicateurs Filosofi sans aucune valeur ne sont pas repris
-    - une valeur manquante est qualifiée : secret statistique (CONF_STATUS=C) ou
-      non diffusée à ce niveau (OBS_STATUS=O)
-    - les modalités totales (_T) ne sont jamais additionnées aux autres : chaque indicateur
-      fixe explicitement ses modalités, les dimensions non citées valent _T
-
-Non repris : DS_RP_MENAGES_PRINC, dont les dimensions n'ont pas de modalité « ensemble ».
-À confirmer dans la documentation Melodi : EDUC=500T702_RP (lu comme diplôme du supérieur) et
-EMPSTA_ENQ=1T2 / 2 (lus comme actifs et chômeurs).
-Les arrondissements de Paris, Lyon et Marseille n'existent pas côté INSEE : le rattachement
-751xx -> 75056 se fait côté DVF.
-
-Usage :
+Usage:
     python src/insee/silver.py
 """
 

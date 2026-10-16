@@ -27,4 +27,4 @@ Transactions immobilières de 2021 à 2025 : ventes de maisons et appartements a
 - Bronze : `bronze/dvf/dvf_{annee}_cibles.txt` — fichiers tabulaires (séparateur `|`), 37 départements
 - Silver : `silver/dvf_ventes.parquet` (~2,07 M ventes, 2021-2025) + `silver/dvf_silver_stats.json` (volumes après chaque règle)
 
-**Attention CGU :** les DVF contiennent des données personnelles. Ne pas ré-identifier les acheteurs/vendeurs ni indexer ces données sur des services externes.
+CGU DGFiP : ne pas ré-identifier les acheteurs/vendeurs ni indexer ces données sur des services externes.

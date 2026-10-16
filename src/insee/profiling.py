@@ -1,10 +1,7 @@
-"""Profiling des fichiers bronze INSEE : complétude, cardinalité, couverture géo, anomalies.
+"""Profiling bronze INSEE : complétude, couverture géographique, anomalies.
 
-Lit les JSON Melodi produits par main.py et écrit dans docs/insee/profiling/ :
-    fichiers.csv, indicateurs.csv, dimensions.csv, couverture_geo.csv
-
-Usage :
-    python src/insee/profiling.py                        # les 7 jeux
+Usage:
+    python src/insee/profiling.py
     python src/insee/profiling.py --dataset DS_FILOSOFI_CC
     python src/insee/profiling.py --region 53
 """

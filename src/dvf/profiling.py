@@ -1,13 +1,9 @@
-"""Profiling des fichiers bronze DVF : complétude, cardinalité, stats, anomalies.
+"""Profiling bronze DVF : complétude, distributions, anomalies.
 
-Lit bronze/dvf/dvf_{year}_cibles.txt (produits par main.py) et écrit
-docs/dvf/profiling/colonnes_{year}.csv. Uniquement des agrégats : aucune
-ligne ni adresse n'est exportée (CGU DGFiP).
-
-Usage :
-    python src/dvf/profiling.py              # les 5 millésimes
-    python src/dvf/profiling.py --year 2024  # un seul millésime
-    python src/dvf/profiling.py --reventes   # un même logement vendu plusieurs fois (5 millésimes)
+Usage:
+    python src/dvf/profiling.py
+    python src/dvf/profiling.py --year 2024
+    python src/dvf/profiling.py --reventes
 """
 
 import argparse
