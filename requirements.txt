@@ -5,3 +5,5 @@ geopandas>=0.14
 shapely>=2.0
 folium>=0.15
 jupyter>=1.0
+sqlalchemy>=2.0
+psycopg2-binary>=2.9

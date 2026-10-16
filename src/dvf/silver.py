@@ -13,6 +13,7 @@ import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from main import BRONZE, MILLÉSIMES, REGIONS
+from db import write_table
 
 SILVER = Path(__file__).resolve().parents[2] / "silver"
 
@@ -227,6 +228,7 @@ def main():
 
     SILVER.mkdir(exist_ok=True)
     df.to_parquet(SILVER / "dvf_ventes.parquet", index=False)
+    write_table(df, "S_dvf_ventes")
     (SILVER / "dvf_silver_stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False),
                                                   encoding="utf-8")
     print(json.dumps(stats["total"], indent=2, ensure_ascii=False))

@@ -12,6 +12,8 @@ from pathlib import Path
 import pandas as pd
 
 from main import OUTPUT
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from db import write_table
 
 SILVER = Path(__file__).resolve().parents[2] / "silver"
 HORS_FILTRE = {"GEO", "TIME_PERIOD", "FREQ", "UNIT_MEASURE"}
@@ -133,6 +135,7 @@ def main():
 
     SILVER.mkdir(exist_ok=True)
     df.to_parquet(SILVER / "insee_communes.parquet", index=False)
+    write_table(df, "S_insee_communes")
     (SILVER / "insee_silver_stats.json").write_text(json.dumps(stats, indent=2, ensure_ascii=False),
                                                     encoding="utf-8")
     print(json.dumps(stats, indent=2, ensure_ascii=False))
