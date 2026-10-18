@@ -1,0 +1,54 @@
+{
+  "dvf": {
+    "lignes_silver": 2070699,
+    "vefa_exclues": 76180,
+    "reventes_rapides_exclues_parmi_ventes": 2854,
+    "ventes_comparables": 1991665,
+    "ventes_recentes_2024_2025": 692317
+  },
+  "insee": {
+    "communes_silver": 10939
+  },
+  "osm": {
+    "poi_silver": 305925,
+    "communes_avec_poi": 8488
+  },
+  "jointure": {
+    "communes": 10939,
+    "communes_avec_ventes_recentes": 10623,
+    "communes_avec_poi": 8488,
+    "codes_dvf_hors_insee": [
+      "01039",
+      "01330",
+      "09255",
+      "09287",
+      "12076",
+      "22027",
+      "22043",
+      "22200",
+      "22309",
+      "26219",
+      "26371",
+      "30094",
+      "32067",
+      "32260",
+      "32413",
+      "34093",
+      "35112",
+      "42072",
+      "42109",
+      "42252",
+      "46217",
+      "56049",
+      "63330",
+      "69152",
+      "69159",
+      "93059",
+      "95282"
+    ],
+    "ventes_comparables_hors_insee": 1734,
+    "codes_osm_hors_insee": [],
+    "ventes_comparables_rattachees": 1989931,
+    "poi_rattaches": 305925
+  }
+}
