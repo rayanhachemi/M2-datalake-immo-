@@ -20,6 +20,12 @@ __pycache__/
 *.pyc
 .venv/
 *.egg-info/
+.vscode/
+
+# Configuration locale et secrets
+.env
+.env.*
+!.env.example
 
 # Claude
 .claude
