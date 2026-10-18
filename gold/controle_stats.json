@@ -1,0 +1,454 @@
+{
+  "date_controle_utc": "2026-10-18T15:31:30.694188+00:00",
+  "statut": "OK",
+  "postgresql_controle": true,
+  "controles": [
+    {
+      "nom": "Clé communale unique et conforme : INSEE Silver",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Clé communale unique et conforme : jointure Gold",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Clé communale unique et conforme : communes Gold",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Clé unique du marché et domaines année/type",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Communes Gold = référentiel INSEE",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Valeurs INSEE préservées dans la jointure",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Colonnes de la jointure préservées dans G_communes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : taille moyenne des ménages",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : part des ménages d'une personne",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : ménages d'une personne au plus égaux aux ménages",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : part familles avec enfants de moins de 25 ans",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : part familles avec enfants de moins de 25 ans bornée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : part familles monoparentales dans les ménages",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B3 : part familles monoparentales dans les ménages bornée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Identifiants DVF uniques",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Ventes filtrées = volume du marché",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Ventes par commune, année et type",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": "69,498 groupes"
+    },
+    {
+      "nom": "Volumes DVF communaux joints",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Ventes récentes par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Ventes récentes maison par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Ventes récentes appartement par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "OSM : nb_poi_osm par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "OSM : nb_ecoles par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "OSM : nb_sante par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "OSM : nb_commerces_actifs par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "OSM : nb_arrets_transport par commune",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix annuels masqués sous 10 ventes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix annuels présents dès 10 ventes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Médianes annuelles recalculées depuis DVF",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Variations annuelles et années consécutives",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Tendances annuelles cohérentes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Seuil prix récents maison median",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Seuil prix récents maison moyen",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix récents maison median recalculés",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix récents maison moyen recalculés",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Seuil prix récents appartement median",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Seuil prix récents appartement moyen",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix récents appartement median recalculés",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Prix récents appartement moyen recalculés",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Densité ecoles recalculée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Densité sante recalculée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Densité commerces_actifs recalculée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Densité arrets_transport recalculée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Éligibilité du score",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Scores absents hors éligibilité et présents sinon",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Scores bornés entre 0 et 100",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Pondération 40/30/30 du score",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Aucune valeur numérique infinie",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Statistiques JSON cohérentes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Codes DVF sans correspondance documentés",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Date d'extraction OSM renseignée",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B1 : ventes géolocalisées uniques",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B1 : ventes géolocalisées conformes à la Silver DVF",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B1 : coordonnées géographiques valides",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "B1 : statistiques de géolocalisation",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Gold à jour après insee_communes.parquet",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Gold à jour après dvf_ventes.parquet",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "Gold à jour après osm_poi.parquet",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "PostgreSQL G_jointure_communes : nombre de lignes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": "10,939 lignes"
+    },
+    {
+      "nom": "PostgreSQL G_marche_commune_annee_type : nombre de lignes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": "69,498 lignes"
+    },
+    {
+      "nom": "PostgreSQL G_communes : nombre de lignes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": "10,939 lignes"
+    },
+    {
+      "nom": "PostgreSQL G_ventes_geolocalisees : nombre de lignes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": "687,477 lignes"
+    },
+    {
+      "nom": "PostgreSQL G_jointure_communes : total nb_poi_osm",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "PostgreSQL G_marche_commune_annee_type : total nb_ventes",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    },
+    {
+      "nom": "PostgreSQL G_communes : total score_eligible",
+      "statut": "OK",
+      "anomalies": 0,
+      "details": ""
+    }
+  ],
+  "couverture": {
+    "communes_insee": 10939,
+    "ventes_comparables": 1991665,
+    "ventes_hors_insee": 1734,
+    "codes_dvf_hors_insee": [
+      "01039",
+      "01330",
+      "09255",
+      "09287",
+      "12076",
+      "22027",
+      "22043",
+      "22200",
+      "22309",
+      "26219",
+      "26371",
+      "30094",
+      "32067",
+      "32260",
+      "32413",
+      "34093",
+      "35112",
+      "42072",
+      "42109",
+      "42252",
+      "46217",
+      "56049",
+      "63330",
+      "69152",
+      "69159",
+      "93059",
+      "95282"
+    ],
+    "pourcentage_ventes_hors_insee": 0.087,
+    "groupes_marche": 69498,
+    "groupes_prix_masques": 39275,
+    "communes_score_eligibles": 6136,
+    "communes_sans_poi": 2451,
+    "communes_sans_ventes_recentes": 316,
+    "revenu_median_disponible": 9658,
+    "taux_pauvrete_disponible": 2233,
+    "taille_moyenne_menage_disponible": 10939,
+    "part_familles_avec_enfants_disponible": 10924,
+    "ventes_recentes_geolocalisees": 687477,
+    "pourcentage_ventes_recentes_geolocalisees": 99.3,
+    "dates_extraction_osm": [
+      "2026-05-06",
+      "2026-05-31",
+      "2026-06-01",
+      "2026-07-15",
+      "2026-07-24",
+      "2026-07-28",
+      "2026-09-25",
+      "2026-09-28",
+      "2026-09-29"
+    ]
+  }
+}

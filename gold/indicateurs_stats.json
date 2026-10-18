@@ -1,0 +1,21 @@
+{
+  "marche": {
+    "lignes": 69498,
+    "ventes_comparables": 1991665,
+    "groupes_prix_non_publies_moins_10_ventes": 39275,
+    "groupes_prix_publies": 30223,
+    "variations_annuelles_fiables": 20821
+  },
+  "communes": {
+    "lignes": 10939,
+    "communes_avec_prix_maison_recent": 6460,
+    "communes_avec_prix_appartement_recent": 1765,
+    "score_eligibles": 6136,
+    "score_eligibles_par_region": {
+      "ara": 2338,
+      "occitanie": 1772,
+      "bretagne": 1076,
+      "idf": 950
+    }
+  }
+}
