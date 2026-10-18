@@ -13,6 +13,7 @@ import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from main import BRONZE, MILLÉSIMES, REGIONS
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from db import write_table
 
 SILVER = Path(__file__).resolve().parents[2] / "silver"
