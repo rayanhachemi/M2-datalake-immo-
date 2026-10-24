@@ -11,7 +11,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 import requests
 
-try:  # réseau d'entreprise avec inspection SSL : utilise le magasin de certificats de l'OS
+try:
     import truststore
     truststore.inject_into_ssl()
 except ImportError:
@@ -39,7 +39,7 @@ CATS = {
     "transport": 'nwr["public_transport"="stop_position"]',
 }
 
-MAX_WORKERS = 5  # max simultané — au-delà Overpass throttle/ban
+MAX_WORKERS = 5
 _url_lock = threading.Lock()
 _url_idx = 0
 
@@ -59,8 +59,6 @@ def fetch_one(region: str, dept: str, cat: str, timeout: int = 180, retries: int
         print(f"skip {region}/{dept}/{cat}, déjà {dest.stat().st_size/1e6:.2f} Mo", flush=True)
         return dest
     filt = CATS[cat]
-    # admin_level=6 obligatoire : les régions ont aussi un ref:INSEE à 2 chiffres (11 = IdF, 01 = Guadeloupe...)
-    # map_to_area : zone calculée depuis la relation, sans dépendre de la base "areas" du miroir (parfois incomplète)
     q = (f'[out:json][timeout:{timeout}];'
          f'rel["ref:INSEE"="{dept}"]["boundary"="administrative"]["admin_level"="6"];map_to_area->.a;'
          f'({filt}(area.a););out center;')
@@ -77,7 +75,6 @@ def fetch_one(region: str, dept: str, cat: str, timeout: int = 180, retries: int
             r.raise_for_status()
             data = r.json()
             n = len(data.get("elements", []))
-            # 0 objet ou "remark" = zone introuvable / timeout côté serveur, jamais un vrai résultat ici
             if n == 0 or "remark" in data:
                 last = f"réponse invalide ({n} objets, remark={data.get('remark')!r}) via {url}"
                 print(f"  {region}/{dept}/{cat} {last} retry {att+1}/{retries}", flush=True)
@@ -91,7 +88,7 @@ def fetch_one(region: str, dept: str, cat: str, timeout: int = 180, retries: int
             print(f"  {region}/{dept}/{cat} ERR {e} retry {att+1}", flush=True)
             time.sleep(20 * (att + 1))
     print(f"ECHEC {region}/{dept}/{cat}: {last}", flush=True)
-    return None  # on ne crash plus, on continue les autres
+    return None
 
 
 if __name__ == "__main__":

@@ -16,18 +16,14 @@ from main import BRONZE, CATS, REGIONS
 
 PROFILING = Path(__file__).resolve().parents[2] / "docs" / "osm" / "profiling"
 
-# tag portant le sous-type selon la catégorie
 SOUS_TYPE_TAG = {"ecoles": "amenity", "sante": "amenity", "shops": "shop", "transport": "public_transport"}
-# sous-types réellement visés : la regex Overpass "school" capte aussi driving_school, music_school...
 PERIMETRE = {
     "ecoles": {"school", "college", "university", "kindergarten"},
     "sante": {"pharmacy", "hospital", "clinic", "doctors"},
 }
 MODES_TRANSPORT = ["bus", "tram", "train", "subway", "light_rail", "trolleybus", "ferry", "monorail"]
-# tags dont on mesure la complétude (utiles pour le silver / l'analyse)
 TAGS_UTILES = ["name", "opening_hours", "addr:street", "addr:housenumber", "addr:postcode",
                "addr:city", "wheelchair", "website", "phone", "operator", "brand"]
-# emprise large France métropolitaine (lat_min, lat_max, lon_min, lon_max)
 BBOX_FR = (41.0, 51.5, -5.5, 10.0)
 
 
@@ -36,7 +32,6 @@ def _transport_mode(tags: dict) -> str | None:
 
 
 def load_file(path: Path, region: str, dept: str, cat: str) -> tuple[dict, list[dict]]:
-    """Charge un JSON Overpass → (métadonnées fichier, liste d'objets aplatis)."""
     d = json.loads(path.read_text(encoding="utf-8"))
     rows = []
     for e in d.get("elements", []):
@@ -60,7 +55,6 @@ def load_file(path: Path, region: str, dept: str, cat: str) -> tuple[dict, list[
 
 
 def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
-    """Profiling de tous les fichiers bronze OSM des régions demandées."""
     metas, rows, manquants = [], [], []
     for region, depts in regions.items():
         for dept in depts:
@@ -80,7 +74,6 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
     if manquants:
         print(f"fichiers manquants ({len(manquants)}) : {', '.join(manquants)}")
 
-    # --- profil par fichier ---
     g = df.groupby(["region", "dept", "cat"])
     fich = pd.DataFrame(metas).merge(
         pd.DataFrame({
@@ -108,7 +101,6 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
     ts = pd.to_datetime(fich["timestamp_osm_base"], errors="coerce")
     print(f"\nfraîcheur snapshots Overpass : {ts.min()} → {ts.max()} (écart {ts.max() - ts.min()})")
 
-    # --- sous-types ---
     sous = (df.fillna({"sous_type": "(absent)"})
               .groupby(["region", "cat", "sous_type"]).size()
               .rename("nb").reset_index().sort_values(["region", "cat", "nb"], ascending=[True, True, False]))
@@ -118,7 +110,6 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
     tr = df[df["cat"] == "transport"]
     print(f"\nmodes transport :\n{tr['mode'].value_counts(dropna=False).to_string()}")
 
-    # --- complétude des tags ---
     tag_cols = [f"tag:{t}" for t in TAGS_UTILES]
     compl = (df.groupby(["region", "cat"])[tag_cols].mean().mul(100).round(1)
                .rename(columns=lambda c: c.removeprefix("tag:")).reset_index())
@@ -126,7 +117,6 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
     print(df.groupby("cat")[tag_cols].mean().mul(100).round(1)
             .rename(columns=lambda c: c.removeprefix("tag:")).T.to_string())
 
-    # --- anomalies ---
     lat_min, lat_max, lon_min, lon_max = BBOX_FR
     hors_bbox = df["lat"].notna() & ~(df["lat"].between(lat_min, lat_max) & df["lon"].between(lon_min, lon_max))
     dup_region = df.duplicated(["region", "cat", "id_osm"]) & ~df.duplicated(["dept", "cat", "id_osm"])
@@ -162,9 +152,9 @@ def profile(regions: dict[str, list[str]]) -> pd.DataFrame:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--region", choices=list(REGIONS), help="région unique à profiler")
+    parser.add_argument("--region", choices=list(REGIONS))
     args = parser.parse_args()
-    sys.stdout.reconfigure(encoding="utf-8")  # console Windows cp1252
+    sys.stdout.reconfigure(encoding="utf-8")
 
     profile({args.region: REGIONS[args.region]} if args.region else REGIONS)
 

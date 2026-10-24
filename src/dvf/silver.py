@@ -13,7 +13,6 @@ import pyarrow as pa
 import pyarrow.csv as pacsv
 
 from main import BRONZE, MILLÉSIMES, REGIONS
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from db import write_table
 
 SILVER = Path(__file__).resolve().parents[2] / "silver"
@@ -33,10 +32,8 @@ VALEUR_MIN = 1_000
 SURFACE_MIN, SURFACE_MAX = 9, 1_000
 PRIX_M2_MIN, PRIX_M2_MAX = 100, 30_000
 
-# arrondissements DVF -> commune INSEE (Marseille hors régions cibles)
 ARRONDISSEMENTS = {"751": "75056", "6938": "69123"}
 
-# identité approchée d'un logement, utilisée en interne puis retirée (parcelle non publiée)
 BIEN = ["Code departement", "Code commune", "Section", "No plan", "Type local", "1er lot",
         "Surface reelle bati"]
 DELAI_REVENTE_J = 30
@@ -45,7 +42,6 @@ REGION_PAR_DEPT = {d: r for r, depts in REGIONS.items() for d in depts}
 
 
 def reparer_encodage(s: pd.Series) -> pd.Series:
-    """Annule le double décodage UTF-8 lu en latin-1, sur les modalités distinctes seulement."""
     def un(v):
         try:
             return v.encode("latin-1").decode("utf-8")
@@ -55,7 +51,6 @@ def reparer_encodage(s: pd.Series) -> pd.Series:
 
 
 def num(s: pd.Series) -> pd.Series:
-    """String DVF (virgule décimale) -> float64."""
     return pd.to_numeric(s.str.replace(",", ".", regex=False), errors="coerce")
 
 
@@ -66,7 +61,7 @@ def lire(year: int) -> pd.DataFrame:
         parse_options=pacsv.ParseOptions(delimiter="|"),
         convert_options=pacsv.ConvertOptions(
             include_columns=COLONNES,
-            column_types={c: pa.string() for c in COLONNES},  # garde les zéros initiaux ("01")
+            column_types={c: pa.string() for c in COLONNES},
             strings_can_be_null=True,
         ),
     )
@@ -74,7 +69,6 @@ def lire(year: int) -> pd.DataFrame:
 
 
 def cle_bien(df: pd.DataFrame) -> pd.Series:
-    """Identité approchée d'un logement : colonnes BIEN concaténées (vectorisé)."""
     cle = df[BIEN[0]].fillna("")
     for col in BIEN[1:]:
         cle = cle + "|" + df[col].fillna("")
@@ -82,7 +76,6 @@ def cle_bien(df: pd.DataFrame) -> pd.Series:
 
 
 def code_commune(dept: pd.Series, commune: pd.Series) -> tuple[pd.Series, pd.Series]:
-    """Code INSEE de la commune entière, et code d'arrondissement (sinon vide)."""
     code = dept + commune.str.zfill(3)
     commune_entiere = code.copy()
     for prefixe, cible in ARRONDISSEMENTS.items():
@@ -108,7 +101,6 @@ def ventes_annee(year: int, stats: dict) -> pd.DataFrame:
     df["id"] = df.groupby(CLE_VENTE, sort=False, dropna=False).ngroup()
     st["ventes_vente_ou_vefa"] = int(df["id"].nunique())
 
-    # --- locaux : un local répété sur chaque ligne de culture ne compte qu'une fois ---
     locaux = (df.dropna(subset=["Type local"])
                 .drop_duplicates(["id", "Type local", "Surface reelle bati",
                                   "Nombre pieces principales", "1er lot"]))
@@ -128,7 +120,6 @@ def ventes_annee(year: int, stats: dict) -> pd.DataFrame:
     logement = locaux[locaux["Type local"].isin(LOGEMENTS) & locaux["id"].isin(unique.index)]
     logement = logement.set_index("id")
 
-    # --- terrain : somme des parcelles de culture distinctes ---
     terrain = (df.dropna(subset=["Nature culture"])
                  .drop_duplicates(["id", "Nature culture", "Surface terrain"])
                  .assign(s=lambda d: num(d["Surface terrain"]))
@@ -147,10 +138,8 @@ def ventes_annee(year: int, stats: dict) -> pd.DataFrame:
         "nom_commune": logement["Commune"],
         "_bien": cle_bien(logement),
     })
-    # surface du terrain : pertinente pour une maison, pas pour un lot de copropriété
     v["surface_terrain"] = terrain.reindex(v.index).where(v["type_bien"] == "Maison")
 
-    # --- filtres de plausibilité ---
     n = len(v)
     v = v[v["valeur_fonciere"] >= VALEUR_MIN]
     st["exclues_valeur_absente_ou_inf_1000"] = n - len(v)
@@ -175,7 +164,6 @@ def ventes_annee(year: int, stats: dict) -> pd.DataFrame:
 
 
 def traiter_reventes(df: pd.DataFrame, stats: dict) -> pd.DataFrame:
-    """Inter-millésimes : exclut les prix multiples d'un même jour, signale les reventes rapides."""
     prix_du_jour = df.groupby(["_bien", "date_mutation"])["valeur_fonciere"].transform("nunique")
     exclues = df[prix_du_jour > 1]
     for year, n in exclues["annee"].value_counts().items():
@@ -197,7 +185,7 @@ def traiter_reventes(df: pd.DataFrame, stats: dict) -> pd.DataFrame:
 
 
 def main():
-    sys.stdout.reconfigure(encoding="utf-8")  # console Windows cp1252
+    sys.stdout.reconfigure(encoding="utf-8")
     stats = {}
 
     print("lecture du bronze", flush=True)

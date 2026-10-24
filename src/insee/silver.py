@@ -18,7 +18,6 @@ from db import write_table
 SILVER = Path(__file__).resolve().parents[2] / "silver"
 HORS_FILTRE = {"GEO", "TIME_PERIOD", "FREQ", "UNIT_MEASURE"}
 
-# (jeu, colonne produite, modalités imposées) ; les autres dimensions doivent valoir _T
 INDICATEURS = [
     ("DS_FILOSOFI_CC", "revenu_median", {"FILOSOFI_MEASURE": "MED_SL"}),
     ("DS_FILOSOFI_CC", "taux_pauvrete", {"FILOSOFI_MEASURE": "PR_MD60"}),
@@ -50,7 +49,6 @@ INDICATEURS = [
 
 
 def correspond(dims, filtres):
-    """Vrai si l'observation porte les modalités demandées, les autres dimensions valant _T."""
     for dim, modalite in dims.items():
         if dim in HORS_FILTRE:
             continue
@@ -61,7 +59,6 @@ def correspond(dims, filtres):
 
 
 def extraire(stats):
-    """Parcourt le bronze et range chaque valeur retenue dans sa colonne."""
     valeurs = defaultdict(dict)
     manquantes = defaultdict(Counter)
     jeux = {jeu for jeu, _, _ in INDICATEURS}
@@ -118,7 +115,7 @@ def construire(valeurs):
 
 
 def main():
-    sys.stdout.reconfigure(encoding="utf-8")  # console Windows cp1252
+    sys.stdout.reconfigure(encoding="utf-8")
     stats = {"hors_niveau_commune": 0, "valeurs_par_jeu": {}}
 
     print("lecture du bronze", flush=True)

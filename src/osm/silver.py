@@ -26,13 +26,12 @@ SILVER = ROOT / "silver"
 GEO_API = "https://geo.api.gouv.fr/departements/{dept}/communes"
 
 CATEGORIE = {"ecoles": "education", "sante": "sante", "shops": "commerce", "transport": "transport"}
-SEUIL_ARRET_M = 100      # stop_position de même nom plus proches que ça = un seul arrêt
-SEUIL_NEAREST_M = 1000   # au-delà, un point hors contours est considéré hors zone
-CRS_METRIQUE = "EPSG:2154"  # Lambert-93
+SEUIL_ARRET_M = 100
+SEUIL_NEAREST_M = 1000
+CRS_METRIQUE = "EPSG:2154"
 
 
 def contours_dept(dept: str) -> gpd.GeoDataFrame:
-    """Contours communaux d'un département (téléchargés une fois puis lus depuis le cache)."""
     dest = CONTOURS / f"communes_{dept}.geojson"
     if not dest.exists():
         CONTOURS.mkdir(parents=True, exist_ok=True)
@@ -47,7 +46,6 @@ def contours_dept(dept: str) -> gpd.GeoDataFrame:
 
 
 def load_bronze(region: str, depts: list[str]) -> pd.DataFrame:
-    """Aplatit les JSON Overpass d'une région (un objet = une ligne)."""
     rows = []
     for dept in depts:
         for cat in CATS:
@@ -74,10 +72,9 @@ def load_bronze(region: str, depts: list[str]) -> pd.DataFrame:
 
 
 def rattacher_communes(df: pd.DataFrame, communes: gpd.GeoDataFrame, stats: dict) -> gpd.GeoDataFrame:
-    """Jointure spatiale point-dans-polygone, puis plus proche commune (< SEUIL_NEAREST_M) pour le reste."""
     pts = gpd.GeoDataFrame(df, geometry=gpd.points_from_xy(df["lon"], df["lat"]), crs="EPSG:4326")
     j = gpd.sjoin(pts, communes, how="left", predicate="within").drop(columns="index_right")
-    j = j[~j.index.duplicated()]  # point pile sur une limite → 2 communes, on garde la 1re
+    j = j[~j.index.duplicated()]
 
     orphelins = j["code_commune"].isna()
     stats["commune_par_contour"] += int((~orphelins).sum())
@@ -96,7 +93,6 @@ def rattacher_communes(df: pd.DataFrame, communes: gpd.GeoDataFrame, stats: dict
 
 
 def _norm_nom(s: pd.Series) -> pd.Series:
-    """Nom comparable : minuscules, sans accents ni ponctuation."""
     def f(x):
         x = unicodedata.normalize("NFKD", x).encode("ascii", "ignore").decode().lower()
         return re.sub(r"[^a-z0-9]+", " ", x).strip()
@@ -104,7 +100,6 @@ def _norm_nom(s: pd.Series) -> pd.Series:
 
 
 def _composantes(xy: np.ndarray, seuil: float) -> np.ndarray:
-    """Composantes connexes (lien simple) des points à moins de `seuil` mètres."""
     n = len(xy)
     parent = np.arange(n)
 
@@ -124,13 +119,11 @@ def _composantes(xy: np.ndarray, seuil: float) -> np.ndarray:
 
 
 def regrouper_arrets(tr: pd.DataFrame) -> pd.Series:
-    """id_arret : id_osm du représentant du groupe (même nom, chaîne de points < SEUIL_ARRET_M)."""
     id_arret = tr["id_osm"].copy()
     xy = gpd.GeoSeries(gpd.points_from_xy(tr["lon"], tr["lat"]), crs="EPSG:4326").to_crs(CRS_METRIQUE)
     xy = np.column_stack([xy.x.values, xy.y.values])
     pos = pd.Series(np.arange(len(tr)), index=tr.index)
     cle = _norm_nom(tr["nom"])
-    # sans nom : impossible de distinguer deux arrêts voisins → chaque objet reste un arrêt
     for _, idx in cle.dropna().groupby(cle.dropna()).groups.items():
         if len(idx) < 2:
             continue
@@ -146,12 +139,10 @@ def build_region(region: str, depts: list[str], stats: dict) -> pd.DataFrame:
     stats["brut"] += len(df)
     stats["par_region_brut"][region] = len(df)
 
-    # sous-type : première valeur des listes a;b;c
     multi = df["sous_type_brut"].str.contains(";", na=False)
     stats["sous_type_multi_valeurs"] += int(multi.sum())
     df["sous_type"] = df["sous_type_brut"].str.split(";").str[0].str.strip()
 
-    # liste blanche écoles / santé
     hors = pd.Series(False, index=df.index)
     for cat, ok in PERIMETRE.items():
         hors |= (df["cat"] == cat) & ~df["sous_type"].isin(ok)
@@ -164,8 +155,8 @@ def build_region(region: str, depts: list[str], stats: dict) -> pd.DataFrame:
 
 
 def main() -> None:
-    sys.stdout.reconfigure(encoding="utf-8")  # console Windows cp1252
-    try:  # réseau d'entreprise avec inspection SSL
+    sys.stdout.reconfigure(encoding="utf-8")
+    try:
         import truststore
         truststore.inject_into_ssl()
     except ImportError:
@@ -181,18 +172,14 @@ def main() -> None:
     df = pd.concat(parts, ignore_index=True)
     del parts
 
-    # doublons : même objet extrait par deux départements (frontière) — la commune vient
-    # de la jointure spatiale, donc les deux copies sont identiques sauf dept_extract
     dup = df.duplicated(["categorie", "id_osm"])
     stats["drop_doublons_id_osm"] = int(dup.sum())
     df = df[~dup].reset_index(drop=True)
 
-    # flags
     df["name_missing"] = df["nom"].isna()
     df["is_vacant"] = (df["cat"] == "shops") & (df["sous_type"] == "vacant")
     df["is_untyped"] = (df["cat"] == "shops") & (df["sous_type"] == "yes")
 
-    # transport : mode + regroupement des stop_position en arrêts
     tr = df["categorie"] == "transport"
     df.loc[tr, "mode"] = df.loc[tr, "mode"].fillna("inconnu")
     df["id_arret"] = pd.Series(pd.NA, index=df.index, dtype="string")

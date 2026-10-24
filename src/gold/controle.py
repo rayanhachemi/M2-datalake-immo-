@@ -52,7 +52,7 @@ def verifier(sans_db: bool) -> dict:
     stats_jointure = json.loads((GOLD / "jointure_stats.json").read_text(encoding="utf-8"))
     stats_indicateurs = json.loads((GOLD / "indicateurs_stats.json").read_text(encoding="utf-8"))
     checks = []
-    add = lambda nom, n, details="": checks.append(controle(nom, n, details))
+    add = lambda nom, n, details="": checks.append(controle(nom, n, details))  # noqa: E731
 
     codes_insee = set(insee["code_commune"])
     for nom, table in (("INSEE Silver", insee), ("jointure Gold", jointure), ("communes Gold", communes)):
