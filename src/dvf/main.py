@@ -24,6 +24,8 @@ MILLÉSIMES_FALLBACK = {
     2025: "63c368e8-72b9-4f35-8315-80c21fcc575d",
 }
 
+MILLÉSIMES = MILLÉSIMES_FALLBACK
+
 DATASET_ID = "5c4ae55a634f4117716d5656"
 BASE_URL = "https://www.data.gouv.fr/api/1/datasets/r/{}"
 
