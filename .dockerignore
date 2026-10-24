@@ -1,0 +1,13 @@
+bronze/
+silver/
+gold/
+.env
+.env.*
+.git/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+.claude/
+docs/
