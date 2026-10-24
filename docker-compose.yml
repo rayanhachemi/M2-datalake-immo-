@@ -1,7 +1,7 @@
 services:
 
   pipeline:
-    build: .
+    image: rayanhcm0/datalake-immo:latest
     command: >
       sh -c "
         python src/dvf/main.py &&
@@ -22,7 +22,7 @@ services:
     restart: "no"
 
   jupyter:
-    build: .
+    image: rayanhcm0/datalake-immo:latest
     command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
     environment:
       - DATABASE_URL=${DATABASE_URL}
