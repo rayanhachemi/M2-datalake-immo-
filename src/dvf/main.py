@@ -17,11 +17,11 @@ BRONZE = Path(__file__).resolve().parents[2] / "bronze" / "dvf"
 BRONZE.mkdir(parents=True, exist_ok=True)
 
 MILLÉSIMES_FALLBACK = {
-    2021: "947677ab-ad21-48f4-a9ac-ad217c99cf39",
-    2022: "be6e092d-292a-4568-90bf-4254a261ff3b",
-    2023: "025b9d29-8efb-40bb-8ce6-5bddf97a4e51",
-    2024: "99a26050-b94f-4ffc-9eb0-73ed28a895d1",
-    2025: "902db087-b0eb-4cbb-a968-0b499bde5bc4",
+    2021: "9085adb3-473a-4265-ae9f-af72b8df39b6",
+    2022: "330aead3-b527-4c0f-8c9a-a82a9b928816",
+    2023: "ddbd3eff-2d18-420c-a1d6-37f14a2fcc2c",
+    2024: "24d0313f-8f07-4514-bf7d-e1d274e61ecc",
+    2025: "63c368e8-72b9-4f35-8315-80c21fcc575d",
 }
 
 DATASET_ID = "5c4ae55a634f4117716d5656"
