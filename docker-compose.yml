@@ -1,0 +1,40 @@
+services:
+
+  pipeline:
+    build: .
+    command: >
+      sh -c "
+        python src/dvf/main.py &&
+        python src/osm/main.py &&
+        python src/insee/main.py &&
+        python src/dvf/silver.py &&
+        python src/osm/silver.py &&
+        python src/insee/silver.py &&
+        python src/gold/jointure.py &&
+        python src/gold/indicateurs.py
+      "
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - data_bronze:/app/bronze
+      - data_silver:/app/silver
+      - data_gold:/app/gold
+    restart: "no"
+
+  jupyter:
+    build: .
+    command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
+    environment:
+      - DATABASE_URL=${DATABASE_URL}
+    volumes:
+      - data_silver:/app/silver
+      - data_gold:/app/gold
+      - ./notebooks:/app/notebooks
+    ports:
+      - "8888:8888"
+    restart: unless-stopped
+
+volumes:
+  data_bronze:
+  data_silver:
+  data_gold:
