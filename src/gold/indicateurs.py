@@ -14,7 +14,7 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from db import write_table  # noqa: E402
+from db import write_table
 
 SILVER = ROOT / "silver"
 GOLD = ROOT / "gold"
@@ -53,7 +53,6 @@ def marche_annuel(ventes: pd.DataFrame) -> pd.DataFrame:
     quartiles.columns = ["prix_m2_q1", "prix_m2_q3"]
     marche = marche.join(quartiles).reset_index().sort_values(cles).reset_index(drop=True)
 
-    # Les petites cohortes gardent leur volume, mais ne publient aucun prix.
     marche.loc[marche["nb_ventes"] < SEUIL_VENTES, MESURES_PRIX] = np.nan
     par_type = marche.groupby(["code_commune", "type_bien"], observed=True, sort=False)
     avant = par_type["prix_m2_median"].shift()
@@ -106,7 +105,6 @@ def dynamique_prix(ventes: pd.DataFrame) -> pd.DataFrame:
 
 
 def rang_regional(valeurs: pd.Series, region: pd.Series, eligible: pd.Series) -> pd.Series:
-    """Rang percentile 0–100 parmi les seules communes éligibles de chaque région."""
     return (valeurs.where(eligible).groupby(region).rank(pct=True) * 100)
 
 

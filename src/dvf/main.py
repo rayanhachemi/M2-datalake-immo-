@@ -74,7 +74,7 @@ def fetch_year(year: int, resource_id: str, retries: int = 4) -> Path:
     try:
         dept_idx = cols.index("Code departement")
     except ValueError:
-        dept_idx = 19  # position standard dans le fichier DVF
+        dept_idx = 19
 
     kept_rows = [r for r in rows if r.split("|")[dept_idx].strip() in DEPTS_CIBLES]
 
@@ -90,7 +90,7 @@ def fetch_year(year: int, resource_id: str, retries: int = 4) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--year", type=int, choices=list(MILLÉSIMES), help="millésime unique à télécharger")
+    parser.add_argument("--year", type=int, choices=list(MILLÉSIMES))
     args = parser.parse_args()
 
     years = {args.year: MILLÉSIMES[args.year]} if args.year else MILLÉSIMES

@@ -14,8 +14,8 @@ import pandas as pd
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from db import write_table  # noqa: E402
-from dvf.main import REGIONS  # noqa: E402
+from db import write_table
+from dvf.main import REGIONS
 
 SILVER = ROOT / "silver"
 GOLD = ROOT / "gold"

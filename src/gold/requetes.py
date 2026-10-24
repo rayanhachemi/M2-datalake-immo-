@@ -17,7 +17,7 @@ from sqlalchemy import text
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
-from db import get_engine  # noqa: E402
+from db import get_engine
 
 REQUETES = {
     "B2": ROOT / "sql" / "gold" / "B2_classement_agences.sql",
@@ -37,7 +37,6 @@ PARAMETRES_SQL = {
 
 
 def charger_requete(besoin: str):
-    """Remplace les valeurs d'exemple pgAdmin par des paramètres SQLAlchemy."""
     sql = REQUETES[besoin].read_text(encoding="utf-8")
     debut, suite = sql.split("-- PARAMETRES_DEBUT", 1)
     _, fin = suite.split("-- PARAMETRES_FIN", 1)
@@ -48,13 +47,11 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("besoin", choices=REQUETES)
     parser.add_argument("--region", choices=["idf", "ara", "bretagne", "occitanie"])
-    parser.add_argument("--code-commune", help="Code INSEE à cinq chiffres, requis pour B4")
+    parser.add_argument("--code-commune")
     parser.add_argument("--type-bien", choices=["Maison", "Appartement"], default="Maison")
     parser.add_argument("--limite", type=int, default=10)
-    parser.add_argument("--ratio-prix-max", type=float, default=0.90,
-                        help="B5 : prix communal / médiane régionale maximal (défaut : 0.90)")
-    parser.add_argument("--score-equipements-min", type=float, default=60,
-                        help="B5 : percentile régional minimal des équipements (défaut : 60)")
+    parser.add_argument("--ratio-prix-max", type=float, default=0.90)
+    parser.add_argument("--score-equipements-min", type=float, default=60)
     args = parser.parse_args()
     if args.besoin == "B4" and not re.fullmatch(r"\d{5}", args.code_commune or ""):
         parser.error(f"{args.besoin} requiert --code-commune avec cinq chiffres")

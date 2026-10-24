@@ -34,7 +34,7 @@ OUTPUT = Path(__file__).resolve().parents[2] / 'bronze' / 'insee'
 BATCH_SIZE = 200
 PAGE_SIZE = 100000
 MAX_URL_LENGTH = 3500
-WAIT_SECONDS = 2.1  # API publique : 30 appels/minute.
+WAIT_SECONDS = 2.1
 MAX_ATTEMPTS = 5
 TIMEOUT_SECONDS = 60
 
@@ -75,7 +75,7 @@ class Client:
                     raw = response.read()
                     encoding = response.headers.get('Content-Encoding', 'identity').lower()
                 if encoding == 'gzip':
-                    raw = gzip.decompress(raw)  # Décompression HTTP ; JSON non réencodé.
+                    raw = gzip.decompress(raw)
                 elif encoding != 'identity':
                     raise ValueError('Encodage HTTP inconnu : ' + encoding)
                 if not raw.strip():
@@ -106,7 +106,7 @@ def communes(client):
     result = {code: [] for code in REGIONS}
     for row in rows:
         if row['TYPECOM'] == 'COM' and row['REG'] in result:
-            code = row['COM']  # Toujours du texte : conserve les zéros initiaux.
+            code = row['COM']
             if not re.fullmatch(r'[0-9A-Z]{5}', code):
                 raise ValueError('Code commune invalide : ' + code)
             result[row['REG']].append('COM-' + code)
@@ -201,7 +201,7 @@ def ingest_region(client, dataset, region, geos):
                     stream.write(raw)
                     stream.flush()
                     os.fsync(stream.fileno())
-                tmp.replace(path)  # Corps JSON reçu, octet pour octet.
+                tmp.replace(path)
             print('%s région %s lot %s page %s : %s observations' % (dataset, region, batch_number, len(seen), count), flush=True)
             url = next_url
         if batch_count != announced:
@@ -216,8 +216,8 @@ def ingest_region(client, dataset, region, geos):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--region', action='append', choices=REGIONS, help='Répéter pour plusieurs régions ; défaut : les quatre')
-    parser.add_argument('--dataset', action='append', choices=DATASETS, help='Répéter pour plusieurs jeux ; défaut : les sept')
+    parser.add_argument('--region', action='append', choices=REGIONS)
+    parser.add_argument('--dataset', action='append', choices=DATASETS)
     args = parser.parse_args()
     client = Client()
     by_region = communes(client)
