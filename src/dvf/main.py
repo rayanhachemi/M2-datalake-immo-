@@ -7,6 +7,7 @@ Usage:
 
 import argparse
 import io
+import json
 import time
 import urllib.request
 import zipfile
@@ -15,7 +16,7 @@ from pathlib import Path
 BRONZE = Path(__file__).resolve().parents[2] / "bronze" / "dvf"
 BRONZE.mkdir(parents=True, exist_ok=True)
 
-MILLÉSIMES = {
+MILLÉSIMES_FALLBACK = {
     2021: "947677ab-ad21-48f4-a9ac-ad217c99cf39",
     2022: "be6e092d-292a-4568-90bf-4254a261ff3b",
     2023: "025b9d29-8efb-40bb-8ce6-5bddf97a4e51",
@@ -23,7 +24,31 @@ MILLÉSIMES = {
     2025: "902db087-b0eb-4cbb-a968-0b499bde5bc4",
 }
 
+DATASET_ID = "5c4ae55a634f4117716d5656"
 BASE_URL = "https://www.data.gouv.fr/api/1/datasets/r/{}"
+
+
+def get_millésimes() -> dict:
+    """Récupère les resource IDs depuis l'API data.gouv.fr (fallback sur les IDs codés en dur)."""
+    try:
+        url = f"https://www.data.gouv.fr/api/1/datasets/{DATASET_ID}/"
+        req = urllib.request.Request(url, headers=HEADERS)
+        with urllib.request.urlopen(req, timeout=30) as r:
+            data = json.loads(r.read())
+        result = {}
+        for resource in data.get("resources", []):
+            title = resource.get("title", "")
+            rid = resource.get("id", "")
+            for year in MILLÉSIMES_FALLBACK:
+                if str(year) in title:
+                    result[year] = rid
+                    break
+        if len(result) >= 3:
+            print(f"Resource IDs récupérés depuis l'API : {result}")
+            return result
+    except Exception as e:
+        print(f"API data.gouv.fr inaccessible ({e}), utilisation des IDs de secours")
+    return MILLÉSIMES_FALLBACK
 
 REGIONS = {
     "idf":       {"75", "77", "78", "91", "92", "93", "94", "95"},
@@ -90,10 +115,11 @@ def fetch_year(year: int, resource_id: str, retries: int = 4) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--year", type=int, choices=list(MILLÉSIMES))
+    parser.add_argument("--year", type=int, choices=list(MILLÉSIMES_FALLBACK))
     args = parser.parse_args()
 
-    years = {args.year: MILLÉSIMES[args.year]} if args.year else MILLÉSIMES
+    millésimes = get_millésimes()
+    years = {args.year: millésimes[args.year]} if args.year else millésimes
 
     for year, rid in sorted(years.items()):
         fetch_year(year, rid)
