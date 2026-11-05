@@ -20,6 +20,6 @@ Les quatre tables Silver PostgreSQL sont `S_dvf_ventes`, `S_osm_poi`, `S_insee_c
 | `G_POINT_INTERET` | `id_osm`, FK `code_commune` | `S_osm_poi` |
 | `G_PROFIL_COMMUNE` | `code_commune`, PK et FK | `S_insee_communes` |
 
-Le chargement SQL supprime les anciennes tables Gold agrégées si elles existent. Les requêtes B2, B4 et B5 calculent les indicateurs directement depuis ces quatre tables ; voir [les requêtes](../../sql/gold/README.md). Les règles sont dans [la spécification](../../docs/gold/specification.md).
+Le chargement SQL supprime les anciennes tables Gold agrégées si elles existent. Les requêtes B1 à B5 calculent les indicateurs directement depuis ces quatre tables ; voir [les requêtes](../../sql/gold/README.md). Les règles sont dans [la spécification](../../docs/gold/specification.md).
 
 `controle.py` vérifie les clés, les relations, les volumes Silver et Gold et la correspondance avec les Parquets Silver. Il écrit `gold/controle_stats.json` et [le rapport](../../docs/gold/controle.md).
