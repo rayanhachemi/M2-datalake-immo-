@@ -1,27 +1,25 @@
-# Tables Gold
+# Gold — quatre tables du schéma conceptuel
 
 Depuis la racine du projet :
 
 ```bash
-python src/gold/jointure.py
-python src/gold/indicateurs.py
+python src/charger_silver_postgres.py  # restaure DVF, OSM, INSEE si leurs Parquets existent déjà
+python src/communes/silver.py          # référentiel communal Silver
+python src/gold/modele_conceptuel.py
 python src/gold/controle.py
 ```
 
-Le script lit les trois Parquets Silver, agrège DVF et OSM par `code_commune`, puis les joint à INSEE. Il produit :
+Les quatre tables Silver PostgreSQL sont `S_dvf_ventes`, `S_osm_poi`, `S_insee_communes` et `S_communes`. Les trois premiers scripts Silver des sources créent déjà leurs tables SQL lorsqu'on les rejoue ; `charger_silver_postgres.py` permet de les restaurer directement depuis les Parquets existants. `src/communes/silver.py` construit `S_communes` à partir des contours Bronze et des codes DVF Silver.
 
-- `gold/jointure_communes.parquet` : une ligne par commune INSEE, avec ses indicateurs Silver et des comptages de ventes et de POI ;
-- `gold/jointure_stats.json` : couverture des jointures et ventes dont le code DVF n'existe pas dans INSEE ;
-- `G_jointure_communes` dans PostgreSQL.
+`modele_conceptuel.py` lit **ces quatre tables Silver dans PostgreSQL** et crée les quatre tables Gold par `INSERT ... SELECT` :
 
-Cette table est **intermédiaire**. Le second script produit :
+| Table | Clé | Source Silver |
+|---|---|---|
+| `G_COMMUNE` | `code_commune` | `S_communes` |
+| `G_TRANSACTION` | `id_vente`, FK `code_commune` | `S_dvf_ventes` |
+| `G_POINT_INTERET` | `id_osm`, FK `code_commune` | `S_osm_poi` |
+| `G_PROFIL_COMMUNE` | `code_commune`, PK et FK | `S_insee_communes` |
 
-- `gold/marche_commune_annee_type.parquet` et `G_marche_commune_annee_type` : prix et tendance par commune, année et type de bien ;
-- `gold/communes.parquet` et `G_communes` : prix récents, densités d'équipements et score d'attractivité par commune ;
-- `gold/indicateurs_stats.json` : volumes, seuils de publication et couverture du score.
+Le chargement SQL supprime les anciennes tables Gold agrégées si elles existent. Les requêtes B2, B4 et B5 calculent les indicateurs directement depuis ces quatre tables ; voir [les requêtes](../../sql/gold/README.md). Les règles sont dans [la spécification](../../docs/gold/specification.md).
 
-Les calculs et seuils sont définis dans [la spécification](../../docs/gold/specification.md). La connexion PostgreSQL est lue depuis `.env` (`DATABASE_URL`).
-
-Le contrôle compare les tables Gold aux trois Silver, vérifie les seuils et les scores, puis rapproche les volumes PostgreSQL. Il écrit `gold/controle_stats.json` et [le rapport de qualité](../../docs/gold/controle.md). Pour contrôler seulement les fichiers, lancer `python src/gold/controle.py --sans-db`.
-
-Les requêtes métier **B2, B4 et B5** sont dans [`sql/gold`](../../sql/gold/README.md). Elles s'exécutent avec `python src/gold/requetes.py B2|B4|B5` et les paramètres décrits dans ce dossier.
+`controle.py` vérifie les clés, les relations, les volumes Silver et Gold et la correspondance avec les Parquets Silver. Il écrit `gold/controle_stats.json` et [le rapport](../../docs/gold/controle.md).

@@ -14,12 +14,14 @@ La connexion est lue dans `.env` (`DATABASE_URL`). Installer les dépendances av
 
 | Besoin | Table PostgreSQL lue | Résultat | Paramètres |
 |---|---|---|---|
-| B2 | `G_communes` | Top des communes éligibles selon le score Gold, avec ses composantes et le rang régional | `--region` facultatif ; `--limite` (10 par défaut) |
-| B4 | `G_marche_commune_annee_type` | Prix et tendance annuels 2021–2025, plus la variation 2021–2025 lorsque les deux médianes sont publiables | `--code-commune` obligatoire ; `--type-bien` (`Maison` par défaut) |
-| B5 | `G_communes` | Communes au prix récent faible, bien équipées et dont le revenu médian atteint la médiane régionale | `--region` facultatif ; `--type-bien`, `--ratio-prix-max` (0,90), `--score-equipements-min` (60), `--limite` |
+| B2 | `G_COMMUNE`, `G_TRANSACTION`, `G_POINT_INTERET`, `G_PROFIL_COMMUNE` | Classement régional calculé depuis les ventes et les POI ; score 40 % dynamique, 30 % activité, 30 % équipements | `--region` facultatif ; `--limite` (10 par défaut) |
+| B4 | `G_TRANSACTION`, `G_COMMUNE` | Prix et tendance annuels 2021–2025 calculés sur les ventes comparables | `--code-commune` obligatoire ; `--type-bien` (`Maison` par défaut) |
+| B5 | `G_COMMUNE`, `G_TRANSACTION`, `G_POINT_INTERET`, `G_PROFIL_COMMUNE` | Communes au prix récent faible, bien équipées et dont le revenu médian atteint la médiane régionale | `--region` facultatif ; `--type-bien`, `--ratio-prix-max` (0,90), `--score-equipements-min` (60), `--limite` |
 
-Ces requêtes lisent les tables Gold de PostgreSQL. `G_jointure_communes` est une table intermédiaire de préparation ; aucune des requêtes métier ne la lit directement.
+Ces requêtes lisent uniquement les quatre tables Gold du schéma conceptuel. Les scores et agrégats sont calculés dans les requêtes, sans table Gold supplémentaire.
 
-B5 compare les communes **de la même région et du même type de logement**. Le prix de référence est la médiane des médianes communales 2024–2025 parmi les communes éligibles ayant au moins 10 ventes de ce type et un revenu renseigné. Le seuil de 90 % signifie « au moins 10 % sous cette référence ». Le revenu médian régional sert de filtre descriptif ; ce résultat ne prouve pas une sous-évaluation ni une hausse future.
+B5 compare les communes **de la même région et du même type de logement**. Le prix de référence est la médiane des médianes communales 2024–2025 parmi les communes ayant au moins 10 ventes de ce type et un revenu renseigné. Le seuil de 90 % signifie « au moins 10 % sous cette référence ». Le revenu médian régional sert de filtre descriptif ; ce résultat ne prouve pas une sous-évaluation ni une hausse future.
+
+Le score d'équipements B2/B5 utilise les quatre catégories de POI uniques par commune et leurs densités pour 1 000 habitants. Les percentiles sont calculés avec `CUME_DIST` parmi les communes de la même région ayant une population positive. Le schéma fourni ne contient pas `id_arret` ni `is_vacant` : le transport compte des POI OSM et tous les POI de catégorie commerce sont comptés.
 
 B4 laisse les années sans vente à zéro vente et sans prix. Les prix restent masqués sous 10 ventes. La tendance sur cinq ans est `non_concluante` si le prix 2021 ou 2025 n'est pas publiable. Les prix sont en euros courants.
