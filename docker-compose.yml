@@ -1,7 +1,8 @@
 services:
 
   pipeline:
-    image: rayanhcm0/datalake-immo:latest
+    build: .
+    image: datalake-immo:local
     command: >
       sh -c "
         python src/dvf/main.py &&
@@ -10,8 +11,9 @@ services:
         python src/dvf/silver.py &&
         python src/osm/silver.py &&
         python src/insee/silver.py &&
-        python src/gold/jointure.py &&
-        python src/gold/indicateurs.py
+        python src/communes/silver.py &&
+        python src/gold/modele_conceptuel.py &&
+        python src/gold/controle.py
       "
     environment:
       - DATABASE_URL=${DATABASE_URL}
@@ -22,7 +24,8 @@ services:
     restart: "no"
 
   jupyter:
-    image: rayanhcm0/datalake-immo:latest
+    build: .
+    image: datalake-immo:local
     command: jupyter notebook --ip=0.0.0.0 --port=8888 --no-browser --allow-root --NotebookApp.token='' --NotebookApp.password=''
     environment:
       - DATABASE_URL=${DATABASE_URL}

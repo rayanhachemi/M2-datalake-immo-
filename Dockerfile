@@ -8,6 +8,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 COPY src/ ./src/
 COPY sql/ ./sql/
+COPY docs/ ./docs/
 COPY notebooks/ ./notebooks/
 
 RUN mkdir -p bronze/dvf bronze/osm bronze/insee silver gold
