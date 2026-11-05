@@ -1,7 +1,9 @@
 """Exécute les requêtes métier Gold dans PostgreSQL.
 
 Exemples :
+  python src/gold/requetes.py B1 --region idf --type-bien Maison
   python src/gold/requetes.py B2 --region idf
+  python src/gold/requetes.py B3 --region idf
   python src/gold/requetes.py B4 --code-commune 75056 --type-bien Appartement
   python src/gold/requetes.py B5 --region occitanie --type-bien Maison
 """
@@ -20,12 +22,16 @@ sys.path.insert(0, str(ROOT / "src"))
 from db import get_engine
 
 REQUETES = {
+    "B1": ROOT / "sql" / "gold" / "B1_comparaison_prix.sql",
     "B2": ROOT / "sql" / "gold" / "B2_classement_agences.sql",
+    "B3": ROOT / "sql" / "gold" / "B3_profil_sociodemographique.sql",
     "B4": ROOT / "sql" / "gold" / "B4_tendance_marche.sql",
     "B5": ROOT / "sql" / "gold" / "B5_zones_prix_bas_equipees.sql",
 }
 PARAMETRES_SQL = {
+    "B1": "SELECT CAST(:region AS text) AS region, CAST(:type_bien AS text) AS type_bien",
     "B2": "SELECT CAST(:region AS text) AS region, CAST(:limite AS integer) AS limite",
+    "B3": "SELECT CAST(:region AS text) AS region",
     "B4": "SELECT CAST(:code_commune AS text) AS code_commune, CAST(:type_bien AS text) AS type_bien",
     "B5": (
         "SELECT CAST(:region AS text) AS region, CAST(:type_bien AS text) AS type_bien, "
