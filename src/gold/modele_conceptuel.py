@@ -47,11 +47,89 @@ INSERT_SQL = [
     '''INSERT INTO "G_POINT_INTERET"
            (id_osm, nom, categorie, sous_type, latitude, longitude, code_commune)
        SELECT DISTINCT ON (id_osm)
-              id_osm, nom, categorie, sous_type, lat, lon, code_commune
+              id_osm, nom, categorie,
+              CASE categorie
+                WHEN \'education\' THEN
+                  CASE sous_type
+                    WHEN \'school\'       THEN \'Lycée / Collège\'
+                    WHEN \'college\'      THEN \'Lycée\'
+                    WHEN \'university\'   THEN \'Université\'
+                    WHEN \'kindergarten\' THEN \'École maternelle\'
+                    ELSE COALESCE(sous_type, \'Établissement scolaire\')
+                  END
+                WHEN \'sante\' THEN
+                  CASE sous_type
+                    WHEN \'pharmacy\' THEN \'Pharmacie\'
+                    WHEN \'hospital\' THEN \'Hôpital\'
+                    WHEN \'clinic\'   THEN \'Clinique\'
+                    WHEN \'doctors\'  THEN \'Médecin\'
+                    ELSE COALESCE(sous_type, \'Établissement de santé\')
+                  END
+                WHEN \'transport\' THEN
+                  CASE mode
+                    WHEN \'bus\'        THEN \'Arrêt de bus\'
+                    WHEN \'tram\'       THEN \'Arrêt de tram\'
+                    WHEN \'subway\'     THEN \'Station de métro\'
+                    WHEN \'train\'      THEN \'Gare\'
+                    WHEN \'light_rail\' THEN \'Tramway\'
+                    WHEN \'ferry\'      THEN \'Embarcadère\'
+                    WHEN \'monorail\'   THEN \'Monorail\'
+                    ELSE \'Arrêt\'
+                  END
+                WHEN \'commerce\' THEN
+                  CASE sous_type
+                    WHEN \'supermarket\'   THEN \'Supermarché\'
+                    WHEN \'convenience\'   THEN \'Épicerie\'
+                    WHEN \'bakery\'        THEN \'Boulangerie\'
+                    WHEN \'butcher\'       THEN \'Boucherie\'
+                    WHEN \'clothes\'       THEN \'Vêtements\'
+                    WHEN \'hairdresser\'   THEN \'Coiffeur\'
+                    WHEN \'restaurant\'    THEN \'Restaurant\'
+                    WHEN \'cafe\'          THEN \'Café / Bar\'
+                    WHEN \'florist\'       THEN \'Fleuriste\'
+                    WHEN \'pharmacy\'      THEN \'Pharmacie\'
+                    WHEN \'hardware\'      THEN \'Bricolage\'
+                    WHEN \'electronics\'   THEN \'Électronique\'
+                    WHEN \'sports\'        THEN \'Sport\'
+                    WHEN \'furniture\'     THEN \'Ameublement\'
+                    WHEN \'books\'         THEN \'Librairie\'
+                    WHEN \'optician\'      THEN \'Opticien\'
+                    WHEN \'jewelry\'       THEN \'Bijouterie\'
+                    WHEN \'shoes\'         THEN \'Chaussures\'
+                    WHEN \'mobile_phone\'  THEN \'Téléphonie\'
+                    WHEN \'car\'           THEN \'Automobile\'
+                    WHEN \'car_repair\'    THEN \'Garage\'
+                    WHEN \'bicycle\'       THEN \'Vélo\'
+                    WHEN \'pet\'           THEN \'Animalerie\'
+                    WHEN \'toy\'           THEN \'Jouets\'
+                    WHEN \'stationery\'    THEN \'Papeterie\'
+                    WHEN \'gift\'          THEN \'Cadeaux\'
+                    WHEN \'beauty\'        THEN \'Beauté / Cosmétiques\'
+                    WHEN \'alcohol\'       THEN \'Cave / Alcool\'
+                    WHEN \'beverages\'     THEN \'Boissons\'
+                    WHEN \'music\'         THEN \'Musique\'
+                    WHEN \'outdoor\'       THEN \'Sport / Outdoor\'
+                    WHEN \'garden_centre\' THEN \'Jardinerie\'
+                    WHEN \'deli\'          THEN \'Épicerie fine\'
+                    WHEN \'pastry\'        THEN \'Pâtisserie\'
+                    WHEN \'seafood\'       THEN \'Poissonnerie\'
+                    WHEN \'greengrocer\'   THEN \'Primeur\'
+                    WHEN \'dry_cleaning\'  THEN \'Pressing\'
+                    WHEN \'laundry\'       THEN \'Laverie\'
+                    WHEN \'travel_agency\' THEN \'Agence de voyage\'
+                    WHEN \'bank\'          THEN \'Banque\'
+                    WHEN \'real_estate\'   THEN \'Agence immobilière\'
+                    WHEN \'yes\'           THEN \'Commerce\'
+                    WHEN \'vacant\'        THEN \'Local vacant\'
+                    ELSE COALESCE(sous_type, \'Commerce\')
+                  END
+                ELSE COALESCE(sous_type, \'Autre\')
+              END AS sous_type,
+              lat, lon, code_commune
        FROM "S_osm_poi"
        ORDER BY id_osm,
-                CASE categorie WHEN 'sante' THEN 0 WHEN 'education' THEN 1
-                     WHEN 'transport' THEN 2 WHEN 'commerce' THEN 3 ELSE 99 END,
+                CASE categorie WHEN \'sante\' THEN 0 WHEN \'education\' THEN 1
+                     WHEN \'transport\' THEN 2 WHEN \'commerce\' THEN 3 ELSE 99 END,
                 categorie, sous_type''',
     '''INSERT INTO "G_PROFIL_COMMUNE"
            (code_commune, revenu_median, population, taux_chomage, taux_pauvrete)
