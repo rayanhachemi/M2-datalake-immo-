@@ -18,7 +18,11 @@ def carte_avec_fonds(latitude: float, longitude: float, zoom: int,
         tiles=None, control_scale=True,
     )
     folium.TileLayer(
-        "CartoDB positron", name="Fond de carte", show=True,
+        tiles='https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+        attr='OpenStreetMap',
+        name='Fond de carte',
+        show=True,
+        max_zoom=19,
     ).add_to(carte)
 
     codes = set(codes_communes)
