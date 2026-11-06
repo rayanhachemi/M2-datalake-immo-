@@ -11,6 +11,7 @@ bronze/*.txt
 silver/*.parquet
 gold/*.parquet
 gold/*.csv
+gold/*.html
 *.csv
 !docs/*.csv
 !docs/*/profiling/*.csv
