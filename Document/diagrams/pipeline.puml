@@ -1,0 +1,49 @@
+@startuml pipeline
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam ArrowColor #333333
+skinparam ActivityBorderColor #333333
+skinparam ActivityBackgroundColor #FFFFFF
+skinparam ActivityDiamondBackgroundColor #F0F0F0
+
+title Pipeline ETL — Bronze → Silver → Gold
+
+start
+
+:Téléchargement sources\n(DVF, OSM, INSEE, GeoJSON);
+note right: **Bronze**\nJSON / CSV bruts
+
+fork
+  :src/dvf/main.py;
+fork again
+  :src/osm/main.py;
+fork again
+  :src/insee/main.py;
+end fork
+
+:Profilage qualité\n(profiling.py par source);
+
+fork
+  :src/dvf/silver.py\n→ dvf_ventes.parquet;
+fork again
+  :src/osm/silver.py\n→ osm_poi.parquet;
+fork again
+  :src/insee/silver.py\n→ insee_communes.parquet;
+fork again
+  :src/communes/silver.py\n→ communes.parquet;
+end fork
+
+note right: **Silver**\nParquet nettoyé
+
+:src/charger_silver_postgres.py\n(Parquet → PostgreSQL tables S_);
+
+:src/gold/modele_conceptuel.py\n(S_ → G_ tables Gold);
+
+:src/gold/controle.py\n(contrôles intégrité);
+
+note right: **Gold**\nPostgreSQL analytique
+
+stop
+
+@enduml
