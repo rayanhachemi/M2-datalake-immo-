@@ -1,5 +1,5 @@
 ---
-noteId: "5f2c7c20df7311f18221ad4b5fc394a5"
+noteId: "32b9ef90df7511f18221ad4b5fc394a5"
 tags: []
 
 ---
@@ -54,6 +54,35 @@ Gold (4 tables PostgreSQL)
 Périmètre géographique : Île-de-France, Bretagne, Occitanie, Auvergne-Rhône-Alpes (37 départements).
 
 ---
+
+## Prérequis
+
+- Python 3.11+
+- PostgreSQL accessible (local ou distant)
+- Docker + buildx (pour le déploiement)
+
+## Structure du projet
+
+```
+.
+├── bronze/          données brutes (généré au runtime)
+├── silver/          données nettoyées Parquet (généré au runtime)
+├── gold/            cartes HTML exportées (généré au runtime)
+├── src/
+│   ├── dvf/         ingestion et nettoyage DVF
+│   ├── osm/         ingestion et nettoyage OSM
+│   ├── insee/       ingestion et nettoyage INSEE
+│   ├── communes/    référentiel communal Silver
+│   ├── gold/        modèle conceptuel, requêtes, cartes
+│   ├── db.py        connexion SQLAlchemy
+│   └── charger_silver_postgres.py
+├── sql/gold/        requêtes métier B1–B5
+├── notebooks/       notebook d'analyse interactif
+├── docs/            dictionnaires de données et rapports qualité
+├── Dockerfile
+├── requirements.txt
+└── .env             (à créer, non versionné)
+```
 
 ## Installation
 
@@ -119,14 +148,25 @@ python src/gold/requetes.py B5 --region occitanie --type-bien Maison
 
 `notebooks/analyse_immo.ipynb` présente les cinq besoins avec des scénarios réels, des visualisations matplotlib et des cartes Folium interactives.
 
+```bash
+# Lancer en local (depuis la racine du projet)
+jupyter notebook notebooks/analyse_immo.ipynb
+```
+
 ---
 
 ## Déploiement Docker
 
-```bash
-# Build et push (cross-compilation amd64 depuis Apple Silicon)
-docker buildx build --platform linux/amd64 -t rayanhcm0/datalake-immo:latest --push .
+Image publique : **[hub.docker.com/r/rayanhcm0/datalake-immo](https://hub.docker.com/r/rayanhcm0/datalake-immo)**
 
-# Lancer en local
+```bash
+# Lancer le notebook depuis l'image (nécessite un .env avec DATABASE_URL)
 docker run --env-file .env -p 8888:8888 rayanhcm0/datalake-immo:latest
+```
+
+Accéder au notebook : `http://localhost:8888` — mot de passe : `cleenmain2025`
+
+```bash
+# Rebuild et push (cross-compilation amd64 depuis Apple Silicon)
+docker buildx build --platform linux/amd64 -t rayanhcm0/datalake-immo:latest --push .
 ```

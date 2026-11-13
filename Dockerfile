@@ -13,3 +13,8 @@ COPY notebooks/ ./notebooks/
 RUN mkdir -p bronze/dvf bronze/osm bronze/insee silver gold
 
 ENV PYTHONUNBUFFERED=1
+
+EXPOSE 8888
+
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root", \
+     "--notebook-dir=/app/notebooks", "--NotebookApp.token=cleenmain2025"]
