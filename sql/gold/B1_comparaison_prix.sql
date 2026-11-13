@@ -1,6 +1,3 @@
--- B1 : prix communaux 2021-2025 calculés depuis les ventes Gold.
--- Comme dans la requête initiale, les prix résument les années ayant au moins
--- dix ventes ; le volume total compte toutes les années.
 WITH parametres AS (
     -- PARAMETRES_DEBUT
     SELECT 'idf'::text AS region, 'Maison'::text AS type_bien

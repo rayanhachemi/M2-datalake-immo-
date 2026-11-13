@@ -1,13 +1,3 @@
-"""Exécute les requêtes métier Gold dans PostgreSQL.
-
-Exemples :
-  python src/gold/requetes.py B1 --region idf --type-bien Maison
-  python src/gold/requetes.py B2 --region idf
-  python src/gold/requetes.py B3 --code-commune-travail 75056 --revenu-annuel-couple 60000
-  python src/gold/requetes.py B4 --code-commune 75056 --type-bien Appartement
-  python src/gold/requetes.py B5 --region occitanie --type-bien Maison
-"""
-
 import argparse
 import re
 import sys

@@ -1,4 +1,3 @@
--- Tendance calculée sur les transactions Gold reliées à leur commune.
 WITH parametres AS (
     -- PARAMETRES_DEBUT
     SELECT '75056'::text AS code_commune, 'Appartement'::text AS type_bien

@@ -1,8 +1,3 @@
-"""Nettoyage DVF : une ligne par vente d'un logement unique, prix/m² calculé, clé code_commune.
-
-Usage:
-    python src/dvf/silver.py
-"""
 
 import json
 import sys

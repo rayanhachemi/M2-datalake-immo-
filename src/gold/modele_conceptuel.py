@@ -1,8 +1,3 @@
-"""Construit les quatre tables Gold directement depuis les quatre tables Silver SQL.
-
-Usage : python src/gold/modele_conceptuel.py
-"""
-
 import sys
 from pathlib import Path
 

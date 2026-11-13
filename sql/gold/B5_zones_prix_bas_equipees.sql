@@ -1,4 +1,3 @@
--- B5 : prix DVF, équipements OSM et revenu INSEE, sans table agrégée.
 WITH parametres AS (
     -- PARAMETRES_DEBUT
     SELECT 'occitanie'::text AS region, 'Maison'::text AS type_bien,

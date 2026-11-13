@@ -1,8 +1,3 @@
-"""Nettoyage INSEE : une ligne par commune, indicateurs en colonnes, clé code_commune.
-
-Usage:
-    python src/insee/silver.py
-"""
 
 import json
 import sys
