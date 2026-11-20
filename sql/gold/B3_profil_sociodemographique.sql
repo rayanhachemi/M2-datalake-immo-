@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 -- B3 : communes candidates pour un couple, à partir des quatre tables Gold.
 -- Les distances partent de l'adresse de travail si ses coordonnées sont fournies,
 -- puis du centre moyen des POI de chaque commune candidate. Sans coordonnées
 -- de travail, elles partent du centre moyen des POI de sa commune.
 -- Le coût immobilier provient des ventes passées ; Gold ne contient ni annonces
 -- disponibles, ni coordonnées des logements, ni indice général du coût de la vie.
-=======
->>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
 WITH parametres AS (
     -- PARAMETRES_DEBUT
     SELECT '75056'::text AS code_commune_travail,

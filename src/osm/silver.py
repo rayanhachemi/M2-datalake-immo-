@@ -1,12 +1,9 @@
-<<<<<<< HEAD
 """Nettoyage OSM : POI filtrés, rattachés à leur commune via jointure spatiale, clé code_commune.
 
 Usage:
     python src/osm/silver.py
 """
 
-=======
->>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
 import json
 import re
 import sys
