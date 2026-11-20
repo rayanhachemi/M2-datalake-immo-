@@ -139,7 +139,7 @@ Le sujet demandait au moins trois sources hétérogènes en accès libre. Nous e
 
 Ces sources n'ont en commun que le code commune, et encore, pas toujours sous la même forme. C'est en les croisant qu'on obtient quelque chose d'utile : tout seul, aucun des jeux ne répond aux questions de l'agence.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Les quatre sources et leur volume d'entrée.}
 \begin{tabular}{@{}l l l R{3cm}@{}}
@@ -213,7 +213,7 @@ Champ JSON & Type & Signification \\
 \texttt{observations} & Tableau & Liste des observations statistiques du fichier. \\
 \texttt{identifier}, \texttt{title} & Textes & Identifiant et titre du jeu de données. \\
 \texttt{paging} & Objet & Informations de pagination de la réponse. \\
-\texttt{dimensions.GEO} & Texte & Territoire et millésime du code commune. \\
+\texttt{dimensions.GEO} & Texte & Territoire et année du code commune. \\
 \texttt{dimensions.TIME\_PERIOD} & Texte & Année de référence de l'observation. \\
 \texttt{dimensions.*\_MEASURE} & Texte & Code de l'indicateur ; son nom dépend du jeu de données. \\
 \texttt{dimensions.UNIT\_MEASURE} & Texte éventuel & Unité de mesure, lorsqu'elle est fournie. \\
@@ -250,7 +250,7 @@ Champ GeoJSON & Type & Signification \\
 
 Nous avons suivi une architecture en médaillon, c'est-à-dire trois zones l'une après l'autre où la donnée est nettoyée un peu plus à chaque étape. La figure~\ref{fig:archi} en donne la vue d'ensemble.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=\linewidth]{diagrams/architecture.png}
 \caption{Architecture médaillon du lac, des sources jusqu'aux tables Gold.}
@@ -292,12 +292,12 @@ Plus gênant, une vente ne tient pas sur une seule ligne. DVF découpe chaque ve
 
 Il reste les valeurs aberrantes : prix sous \num{1000}~\euro{} (souvent des donations cachées), surfaces hors de l'intervalle \numrange{9}{1000}~m\textsuperscript{2}, prix au mètre carré hors de \numrange{100}{30000}~\euro. Elles sont filtrées par des seuils de bon sens écrits dans le code. Un cas moins évident : un même logement vendu deux fois le même jour à des prix différents. Impossible de trancher, donc nous enlevons ces ventes. Enfin, les arrondissements de Paris et Lyon portent dans DVF des codes qui ne correspondent pas à ceux de l'INSEE ; nous les rattachons à la commune mère pour que les jointures marchent.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
-\caption{DVF : volume brut et ventes retenues par millésime.}
+\caption{DVF : volume brut et ventes retenues par année.}
 \begin{tabular}{@{}l R{3.2cm} R{3.2cm}@{}}
 \toprule
-Millésime & Lignes brutes & Ventes retenues \\
+Année & Lignes brutes & Ventes retenues \\
 \midrule
 2021 & \num{2020967} & \num{503616} \\
 2022 & \num{2073355} & \num{485638} \\
@@ -318,7 +318,7 @@ Le premier problème OSM venait de notre requête, pas des données. Sans préci
 
 Ensuite, les étiquettes OSM sont libres, donc imparfaites. La recherche d'écoles ramenait aussi les auto-écoles et les écoles de musique ; une liste blanche de sous-types valides les écarte. Certains commerces sont marqués vacants ou sans type précis : nous les gardons mais avec un drapeau, pour pouvoir les exclure des comptages quand il le faut. Quatre objets OSM sur cinq n'ont aucune adresse, ce qui empêche de les relier directement à une commune ; nous passons donc par une jointure spatiale sur les contours, et pour un point qui tombe en dehors, on prend la commune la plus proche à moins d'un kilomètre. Dernier cas, les arrêts de transport : un même arrêt physique apparaît en plusieurs points, un par sens et par ligne. Nous regroupons ceux de même nom distants de moins de cent mètres, ce qui ramène environ \num{69262} positions à \num{43996} arrêts réels.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{OSM : du brut au Silver.}
 \begin{tabular}{@{}l R{3cm}@{}}
@@ -350,7 +350,7 @@ Nos corrections se classent selon les grandes familles habituelles de la qualit�
 \begin{itemize}
   \item \emph{Exactitude} : encodage, valeurs aberrantes, étiquettes OSM trompeuses, objet vide INSEE.
   \item \emph{Complétude} : reconstruction des ventes éclatées, rattachement spatial des POI sans adresse, indicateurs INSEE non diffusés.
-  \item \emph{Cohérence} : codes d'arrondissement, millésimes dans les codes géographiques, modalités à ne pas cumuler.
+  \item \emph{Cohérence} : codes d'arrondissement, années dans les codes géographiques, modalités à ne pas cumuler.
   \item \emph{Unicité} : doublons stricts DVF, objets OSM aux frontières, positions d'arrêts regroupées.
 \end{itemize}
 
@@ -360,7 +360,7 @@ Nos corrections se classent selon les grandes familles habituelles de la qualit�
 
 Une fois chaque source nettoyée de son côté, il faut les relier entre elles. C'est le rôle de la zone Gold, organisée en étoile autour de la commune.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.9\linewidth]{diagrams/erd.png}
 \caption{Modèle entité-association des quatre tables Gold.}
@@ -375,7 +375,7 @@ C'est là qu'intervient la fédération des sources. Trois jeux qui n'avaient au
 
 \subsection{Dictionnaire des tables Gold}
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Grain, clés et contenu des tables Gold.}
 \begin{tabular}{@{}l l p{6.2cm}@{}}
@@ -396,7 +396,7 @@ Table & Clé & Principales colonnes \\
 
 Pour être sûrs de la qualité du Gold, un script de contrôle vérifie après chaque construction que les volumes sont bien conservés entre Silver et Gold, que les schémas sont conformes, que les clés primaires et étrangères existent et que les valeurs restent dans les bornes attendues. Le dernier passage est au vert sur les seize contrôles.
 
-\begin{table}[htbp]
+\begin{table}[H]
 \centering
 \caption{Volumes des tables Gold (contrôle du 5 novembre 2026).}
 \begin{tabular}{@{}l R{3cm}@{}}
