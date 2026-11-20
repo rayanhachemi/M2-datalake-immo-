@@ -1,12 +1,6 @@
----
-noteId: "32b9ef90df7511f18221ad4b5fc394a5"
-tags: []
-
----
-
 # Observatoire immobilier — Clé en Main Immo
 
-Projet M2 DS4SC — Université de Blois — Groupe 4  
+Projet M2 DS4SC — Université de Tours, antenne de Blois — Groupe 4  
 Cours Warehousing & Data Lakes
 
 ---

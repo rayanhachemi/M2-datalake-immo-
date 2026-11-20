@@ -1,510 +1,357 @@
-\documentclass[12pt,a4paper]{article}
+\documentclass[11pt,a4paper]{article}
 
-\usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc}
 \usepackage[french]{babel}
-\usepackage{geometry}
-\usepackage{graphicx}
+\usepackage[a4paper,margin=2.5cm,headheight=14pt]{geometry}
+\usepackage{microtype}
 \usepackage{booktabs}
-\usepackage{longtable}
+\usepackage{graphicx}
 \usepackage{array}
-\usepackage{xcolor}
-\usepackage{hyperref}
-\usepackage{listings}
+\usepackage{ragged2e}
 \usepackage{enumitem}
-\usepackage{titlesec}
 \usepackage{fancyhdr}
-\usepackage{multirow}
-\usepackage{float}
+\usepackage{siunitx}
+\usepackage{eurosym}
+\usepackage{tocloft}
+\usepackage[hidelinks]{hyperref}
 
-\geometry{margin=2.5cm}
+% Table des matières plus aérée
+\renewcommand{\cfttoctitlefont}{\Large\bfseries}
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\bfseries}
+\renewcommand{\cftsecleader}{\hfill}
+\renewcommand{\cftsecafterpnum}{\vskip2pt}
+\setlength{\cftbeforesecskip}{9pt}
+\setlength{\cftbeforesubsecskip}{2.5pt}
+\setlength{\cftsubsecindent}{1.6em}
 
-\definecolor{bronze}{RGB}{205,127,50}
-\definecolor{silver}{RGB}{160,160,160}
-\definecolor{gold}{RGB}{212,175,55}
-\definecolor{codeblue}{RGB}{0,100,180}
-\definecolor{codegray}{RGB}{245,245,245}
+\sisetup{group-separator={\,},group-minimum-digits=4,detect-all}
 
-\lstset{
-  backgroundcolor=\color{codegray},
-  basicstyle=\ttfamily\small,
-  breaklines=true,
-  frame=single,
-  rulecolor=\color{gray}
-}
+\setlist{itemsep=2pt,topsep=4pt,parsep=0pt}
 
+% En-têtes et pieds de page
 \pagestyle{fancy}
 \fancyhf{}
-\lhead{\small Observatoire immobilier -- Clé en Main Immo}
-\rhead{\small Warehousing, Data Lakes \& Polystores}
+\lhead{\small\itshape Observatoire immobilier --- Clé en Main Immo}
+\rhead{\small\itshape Warehousing, Data Lakes \& Polystores}
 \cfoot{\thepage}
-\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
 
-\hypersetup{colorlinks=true,linkcolor=codeblue,urlcolor=codeblue}
+% Largeur de colonne fixe à droite pour les tableaux de chiffres
+\newcolumntype{R}[1]{>{\RaggedLeft\arraybackslash}p{#1}}
 
-\graphicspath{{diagrams/}}
+\title{Observatoire immobilier Clé en Main Immo}
+\author{Groupe 4 --- Master 2 DS4SC}
+\date{Novembre 2026}
 
 \begin{document}
 
-% -------------------------------------------------------
-%  Page de titre
-% -------------------------------------------------------
+% ------------------------------------------------------------------
+% PAGE DE GARDE
+% ------------------------------------------------------------------
 \begin{titlepage}
-  \centering
-  \vspace*{2cm}
-  {\Large Université de Blois\par}
-  \vspace{0.3cm}
-  {\large Master 2 Data Science for Societal Challenges (DS4SC)\par}
-  \vspace{1.5cm}
-  \noindent\rule{\linewidth}{1.5pt}
-  \vspace{0.6cm}
+\centering
+\thispagestyle{empty}
 
-  {\Huge\bfseries Observatoire immobilier --- Data Lake\par}
-  \vspace{0.4cm}
-  {\Large Clé en Main Immo\par}
+\includegraphics[width=5.5cm]{diagrams/logo_tours.png}\par
+\vspace{0.6cm}
+{\large Université de Tours --- Antenne de Blois\par}
+{\large Master 2 \emph{Data Science for Societal Challenges} (DS4SC)\par}
 
-  \vspace{0.6cm}
-  \noindent\rule{\linewidth}{1.5pt}
-  \vspace{1cm}
+\vfill
 
-  {\large Warehousing, Data Lakes \& Polystores --- Groupe 4\par}
+\noindent\rule{\linewidth}{1.2pt}\\[0.4cm]
+{\LARGE\bfseries Observatoire immobilier\par}
+\vspace{0.3cm}
+{\Large Un data lake pour éclairer les décisions\\ d'une agence immobilière\par}
+\vspace{0.4cm}
+\noindent\rule{\linewidth}{1.2pt}
 
-  \vspace{2.5cm}
-  {\normalsize\bfseries Étudiants~:\par}
-  \vspace{0.3cm}
-  {\normalsize
-    Rayan HACHEMI\\
-    Leiticia ARIB\\
-    Ouissam BOUZID\\
-    Mehdi IMLOUL\par
-  }
+\vspace{0.6cm}
+{\large Projet du cours \emph{Warehousing, Data Lakes \& Polystores}\par}
 
-  \vspace{1.2cm}
-  {\normalsize\bfseries Encadrants~:\par}
-  \vspace{0.3cm}
-  {\normalsize
-    Alexandre Chanson\\
-    Hassan Abdallah\par
-  }
+\vfill
 
-  \vfill
-  {\normalsize Novembre 2026\par}
+\begin{minipage}{0.46\textwidth}
+\centering
+{\large\bfseries Étudiants\par}\vspace{0.2cm}
+Rayan \textsc{Hachemi}\\
+Leticia \textsc{Arib}\\
+Louiza \textsc{Messaoudi}\\
+Mohammed \textsc{Ould Saada}
+\end{minipage}
+\hfill
+\begin{minipage}{0.46\textwidth}
+\centering
+{\large\bfseries Encadrant\par}\vspace{0.2cm}
+Alexandre \textsc{Chanson}
+\end{minipage}
+
+\vfill
+
+{\large Novembre 2026\par}
+
 \end{titlepage}
 
+% ------------------------------------------------------------------
 \tableofcontents
-\newpage
+\thispagestyle{empty}
+\clearpage
+\setcounter{page}{1}
 
-% -------------------------------------------------------
-%  1. Introduction
-% -------------------------------------------------------
-\section{Introduction et contexte métier}
+% ==================================================================
+\section{Le projet et la question de départ}
+% ==================================================================
 
-Ce projet a pour objectif la conception, la modélisation et l'implémentation d'un Data Lake
-permettant l'intégration et la préparation de données hétérogènes, dans le cadre du cours
-\textit{Warehousing, Data Lakes \& Polystores} du Master 2 DS4SC de l'Université de Blois.
+Clé en Main Immo est une agence qui accompagne des particuliers dans l'achat et la vente de logements. Au quotidien, ses conseillers répondent à des questions assez concrètes : un bien est-il affiché au bon prix pour sa commune ? Où ouvrir une nouvelle antenne ? Dans quel secteur un couple qui travaille à tel endroit peut-il espérer acheter sans se ruiner ? Jusqu'ici, les réponses reposaient surtout sur l'expérience des agents et sur quelques recherches manuelles. Nous avons voulu voir si on pouvait les appuyer sur des données publiques.
 
-\subsection{Cas d'usage}
+Le problème, c'est que ces données ne vivent pas au même endroit et n'ont pas la même forme. Les prix de vente viennent de l'administration fiscale, les commerces et les transports d'OpenStreetMap, les revenus des ménages de l'INSEE. Chacune arrive dans son format, avec ses défauts et ses conventions. Un data lake organisé en zones nous a semblé la bonne manière de les rassembler sans tout mélanger d'un coup.
 
-Le client fictif est l'agence immobilière \textbf{Clé en Main Immo}, qui souhaite disposer
-d'un observatoire automatisé pour répondre à cinq besoins métier~:
+\subsection{Les cinq questions que l'agence se pose}
 
-\begin{itemize}[noitemsep]
-  \item \textbf{B1} -- Argumentaire de prix en temps réel pour un bien visité
-  \item \textbf{B2} -- Score de potentiel pour l'implantation d'une 6\textsuperscript{e} agence
-  \item \textbf{B3} -- Recherche de logement autour du lieu de travail d'un couple
-  \item \textbf{B4} -- Indicateur de tendance du marché sur 5 ans
-  \item \textbf{B5} -- Détection de zones sous-évaluées mais bien équipées
-\end{itemize}
+Pour cadrer le travail, nous sommes partis de cinq besoins exprimés par l'agence. Ils ont servi de fil conducteur jusqu'aux requêtes finales.
 
-\subsection{Périmètre géographique}
-
-Quatre régions françaises~: Île-de-France, Bretagne, Occitanie et Auvergne-Rhône-Alpes,
-soit 37 départements. Période couverte~: 2021--2025.
-
-% -------------------------------------------------------
-%  2. Architecture
-% -------------------------------------------------------
-\section{Architecture du Data Lake}
-
-\subsection{Choix de l'architecture médaillon}
-
-Nous avons retenu une architecture à trois zones (\textit{medallion architecture})~:
-Bronze, Silver, Gold. Ce choix permet~:
-
-\begin{itemize}[noitemsep]
-  \item de conserver les données brutes intactes (auditabilité)
-  \item de séparer clairement les étapes de nettoyage de celles d'analyse
-  \item de rejouer une couche sans tout réingérer
-\end{itemize}
-
-\subsection{Vue d'ensemble}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{architecture.png}
-\caption{Architecture médaillon -- de l'ingestion au Gold}
-\end{figure}
-
-\begin{figure}[H]
-\centering
-\begin{tabular}{|l|l|l|l|}
-\hline
-\textbf{Zone} & \textbf{Format} & \textbf{Contenu} & \textbf{Volume} \\
-\hline
-\textcolor{bronze}{\textbf{Bronze}} & JSON / CSV brut & Données sources téléchargées & \~{}4,6 Go \\
-\textcolor{silver}{\textbf{Silver}} & Parquet + PostgreSQL & Données nettoyées & \~{}2,4 M lignes \\
-\textcolor{gold}{\textbf{Gold}} & PostgreSQL & 4 tables analytiques & \~{}2,3 M lignes \\
-\hline
-\end{tabular}
-\caption{Synthèse des trois zones du Data Lake}
-\end{figure}
-
-\subsection{Justification des formats de stockage}
-
-\begin{description}
-  \item[Bronze -- JSON et CSV] Les données sont conservées dans leur format d'origine
-  (fichiers tabulaires DVF avec séparateur \texttt{|}, JSON Overpass, JSON API Melodi INSEE).
-  Aucune transformation n'est appliquée à ce stade, garantissant la traçabilité.
-
-  \item[Silver -- Parquet] Le format Parquet a été retenu pour sa compression colonaire
-  (division par ~5 du volume par rapport au CSV), son typage explicite et son
-  interopérabilité avec pandas. Chaque source produit un fichier Parquet unique.
-
-  \item[Gold -- PostgreSQL] Les quatre tables analytiques sont stockées dans PostgreSQL
-  pour permettre des requêtes SQL complexes (fenêtres, agrégats, jointures multi-sources),
-  l'exposition via une connexion réseau unique et le déploiement sur la plateforme
-  universitaire Portainer.
+\begin{description}[leftmargin=1.4cm,style=nextline]
+  \item[B1 --- Situer un prix.] Pour une commune et un type de bien, quel est le prix au mètre carré de référence sur les dernières années ? C'est l'argument de base pour justifier une estimation à un vendeur.
+  \item[B2 --- Choisir où s'implanter.] Si l'agence veut ouvrir une antenne, quelles communes combinent un marché actif, une dynamique de prix favorable et un bon niveau d'équipements ?
+  \item[B3 --- Conseiller un couple.] Un couple travaille à une adresse donnée et dispose d'un certain revenu. Autour de ce lieu, quelles communes offrent des biens comparables accessibles, avec transports et commerces à proximité ?
+  \item[B4 --- Lire une tendance.] Comment le prix au mètre carré d'une commune a-t-il évolué année après année ? Monte-t-il, stagne-t-il, recule-t-il ?
+  \item[B5 --- Repérer les bonnes affaires.] Dans une région, quelles communes restent sous le prix médian tout en étant bien équipées et en gardant un revenu correct ?
 \end{description}
 
-\subsection{Sources de données}
+\subsection{Le périmètre géographique}
 
-\begin{longtable}{llll}
-\toprule
-\textbf{Source} & \textbf{Données} & \textbf{Format bronze} & \textbf{Licence} \\
-\midrule
-DVF -- data.gouv.fr & Transactions 2021--2025 & CSV (\texttt{|}) & CGU DGFiP \\
-OpenStreetMap (Overpass) & POI 4 catégories & JSON & ODbL \\
-INSEE Filosofi (Melodi) & Indicateurs communes & JSON & Licence Ouverte \\
-geo.api.gouv.fr & Contours GeoJSON & GeoJSON & Licence Ouverte \\
-BAN & Géocodage (notebook) & API REST & Licence Ouverte \\
-\bottomrule
-\end{longtable}
+Couvrir la France entière aurait gonflé les volumes sans servir la démonstration. Nous avons retenu quatre régions et \num{37} départements, ce qui laisse quand même plus de deux millions de ventes et de quoi faire tourner des outils pensés pour la donnée massive. Toute la chaîne est paramétrée par liste de départements : étendre le périmètre ne demande pas de réécrire le code.
 
-% -------------------------------------------------------
-%  3. Pipeline ETL
-% -------------------------------------------------------
-\section{Pipeline ETL -- de Bronze à Gold}
+% ==================================================================
+\section{Les données que nous avons rassemblées}
+% ==================================================================
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.75\textwidth]{pipeline.png}
-\caption{Flux ETL complet de l'ingestion au Gold}
-\end{figure}
-
-\subsection{Étapes du pipeline}
-
-\begin{enumerate}
-  \item \textbf{Ingestion Bronze} -- téléchargement des sources dans leur format d'origine
-  (\texttt{src/dvf/main.py}, \texttt{src/osm/main.py}, \texttt{src/insee/main.py})
-  \item \textbf{Profilage Bronze} -- diagnostic de qualité sur chaque source
-  (\texttt{profiling.py} par module, résultats dans \texttt{docs/})
-  \item \textbf{Nettoyage Silver} -- transformation et validation
-  (\texttt{silver.py} par module + \texttt{src/communes/silver.py})
-  \item \textbf{Chargement Silver $\rightarrow$ PostgreSQL} -- via \texttt{src/charger\_silver\_postgres.py}
-  \item \textbf{Construction Gold} -- \texttt{src/gold/modele\_conceptuel.py}
-  \item \textbf{Contrôle Gold} -- \texttt{src/gold/controle.py}
-\end{enumerate}
-
-\subsection{Fédération de données (Polystore)}
-
-Les requêtes Gold réalisent la jointure croisée entre les quatre sources hétérogènes.
-La requête B3, par exemple, associe en une seule requête SQL~:
-
-\begin{itemize}[noitemsep]
-  \item les transactions DVF (prix, surface)
-  \item les POI OSM (transport, équipements, géolocalisation)
-  \item les profils INSEE (revenus, population)
-  \item le référentiel communal (noms, régions)
-\end{itemize}
-
-% -------------------------------------------------------
-%  4. Schéma conceptuel Gold
-% -------------------------------------------------------
-\section{Modèle conceptuel Gold}
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth]{erd.png}
-\caption{Modèle entité-association des 4 tables Gold}
-\end{figure}
-
-\subsection{Tables et volumes}
-
-\begin{center}
-\begin{tabular}{llr}
-\toprule
-\textbf{Table} & \textbf{Source Silver} & \textbf{Lignes} \\
-\midrule
-\texttt{G\_COMMUNE} & \texttt{S\_communes} & 10 966 \\
-\texttt{G\_TRANSACTION} & \texttt{S\_dvf\_ventes} & 1 991 665 \\
-\texttt{G\_POINT\_INTERET} & \texttt{S\_osm\_poi} & 305 839 \\
-\texttt{G\_PROFIL\_COMMUNE} & \texttt{S\_insee\_communes} & 10 939 \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Tous les contrôles d'intégrité (clés primaires, clés étrangères, schémas, lignage
-Silver $\rightarrow$ Gold) sont passés avec 0 anomalie.
-
-% -------------------------------------------------------
-%  5. Qualité des données
-% -------------------------------------------------------
-\section{Qualité des données}
-
-\subsection{DVF -- Transactions immobilières}
-
-\begin{longtable}{p{2.8cm}p{5.5cm}rp{3.5cm}}
-\toprule
-\textbf{Dimension} & \textbf{Problème} & \textbf{Volume} & \textbf{Correction} \\
-\midrule
-Exactitude & Encodage double (latin-1 lu comme UTF-8) & Toutes colonnes & Ré-encodage latin-1→UTF-8 \\
-Exactitude & Valeurs aberrantes (prix~<~1\,000~€, surface hors [9--1\,000\,m²]) & 3\,336 & Filtres de plausibilité \\
-Exactitude & Double saisie (même logement, même jour, prix différents) & 3\,136 & Exclusion \\
-Complétude & Lignes éclatées par local/nature de culture & Toutes lignes & Reconstruction 1 vente = 1 ligne \\
-Complétude & Transactions sans logement identifiable & \~{}60\% & Maisons/appartements uniquement \\
-Cohérence & Codes arrondissements Paris/Lyon ≠ codes INSEE & \~{}8,9\% & 751xx→75056, 6938x→69123 \\
-Unicité & Lignes strictement dupliquées & \~{}120\,K/millésime & \texttt{drop\_duplicates()} \\
-\bottomrule
-\end{longtable}
-
-\subsubsection*{Bilan quantitatif DVF}
-
-\begin{center}
-\begin{tabular}{lrr}
-\toprule
-\textbf{Millésime} & \textbf{Lignes Bronze} & \textbf{Ventes Silver} \\
-\midrule
-2021 & 2\,020\,967 & 503\,616 \\
-2022 & 2\,073\,355 & 485\,638 \\
-2023 & 1\,668\,783 & 375\,784 \\
-2024 & 1\,524\,087 & 332\,794 \\
-2025 & 1\,594\,815 & 372\,867 \\
-\midrule
-\textbf{Total} & \textbf{8\,882\,007} & \textbf{2\,070\,699} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-Taux de rétention~: \textbf{23,3\%}. Les 76,7\% restants correspondent aux lignes hors
-périmètre (terrains, locaux professionnels, lignes multipropriété).
-
-\subsection{OSM -- Points d'intérêt}
-
-\begin{longtable}{p{2.8cm}p{5.5cm}rp{3.5cm}}
-\toprule
-\textbf{Dimension} & \textbf{Problème} & \textbf{Volume} & \textbf{Correction} \\
-\midrule
-Exactitude & Objets hors périmètre (admin\_level manquant) & 311\,210 & Filtre \texttt{admin\_level=6} \\
-Exactitude & Auto-écoles, écoles de musique dans la requête «~école~» & 3\,777 & Liste blanche sous-types \\
-Exactitude & Tags multi-valeurs séparés par «~;~» & 1\,363 & 1\textsuperscript{re} valeur conservée \\
-Exactitude & \texttt{shop=vacant} (locaux vides) & 5\,488 & Flag \texttt{is\_vacant} \\
-Complétude & 80\% sans adresse $\Rightarrow$ impossible de rattacher à une commune & \~{}248\,000 & Jointure spatiale GeoJSON \\
-Unicité & Doublons aux frontières départementales & 70 & Dédoublonnage sur \texttt{(categorie, id\_osm)} \\
-Unicité & Stop\_positions multiples pour un même arrêt & 69\,262→43\,996 & Regroupement par nom + distance~<~100\,m \\
-\bottomrule
-\end{longtable}
-
-\subsubsection*{Bilan quantitatif OSM}
-
-\begin{center}
-\begin{tabular}{lr}
-\toprule
-\textbf{Étape} & \textbf{Volume} \\
-\midrule
-Bronze brut & 309\,773 \\
-$-$ Hors périmètre éducation & $-$3\,777 \\
-$-$ Hors communes ($>$1\,km) & $-$3 \\
-$-$ Doublons aux frontières & $-$68 \\
-\midrule
-\textbf{Silver} & \textbf{305\,925} \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\subsection{INSEE -- Indicateurs communaux}
-
-\begin{longtable}{p{2.8cm}p{5.5cm}rp{3.5cm}}
-\toprule
-\textbf{Dimension} & \textbf{Problème} & \textbf{Volume} & \textbf{Correction} \\
-\midrule
-Exactitude & Valeurs absentes encodées comme objet vide \texttt{\{\}} & 283\,408 obs. & Test sur la clé \texttt{value} \\
-Complétude & 25 indicateurs Filosofi non diffusés à l'échelle communale & 25 indicateurs & 2 indicateurs publiables conservés \\
-Complétude & Secret statistique sur le taux de pauvreté & 79\% des communes & \texttt{NULL} conservé \\
-Cohérence & Code géographique avec millésime (\texttt{2026-COM-35238}) & 10\,939 obs. & Code seul conservé \\
-Cohérence & Modalité \texttt{\_T} (total) à ne pas sommer & 9 dimensions & Filtres par modalité \\
-\bottomrule
-\end{longtable}
-
-\textbf{Bilan~:} 4\,419\,302 observations brutes → \textbf{10\,939 communes × 46 colonnes} en Silver.
-Couverture~: revenu médian renseigné pour 88\% des communes.
-
-\subsection{Synthèse des types d'actions correctives}
-
-\begin{center}
-\begin{tabular}{lll}
-\toprule
-\textbf{Type} & \textbf{Source(s)} & \textbf{Exemple} \\
-\midrule
-Filtrage & DVF, OSM & Prix aberrants, hors périmètre éducation \\
-Dédoublonnage & DVF, OSM & Lignes identiques, doublons frontières \\
-Recodage & DVF & Arrondissements Paris/Lyon, encodage latin-1 \\
-Restructuration & DVF & 1 ligne = 1 vente (reconstruction granularité) \\
-Jointure spatiale & OSM & Rattachement communal sans adresse \\
-Flagage & DVF, OSM & Reventes <30j, locaux vacants \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-% -------------------------------------------------------
-%  6. Dictionnaire de données Gold
-% -------------------------------------------------------
-\section{Dictionnaire de données -- tables Gold}
-
-\subsection{G\_COMMUNE}
-\begin{tabular}{llp{7cm}}
-\toprule
-\textbf{Colonne} & \textbf{Type} & \textbf{Description} \\
-\midrule
-\texttt{code\_commune} & varchar(5) & Code INSEE à 5 chiffres -- clé primaire \\
-\texttt{nom\_commune} & text & Nom officiel de la commune \\
-\texttt{departement} & text & Code département \\
-\texttt{region} & text & Région (\texttt{idf}, \texttt{bretagne}, \texttt{occitanie}, \texttt{ara}) \\
-\bottomrule
-\end{tabular}
-
-\subsection{G\_TRANSACTION}
-\begin{tabular}{llp{6.5cm}}
-\toprule
-\textbf{Colonne} & \textbf{Type} & \textbf{Description} \\
-\midrule
-\texttt{id\_vente} & text & Identifiant unique -- clé primaire \\
-\texttt{date\_mutation} & date & Date de la transaction \\
-\texttt{type\_bien} & text & \texttt{Maison} ou \texttt{Appartement} \\
-\texttt{valeur\_fonciere} & double & Prix de vente en euros \\
-\texttt{surface\_bati} & double & Surface bâtie en m² \\
-\texttt{prix\_m2} & double & Prix calculé au m² \\
-\texttt{code\_commune} & varchar(5) & FK → \texttt{G\_COMMUNE} \\
-\bottomrule
-\end{tabular}
-
-\subsection{G\_POINT\_INTERET}
-\begin{tabular}{llp{6.5cm}}
-\toprule
-\textbf{Colonne} & \textbf{Type} & \textbf{Description} \\
-\midrule
-\texttt{id\_osm} & text & Identifiant OSM -- clé primaire \\
-\texttt{nom} & text & Nom de l'établissement (peut être NULL) \\
-\texttt{categorie} & text & \texttt{education}, \texttt{sante}, \texttt{commerce}, \texttt{transport} \\
-\texttt{sous\_type} & text & Libellé français (ex.~: Lycée / Collège, Pharmacie) \\
-\texttt{latitude} & double & Latitude WGS84 \\
-\texttt{longitude} & double & Longitude WGS84 \\
-\texttt{code\_commune} & varchar(5) & FK → \texttt{G\_COMMUNE} \\
-\bottomrule
-\end{tabular}
-
-\subsection{G\_PROFIL\_COMMUNE}
-\begin{tabular}{llp{6.5cm}}
-\toprule
-\textbf{Colonne} & \textbf{Type} & \textbf{Description} \\
-\midrule
-\texttt{code\_commune} & varchar(5) & PK et FK → \texttt{G\_COMMUNE} \\
-\texttt{revenu\_median} & double & Revenu médian annuel par unité de consommation (€) \\
-\texttt{population} & bigint & Population municipale \\
-\texttt{taux\_chomage} & double & Taux de chômage (\%) \\
-\texttt{taux\_pauvrete} & double & Taux de pauvreté (seuil 60\%), peut être NULL \\
-\bottomrule
-\end{tabular}
-
-% -------------------------------------------------------
-%  7. Analyses métier B1 à B5
-% -------------------------------------------------------
-\section{Analyse interactive -- Besoins métier B1 à B5}
-
-\subsection{B1 -- Argumentaire de prix}
-
-\textbf{Situation~:} un négociateur doit défendre le prix d'un bien pendant une visite.
-
-La requête calcule la médiane des médianes annuelles du prix au m² dans la commune
-(années $\geq$ 10 ventes). Elle retourne~: médiane, moyenne, Q1, Q3, min, max.
-
-\textbf{Exemple~:} Appartement Paris 11\textsuperscript{e} proposé à 5\,385\,€/m²,
-médiane de marché à 9\,812\,€/m² $\Rightarrow$ \textbf{45,1\% sous le marché}.
-
-\subsection{B2 -- Score d'implantation agence}
-
-Score composite (10 meilleures communes par région)~:
-$$\text{Score} = 0{,}40 \times \text{dynamique prix} + 0{,}30 \times \text{activité ventes} + 0{,}30 \times \text{équipements}$$
-
-Les trois composantes utilisent \texttt{CUME\_DIST()} pour normaliser les valeurs sur [0, 1]
-dans leur région, rendant les 4 régions comparables.
-
-\subsection{B3 -- Recherche logement autour du travail}
-
-La requête croise DVF (prix biens comparables), OSM (accessibilité) et INSEE (profil).
-Le \texttt{ratio\_prix\_revenu\_annuel} mesure l'effort financier~: un ratio de 8 = 8 années
-de salaire brut.
-
-\subsection{B4 -- Tendance du marché}
-
-Utilise \texttt{LAG()} et \texttt{generate\_series()} pour une série temporelle complète
-2021--2025. Verdict~: hausse / stable / baisse / non\_concluante ($\pm$3\%).
-
-\textbf{Exemple~:} Lyon Appartement~: \textbf{baisse} ($-$12,5\% sur 5 ans).
-
-\subsection{B5 -- Zones sous-évaluées}
-
-Filtre les communes~: prix médian $<$ seuil régional (90\%), score équipements $>$ 60/100,
-revenu médian positif. Ce dernier critère écarte les zones simplement pauvres.
-
-% -------------------------------------------------------
-%  8. Déploiement
-% -------------------------------------------------------
-\section{Déploiement}
-
-\subsection{Image Docker}
-
-L'image est publiée sur Docker Hub~: \texttt{rayanhcm0/datalake-immo:latest}.
-Elle est compilée en \texttt{linux/amd64} depuis Apple Silicon avec \texttt{docker buildx}.
-
-\begin{lstlisting}[language=bash]
-docker run --env-file .env -p 8888:8888 rayanhcm0/datalake-immo:latest
-\end{lstlisting}
-
-Accès au notebook~: \texttt{http://localhost:8888} -- mot de passe~: \texttt{cleenmain2025}
-
-\subsection{Portainer -- plateforme universitaire}
-
-Le container est déployé sur la plateforme Docker de l'université.
-La connexion PostgreSQL est configurée via la variable d'environnement \texttt{DATABASE\_URL}.
-Les tables Silver et Gold sont déjà peuplées ; le notebook s'exécute sans ré-ingestion.
-
-% -------------------------------------------------------
-%  9. Conclusion
-% -------------------------------------------------------
-\section{Conclusion}
-
-Ce projet met en œuvre une architecture Data Lake complète~:
+Le sujet demandait au moins trois sources hétérogènes en accès libre. Nous en avons mobilisé quatre, délibérément différentes par leur nature et leur format.
 
 \begin{itemize}
-  \item \textbf{3 sources hétérogènes} intégrées (fichiers plats, API JSON, données spatiales)
-  \item \textbf{Architecture médaillon} Bronze / Silver / Gold avec justification des formats
-  \item \textbf{6 types d'actions correctives} documentées et quantifiées
-  \item \textbf{Fédération polystore} réalisée en SQL sur 4 tables issues de sources distinctes
-  \item \textbf{5 analyses métier complexes} paramétrables et opérationnelles
-  \item \textbf{Déploiement Docker} sur la plateforme universitaire
+  \item \textbf{DVF --- Demandes de valeurs foncières} (DGFiP, via data.gouv.fr). Le registre de toutes les ventes immobilières, millésimes 2021 à 2025. Des fichiers texte volumineux, une ligne par parcelle.
+  \item \textbf{OpenStreetMap} (API Overpass). Les points d'intérêt du territoire : écoles, établissements de santé, commerces, transports. Donnée spatiale, avec des coordonnées et des étiquettes libres.
+  \item \textbf{INSEE Filosofi} (API Melodi). Les indicateurs communaux de revenu et de pauvreté. Donnée statistique renvoyée en JSON, avec une structure qui change d'un jeu à l'autre.
+  \item \textbf{Contours communaux} (geo.api.gouv.fr). Les frontières géographiques des communes, en GeoJSON. Elles servent à rattacher spatialement les points OSM à une commune.
 \end{itemize}
 
-L'ensemble du pipeline est reproductible depuis les scripts fournis. Le notebook
-\texttt{analyse\_immo.ipynb} constitue le démonstrateur interactif final.
+Ces sources n'ont en commun que le code commune, et encore, pas toujours sous la même forme. C'est ce croisement qui donne sa valeur au lac : pris seul, aucun des jeux ne répond aux questions de l'agence.
+
+\begin{table}[htbp]
+\centering
+\caption{Les quatre sources et leur volume d'entrée.}
+\begin{tabular}{@{}l l l R{3cm}@{}}
+\toprule
+Source & Nature & Format brut & Volume brut \\
+\midrule
+DVF & Transactions & Texte (CSV étendu) & \num{8882007} lignes \\
+OpenStreetMap & Points d'intérêt & JSON (Overpass) & \num{309773} objets \\
+INSEE Filosofi & Statistiques & JSON (Melodi) & \num{4419302} observations \\
+Contours & Géométries & GeoJSON & \num{37} départements \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==================================================================
+\section{Comment le lac est organisé}
+% ==================================================================
+
+Nous avons suivi une architecture en médaillon, c'est-à-dire trois zones successives où la donnée se raffine à chaque étape. La figure~\ref{fig:archi} en donne la vue d'ensemble.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\linewidth]{diagrams/architecture.png}
+\caption{Architecture médaillon du lac, des sources jusqu'aux tables Gold.}
+\label{fig:archi}
+\end{figure}
+
+\subsection{Trois zones, trois rôles}
+
+La zone \textbf{Bronze} garde les données telles qu'on les a téléchargées, sans retouche. C'est l'archive brute : si on se trompe plus loin, on peut toujours repartir de là sans re-solliciter les sources. La zone \textbf{Silver} contient les données nettoyées et mises en forme, une fois les problèmes de qualité traités. La zone \textbf{Gold} est le modèle exploitable, rangé dans PostgreSQL, sur lequel les requêtes métier s'exécutent.
+
+\subsection{Pourquoi ces formats}
+
+Le choix du format suit le rôle de chaque zone.
+
+En Bronze, on conserve le format d'origine : texte pour DVF, JSON pour OSM et INSEE, GeoJSON pour les contours. L'idée est de ne rien perdre et de ne rien interpréter trop tôt.
+
+En Silver, on bascule tout en Parquet. Le format est colonnaire et compressé, ce qui tombe bien quand on manipule deux millions de ventes : les lectures ne chargent que les colonnes utiles, et les fichiers restent raisonnables sur le disque. Il porte aussi le typage des colonnes, ce qui évite de redevinner à chaque lecture si une valeur est un nombre ou du texte.
+
+En Gold, on passe à PostgreSQL. À ce stade on veut des clés primaires, des clés étrangères et du SQL pour écrire les requêtes d'analyse. Une base relationnelle est l'outil naturel pour ça, et c'est aussi ce que l'infrastructure de l'université met à disposition.
+
+% ==================================================================
+\section{Du brut au propre : la qualité des données}
+% ==================================================================
+
+C'est la partie qui nous a demandé le plus de travail, et de loin. Chaque source avait ses défauts, certains évidents, d'autres sournois. Nous les avons d'abord mesurés dans une étape de profilage, puis corrigés au passage Bronze~$\rightarrow$~Silver. La figure~\ref{fig:pipe} montre l'enchaînement complet.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.82\linewidth]{diagrams/pipeline.png}
+\caption{Le pipeline ETL, du téléchargement aux contrôles d'intégrité.}
+\label{fig:pipe}
+\end{figure}
+
+\subsection{DVF : isoler les ventes exploitables}
+
+Les fichiers DVF sont massifs mais loin d'être directement exploitables. Premier piège, l'encodage : les fichiers sont en UTF-8 mais avaient été lus en latin-1 au téléchargement, ce qui transformait \og Dépendance \fg{} en \og DÃ©pendance \fg{}. Nous ré-encodons les modalités texte en Silver.
+
+Plus structurel, une vente n'est pas une ligne. DVF éclate chaque transaction en plusieurs lignes, une par local et par nature de culture du terrain, et répète la valeur foncière sur chacune. Additionner les lignes donnerait n'importe quoi. Nous reconstruisons donc une ligne par vente, et nous ne gardons que les ventes portant sur un seul logement, maison ou appartement, sans local professionnel mêlé. Cela écarte environ \SI{60}{\percent} des lignes brutes, mais ce sont des lignes dont on ne pourrait de toute façon pas tirer un prix au mètre carré fiable.
+
+Restent les valeurs aberrantes : prix sous \num{1000}~\euro{} (souvent des donations déguisées), surfaces hors de l'intervalle \numrange{9}{1000}~m\textsuperscript{2}, prix au mètre carré hors de \numrange{100}{30000}~\euro. Elles sont filtrées par des seuils de plausibilité documentés dans le code. Un cas plus subtil : un même logement vendu deux fois le même jour à des prix différents. Impossible de trancher, donc nous excluons ces ventes. Enfin, les arrondissements de Paris et Lyon portent dans DVF des codes qui ne correspondent pas à ceux de l'INSEE ; nous les rattachons à la commune mère pour que les jointures tiennent.
+
+\begin{table}[htbp]
+\centering
+\caption{DVF : volume brut et ventes retenues par millésime.}
+\begin{tabular}{@{}l R{3.2cm} R{3.2cm}@{}}
+\toprule
+Millésime & Lignes brutes & Ventes retenues \\
+\midrule
+2021 & \num{2020967} & \num{503616} \\
+2022 & \num{2073355} & \num{485638} \\
+2023 & \num{1668783} & \num{375784} \\
+2024 & \num{1524087} & \num{332794} \\
+2025 & \num{1594815} & \num{372867} \\
+\midrule
+Total & \num{8882007} & \num{2070699} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Au bout de la chaîne, le prix au mètre carré médian ressort à \num{3789}~\euro{} pour les appartements et \num{2534}~\euro{} pour les maisons, des ordres de grandeur cohérents avec le marché.
+
+\subsection{OpenStreetMap : filtrer le périmètre et dédoublonner}
+
+Le premier problème OSM venait de notre requête, pas des données. Sans préciser le niveau administratif, Overpass renvoyait aussi des objets d'autres régions partageant le même code, soit à peu près la moitié d'objets parasites. L'ajout du filtre \texttt{admin\_level=6} a réglé le gros du bruit, et nous avons ré-extrait les fichiers concernés.
+
+Ensuite, les étiquettes OSM sont libres, donc imparfaites. La recherche d'écoles ramenait aussi les auto-écoles et les écoles de musique ; une liste blanche de sous-types valides les écarte. Certains commerces sont marqués vacants ou sans type précis : nous les gardons mais avec un drapeau, pour pouvoir les exclure des comptages quand il le faut. Quatre objets OSM sur cinq n'ont aucune adresse, ce qui interdit un rattachement direct à une commune ; nous passons donc par une jointure spatiale sur les contours, avec repêchage du point le plus proche à moins d'un kilomètre quand il tombe hors d'un contour. Dernier cas, les arrêts de transport : un même arrêt physique apparaît en plusieurs points, un par sens et par ligne. Nous regroupons ceux de même nom distants de moins de cent mètres, ce qui ramène environ \num{69262} positions à \num{43996} arrêts réels.
+
+\begin{table}[htbp]
+\centering
+\caption{OSM : du brut au Silver.}
+\begin{tabular}{@{}l R{3cm}@{}}
+\toprule
+Étape & Objets \\
+\midrule
+Bronze brut & \num{309773} \\
+\quad$-$ écoles hors périmètre & $-\,\num{3777}$ \\
+\quad$-$ points hors communes & $-\,3$ \\
+\quad$-$ doublons de frontière & $-\,68$ \\
+\midrule
+Silver & \num{305925} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{INSEE : repérer les valeurs vraiment absentes}
+
+Le piège le plus pernicieux venait d'ici. L'API Melodi n'écrit pas \texttt{null} pour une valeur absente : elle renvoie un objet vide. Un test naïf sur la présence de la clé concluait à un remplissage de \SI{100}{\percent}, alors que l'indicateur Filosofi n'est en réalité disponible que pour une petite part des communes. Nous testons donc la présence effective de la valeur, pas seulement de la clé.
+
+Derrière, la couverture est franchement inégale. Filosofi publie vingt-sept indicateurs, mais vingt-cinq ne sont pas diffusés à l'échelle communale pour des raisons de secret statistique. Nous ne conservons que le revenu médian et le taux de pauvreté. Le revenu médian couvre \num{9658} communes sur \num{10939} (\SI{88}{\percent}), le taux de pauvreté beaucoup moins, \num{8699} communes n'ayant pas de valeur diffusée. Les valeurs non diffusées restent marquées comme absentes plutôt que forcées à zéro. Il fallait aussi harmoniser les codes géographiques, qui incluent leur millésime selon les jeux, et neutraliser les modalités \og total \fg{} pour ne pas les additionner aux sous-catégories.
+
+De \num{4419302} observations brutes réparties sur sept jeux, nous arrivons à un profil propre de \num{10939} communes.
+
+\subsection{Les quatre familles de corrections}
+
+Nos corrections se rangent selon les grandes dimensions classiques de la qualité :
+
+\begin{itemize}
+  \item \emph{Exactitude} : encodage, valeurs aberrantes, étiquettes OSM trompeuses, objet vide INSEE.
+  \item \emph{Complétude} : reconstruction des ventes éclatées, rattachement spatial des POI sans adresse, indicateurs INSEE non diffusés.
+  \item \emph{Cohérence} : codes d'arrondissement, millésimes dans les codes géographiques, modalités à ne pas cumuler.
+  \item \emph{Unicité} : doublons stricts DVF, objets OSM aux frontières, positions d'arrêts regroupées.
+\end{itemize}
+
+% ==================================================================
+\section{Le modèle Gold et le croisement des sources}
+% ==================================================================
+
+Une fois chaque source nettoyée de son côté, il faut les faire se rencontrer. C'est le rôle de la zone Gold, organisée en étoile autour de la commune.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\linewidth]{diagrams/erd.png}
+\caption{Modèle entité-association des quatre tables Gold.}
+\label{fig:erd}
+\end{figure}
+
+\subsection{Quatre tables autour de la commune}
+
+La table \texttt{G\_COMMUNE} est le pivot : une ligne par commune, avec son nom, son département et sa région. Les trois autres tables s'y rattachent par le code commune. \texttt{G\_TRANSACTION} porte les ventes comparables, \texttt{G\_POINT\_INTERET} les équipements OSM, et \texttt{G\_PROFIL\_COMMUNE} le profil socio-démographique INSEE. Cette dernière est particulière : sa clé primaire est aussi une clé étrangère vers la commune, puisqu'il y a au plus un profil par commune.
+
+C'est là qu'intervient la fédération des sources. Trois jeux qui n'avaient à l'origine rien en commun se rejoignent sur une clé unique. Nous avons fait le choix d'unifier au moment du chargement : chaque source nettoyée est d'abord écrite dans PostgreSQL, puis les tables Gold sont construites par des requêtes \texttt{INSERT~...~SELECT} qui les croisent. L'alternative aurait été d'interroger les formats hétérogènes en place, mais rapatrier d'abord dans une base unique nous a paru plus simple à contrôler et plus rapide à l'usage pour les cinq requêtes métier, qui lisent toutes ces quatre tables.
+
+\subsection{Dictionnaire des tables Gold}
+
+\begin{table}[htbp]
+\centering
+\caption{Grain, clés et contenu des tables Gold.}
+\begin{tabular}{@{}l l p{6.2cm}@{}}
+\toprule
+Table & Clé & Principales colonnes \\
+\midrule
+\texttt{G\_COMMUNE} & \texttt{code\_commune} & nom, département, région \\
+\texttt{G\_TRANSACTION} & \texttt{id\_vente} & date, type de bien, valeur foncière, surface, prix/m\textsuperscript{2}, code commune \\
+\texttt{G\_POINT\_INTERET} & \texttt{id\_osm} & nom, catégorie, sous-type, latitude, longitude, code commune \\
+\texttt{G\_PROFIL\_COMMUNE} & \texttt{code\_commune} & revenu médian, population, taux de chômage, taux de pauvreté \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\texttt{G\_TRANSACTION} ne garde que les ventes de maisons et d'appartements, de 2021 à 2025, sans revente à moins de trente jours. Quelques communes présentes dans DVF ne figurent plus au référentiel INSEE ; nous les laissons dans \texttt{G\_COMMUNE} pour que la clé étrangère tienne, mais elles n'ont pas de profil. Dans \texttt{G\_POINT\_INTERET}, un même objet pouvant relever de deux catégories (une pharmacie est à la fois santé et commerce), nous ne gardons qu'une ligne par objet, avec une priorité santé, éducation, transport, commerce.
+
+\subsection{Un contrôle automatique en fin de chaîne}
+
+Pour ne pas livrer un Gold approximatif, un script de contrôle vérifie après chaque construction que les volumes se conservent entre Silver et Gold, que les schémas sont conformes, que les clés primaires et étrangères existent et que les valeurs restent dans leurs domaines. Le dernier passage est au vert sur les seize contrôles.
+
+\begin{table}[htbp]
+\centering
+\caption{Volumes des tables Gold (contrôle du 5 novembre 2026).}
+\begin{tabular}{@{}l R{3cm}@{}}
+\toprule
+Table & Lignes \\
+\midrule
+\texttt{G\_COMMUNE} & \num{10966} \\
+\texttt{G\_TRANSACTION} & \num{1991665} \\
+\texttt{G\_POINT\_INTERET} & \num{305839} \\
+\texttt{G\_PROFIL\_COMMUNE} & \num{10939} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ==================================================================
+\section{Répondre aux questions de l'agence}
+% ==================================================================
+
+Les cinq besoins du début se traduisent en cinq requêtes SQL sur les tables Gold, mises en scène dans un notebook qui sert de démonstrateur.
+
+\begin{description}[leftmargin=1.2cm,style=nextline]
+  \item[B1.] Le prix de référence d'une commune et d'un type de bien est calculé comme la médiane des médianes annuelles, en ne retenant que les années comptant au moins dix ventes. Une année trop peu fournie ne publie pas de prix, ce qui évite de bâtir un argument sur trois transactions.
+  \item[B2.] Le score d'implantation combine trois ingrédients : l'activité récente du marché, la dynamique des prix entre deux fenêtres, et la densité d'équipements pour mille habitants. Les communes sont comparées à l'échelle régionale par rang percentile, et le score pondère la dynamique à \num{0.40}, l'activité et les équipements à \num{0.30} chacun.
+  \item[B3.] À partir d'une adresse de travail géocodée dans le notebook, la requête classe les communes voisines par distance et ne garde que celles offrant un transport, au moins un équipement ou commerce, et assez de ventes récentes comparables. Elle rapporte le prix médian de ces biens au revenu annuel du couple, et une carte situe le travail, les communes candidates et des exemples de ventes.
+  \item[B4.] La tendance d'une commune est la suite des prix au mètre carré médians annuels, avec la variation d'une année sur l'autre et sur l'ensemble de la période, publiées seulement quand les deux médianes comparées existent.
+  \item[B5.] Les bonnes affaires d'une région sont les communes sous un seuil de prix, au-dessus d'un seuil d'équipements et gardant un revenu au moins égal à la médiane régionale. Le score d'équipements reprend la définition de B2.
+\end{description}
+
+Aucun score ni prix n'est figé dans une table supplémentaire : les cinq requêtes lisent directement les quatre tables Gold, donc leurs résultats suivent toujours l'état des données.
+
+% ==================================================================
+\section{Mise en production}
+% ==================================================================
+
+Tout le projet tient dans une image Docker unique, publiée sur Docker Hub. Elle embarque le code du pipeline, les scripts SQL et le notebook. Deux usages sont prévus : un service qui déroule le pipeline complet, du Bronze au contrôle Gold, et un service Jupyter pour l'analyse interactive. Le fichier \texttt{docker-compose} orchestre les deux, et l'accès au notebook est protégé par un jeton.
+
+Côté déploiement, l'image tourne sur la plateforme Portainer de l'université, qui héberge aussi la base PostgreSQL cible. La connexion à la base passe par une variable d'environnement, jamais en dur dans le code. Le README détaille l'ordre d'exécution et les commandes, de l'installation locale au lancement par conteneur.
+
+% ==================================================================
+\section{Bilan et limites}
+% ==================================================================
+
+Le lac remplit ce qu'on lui demandait : il rassemble quatre sources publiques hétérogènes, les nettoie de défauts bien réels, et les croise pour répondre aux cinq questions de l'agence. Les volumes, plus de deux millions de ventes, justifient l'outillage employé.
+
+Plusieurs points restent perfectibles. Le taux de pauvreté est trop lacunaire pour servir au-delà des grandes communes, faute de diffusion par l'INSEE. Le rattachement spatial des points OSM, au point le plus proche quand l'adresse manque, introduit une marge d'erreur près des frontières communales. Le modèle Gold ne permet pas de calculer une distance exacte entre un logement et un lieu de travail, ni de rechercher des annonces réellement disponibles : il raisonne sur l'historique des ventes, pas sur le marché en temps réel. Enfin, notre fédération s'opère par rapatriement dans PostgreSQL plutôt que par interrogation directe des formats d'origine ; c'est un choix de simplicité qui conviendrait moins si le volume dépassait ce qu'une seule base peut absorber.
+
+Aucune de ces limites n'empêche l'agence de s'appuyer sur l'observatoire aujourd'hui. Elles tracent plutôt les pistes d'une version suivante : meilleure couverture des indicateurs, géocodage plus fin, et le cas échéant une vraie couche de fédération au-dessus de sources restées dans leur format.
 
 \end{document}
