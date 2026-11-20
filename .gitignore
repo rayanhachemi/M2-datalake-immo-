@@ -33,3 +33,6 @@ __pycache__/
 # Système / notebooks
 .DS_Store
 .ipynb_checkpoints/
+
+# Sujet du projet (non versionné)
+M2_NoSQL_Projet_26_27.pdf
