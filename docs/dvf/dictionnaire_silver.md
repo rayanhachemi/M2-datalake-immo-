@@ -1,6 +1,6 @@
 # Dictionnaire silver DVF
 
-Fichier produit par `src/dvf/silver.py` — une ligne par vente d'un logement unique.
+Fichier produit par `src/dvf/silver.py` :  Une ligne correspond à une vente de logement.
 
 - **Chemin** : `silver/dvf_ventes.parquet`
 - **Volume** : 2 070 699 ventes × 17 colonnes (2021-2025)
@@ -17,7 +17,7 @@ Fichier produit par `src/dvf/silver.py` — une ligne par vente d'un logement un
 | `prix_m2` | float | Prix au m² calculé (`valeur_fonciere / surface_bati`), arrondi à l'euro |
 | `nb_pieces` | int | Nombre de pièces principales |
 | `surface_terrain` | float | Surface du terrain en m² (maisons uniquement, null pour les appartements) |
-| `nb_dependances` | int | Nombre de dépendances (caves, parkings...) associées |
+| `nb_dependances` | int | Nombre de dépendances (caves, parkings...) liée au logement |
 | `revente_moins_30j` | bool | `True` si ce même logement a été vendu à moins de 30 jours avant ou après |
 | `region` | str | `idf`, `occitanie`, `bretagne` ou `ara` |
 | `code_departement` | str | Code département (2 caractères) |

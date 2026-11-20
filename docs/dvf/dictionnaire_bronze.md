@@ -7,7 +7,7 @@ Fichiers produits par `src/dvf/main.py`.
 - **Volume** : 5 fichiers (2021-2025), ~8,9 millions de lignes, ~1,2 Go
 - **Licence** : Licence Ouverte — CGU DGFiP : ne pas ré-identifier les personnes ni indexer les adresses
 
-Une vente est éclatée en plusieurs lignes (une par local × nature de culture du terrain). La valeur foncière est répétée sur chaque ligne — ne pas les additionner.
+Une vente est éclatée en plusieurs lignes (une par local × nature de culture du terrain). La valeur foncière est répétée sur chaque ligne, faut pas les additionner.
 
 ## Colonnes principales
 
@@ -27,4 +27,4 @@ Une vente est éclatée en plusieurs lignes (une par local × nature de culture 
 | `Nature culture` | Type de terrain (`Jardins`, `Terres`, `Bois`...) — présent uniquement sur les lignes terrain |
 | `Surface terrain` | Surface du terrain en m² |
 
-La complétude détaillée par colonne et par millésime est dans `docs/dvf/profiling/colonnes_{annee}.csv`.
+Les fichiers qui indique les colonnes renseignées pour chaque année sont disponibles dans `docs/dvf/profiling/colonnes_{annee}.csv`.

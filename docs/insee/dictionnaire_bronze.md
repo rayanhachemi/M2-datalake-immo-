@@ -3,7 +3,7 @@
 Fichiers produits par `src/insee/main.py`.
 
 - **Chemin** : `bronze/insee/{DATASET}/region_{code}_{nom}/part_XXXX.json`
-- **Format** : JSON statistique (SDMX) — une liste d'observations, pas un tableau classique
+- **Format** : JSON statistique (SDMX) : une liste d'observations, pas un tableau classique
 - **Volume** : 7 jeux × 4 régions = 406 fichiers, 4 419 302 observations, ~1,7 Go
 - **Licence** : Licence Ouverte INSEE
 

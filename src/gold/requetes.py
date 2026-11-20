@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """Exécute les requêtes métier Gold dans PostgreSQL.
 
 Exemples :
@@ -8,6 +9,8 @@ Exemples :
   python src/gold/requetes.py B5 --region occitanie --type-bien Maison
 """
 
+=======
+>>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
 import argparse
 import re
 import sys

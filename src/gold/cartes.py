@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 """Fonds Folium utilisés par les cartes métier B1 et B3."""
 
+=======
+>>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
 import json
 from pathlib import Path
 
@@ -12,7 +15,10 @@ CONTOURS = ROOT / "bronze" / "contours"
 
 def carte_avec_fonds(latitude: float, longitude: float, zoom: int,
                      codes_communes: list[str]) -> folium.Map:
+<<<<<<< HEAD
     """Ajoute le fond CARTO basé sur OSM et les contours communaux locaux."""
+=======
+>>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
     carte = folium.Map(
         location=[latitude, longitude], zoom_start=zoom,
         tiles=None, control_scale=True,

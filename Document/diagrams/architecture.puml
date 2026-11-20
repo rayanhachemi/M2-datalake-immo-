@@ -1,0 +1,55 @@
+@startuml architecture
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam ArrowColor #333333
+skinparam ComponentBorderColor #333333
+skinparam ComponentBackgroundColor #FFFFFF
+skinparam NoteBackgroundColor #F8F8F8
+
+title Architecture médaillon — Clé en Main Immo
+
+package "SOURCES" {
+  [DVF (data.gouv.fr)] as DVF
+  [OpenStreetMap (Overpass)] as OSM
+  [INSEE Filosofi (Melodi)] as INSEE
+  [geo.api.gouv.fr] as GEO
+}
+
+package "BRONZE\n(données brutes)" {
+  database "dvf/" as B_DVF
+  database "osm/" as B_OSM
+  database "insee/" as B_INSEE
+  database "contours/" as B_GEO
+}
+
+package "SILVER\n(Parquet nettoyé)" {
+  file "dvf_ventes.parquet\n~2,07 M ventes" as S_DVF
+  file "osm_poi.parquet\n~305 K POI" as S_OSM
+  file "insee_communes.parquet\n~10 939 communes" as S_INSEE
+  file "communes.parquet\nréférentiel" as S_COM
+}
+
+package "GOLD\n(PostgreSQL)" {
+  database "G_COMMUNE" as G1
+  database "G_TRANSACTION" as G2
+  database "G_POINT_INTERET" as G3
+  database "G_PROFIL_COMMUNE" as G4
+}
+
+DVF --> B_DVF : main.py
+OSM --> B_OSM : main.py
+INSEE --> B_INSEE : main.py
+GEO --> B_GEO : main.py
+
+B_DVF --> S_DVF : silver.py
+B_OSM --> S_OSM : silver.py
+B_INSEE --> S_INSEE : silver.py
+B_GEO --> S_COM : silver.py
+
+S_COM --> G1 : modele_conceptuel.py
+S_DVF --> G2
+S_OSM --> G3
+S_INSEE --> G4
+
+@enduml

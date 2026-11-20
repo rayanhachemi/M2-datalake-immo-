@@ -1,0 +1,54 @@
+@startuml erd
+skinparam monochrome true
+skinparam shadowing false
+skinparam defaultFontName Helvetica
+skinparam ClassBorderColor #333333
+skinparam ClassBackgroundColor #FFFFFF
+skinparam ClassHeaderBackgroundColor #DDDDDD
+
+title Modèle entité-association — Tables Gold
+
+entity "G_COMMUNE" as COM {
+  * code_commune : varchar(5) <<PK>>
+  --
+  nom_commune : text
+  departement : text
+  region : text
+}
+
+entity "G_TRANSACTION" as TXN {
+  * id_vente : text <<PK>>
+  --
+  date_mutation : date
+  type_bien : text
+  valeur_fonciere : double
+  surface_bati : double
+  prix_m2 : double
+  code_commune : varchar(5) <<FK>>
+}
+
+entity "G_POINT_INTERET" as POI {
+  * id_osm : text <<PK>>
+  --
+  nom : text
+  categorie : text
+  sous_type : text
+  latitude : double
+  longitude : double
+  code_commune : varchar(5) <<FK>>
+}
+
+entity "G_PROFIL_COMMUNE" as PROF {
+  * code_commune : varchar(5) <<PK,FK>>
+  --
+  revenu_median : double
+  population : bigint
+  taux_chomage : double
+  taux_pauvrete : double
+}
+
+COM ||--o{ TXN : "1 commune\n→ N ventes"
+COM ||--o{ POI : "1 commune\n→ N POI"
+COM ||--|| PROF : "1 commune\n→ 1 profil"
+
+@enduml

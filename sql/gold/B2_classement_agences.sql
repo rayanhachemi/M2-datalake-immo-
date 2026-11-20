@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 -- B2 : score calculé uniquement depuis les quatre tables du modèle Gold.
+=======
+>>>>>>> 7dbea0a4dcfd066f162d6a0d72c16c466e999175
 WITH parametres AS (
     -- PARAMETRES_DEBUT
     SELECT 'idf'::text AS region, 10::integer AS limite

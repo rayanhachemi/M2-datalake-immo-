@@ -1,6 +1,6 @@
 # Spécification Gold — schéma conceptuel
 
-Le Gold comprend **quatre tables**, construites dans PostgreSQL par des requêtes `INSERT ... SELECT` à partir de quatre tables Silver : `S_dvf_ventes`, `S_osm_poi`, `S_insee_communes` et `S_communes`. Cette dernière est préparée depuis les contours géographiques conservés en Bronze et les codes DVF Silver. Le code communal est une chaîne de cinq caractères ; les liens entre tables Gold sont des clés étrangères PostgreSQL.
+Les quatre tables Gold sont créées dans PostgreSQL à partir des tables Silver avec des requêtes INSERT ... SELECT : `S_dvf_ventes`, `S_osm_poi`, `S_insee_communes` et `S_communes`. Cette dernière est préparée depuis les contours géographiques conservés en Bronze et les codes DVF Silver. Le code communal est une chaîne de cinq caractères ; les liens entre tables Gold sont des clés étrangères PostgreSQL.
 
 | Table | Grain et clé primaire | Colonnes métier | Relation |
 |---|---|---|---|
