@@ -5,6 +5,7 @@
 \usepackage{microtype}
 \usepackage{booktabs}
 \usepackage{graphicx}
+\usepackage{float}
 \usepackage{array}
 \usepackage{ragged2e}
 \usepackage{enumitem}
@@ -276,7 +277,7 @@ En Gold, on passe à PostgreSQL. À ce stade on veut des clés primaires, des cl
 
 C'est la partie qui nous a demandé le plus de travail, et de loin. Chaque source avait ses défauts, certains évidents, d'autres sournois. Nous les avons d'abord mesurés dans une étape de profilage, puis corrigés au passage Bronze~$\rightarrow$~Silver. La figure~\ref{fig:pipe} montre l'enchaînement complet.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.82\linewidth]{diagrams/pipeline.png}
 \caption{Le pipeline ETL, du téléchargement aux contrôles d'intégrité.}
