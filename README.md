@@ -160,6 +160,8 @@ docker run --env-file .env -p 8888:8888 rayanhcm0/datalake-immo:latest
 
 Accéder au notebook : `http://localhost:8888` — mot de passe : `cleenmain2025`
 
+**Instance déployée (sandbox université de Tours) :** [docker1.pedagogie.sandbox.univ-tours.fr:8888/notebooks/analyse_immo.ipynb](http://docker1.pedagogie.sandbox.univ-tours.fr:8888/notebooks/analyse_immo.ipynb) — jeton : `cleenmain2025`
+
 ```bash
 # Rebuild et push (cross-compilation amd64 depuis Apple Silicon)
 docker buildx build --platform linux/amd64 -t rayanhcm0/datalake-immo:latest --push .
