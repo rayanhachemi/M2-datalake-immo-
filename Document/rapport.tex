@@ -153,6 +153,96 @@ Contours & Géométries & GeoJSON & \num{37} départements \\
 \end{tabular}
 \end{table}
 
+\noindent\textbf{Dictionnaire Bronze --- DVF.} Les cinq fichiers \texttt{bronze/dvf/dvf\_AAAA\_cibles.txt} (2021--2025) sont séparés par \texttt{|}. À ce stade, les champs sont conservés comme du texte ; la colonne « format » précise leur interprétation. Une mutation peut occuper plusieurs lignes (locaux et cultures), avec la même valeur foncière répétée.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.8cm}p{2.5cm}p{7.6cm}@{}}
+\toprule
+Champ brut & Format & Signification \\
+\midrule
+\texttt{No disposition} & Texte & Numéro de disposition dans la mutation. \\
+\texttt{Date mutation} & JJ/MM/AAAA & Date de l'acte de mutation. \\
+\texttt{Nature mutation} & Texte & Nature de l'acte : vente, vente en l'état futur d'achèvement, etc. \\
+\texttt{Valeur fonciere} & Décimal texte & Prix de la mutation en euros ; répété sur ses lignes. \\
+\texttt{Code departement} & Texte & Code du département, avec zéros initiaux éventuels. \\
+\texttt{Code commune} & Texte & Code sur trois caractères à combiner avec le département. \\
+\texttt{Commune} & Texte & Nom de la commune dans le fichier DVF. \\
+\texttt{No voie}, \texttt{Voie} & Texte & Numéro et libellé de la voie du bien. \\
+\texttt{Section}, \texttt{No plan} & Texte & Références de la parcelle cadastrale. \\
+\texttt{Type local} & Texte & Maison, appartement, dépendance ou local professionnel. \\
+\texttt{Surface reelle bati} & Décimal texte & Surface bâtie du local, en mètres carrés. \\
+\texttt{Nombre pieces principales} & Entier texte & Nombre de pièces principales du local. \\
+\texttt{Nature culture} & Texte & Nature de culture de la parcelle : jardin, terre, bois, etc. \\
+\texttt{Surface terrain} & Décimal texte & Surface de la parcelle, en mètres carrés. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Dictionnaire Bronze --- OpenStreetMap.} Chaque fichier de \path{bronze/osm/} est une réponse JSON Overpass pour une région, un département et une catégorie (\texttt{ecoles}, \texttt{sante}, \texttt{shops}, \texttt{transport}). La liste \texttt{elements} contient les objets ; leurs tags peuvent être absents ou varier d'un objet à l'autre.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.8cm}p{2.5cm}p{7.6cm}@{}}
+\toprule
+Champ JSON & Type & Signification \\
+\midrule
+\texttt{elements} & Tableau & Liste des objets renvoyés par Overpass. \\
+\texttt{elements[].type} & Texte & Type d'objet : \texttt{node}, \texttt{way} ou \texttt{relation}. \\
+\texttt{elements[].id} & Entier & Identifiant OSM, unique en association avec le type. \\
+\texttt{lat}, \texttt{lon} & Décimaux & Coordonnées des objets de type \texttt{node}. \\
+\texttt{center.lat}, \texttt{center.lon} & Décimaux & Coordonnées du centre renvoyé pour les \texttt{way} et \texttt{relation}. \\
+\texttt{tags} & Objet & Ensemble libre des attributs de l'objet. \\
+\texttt{tags.name} & Texte & Nom du lieu lorsqu'il est renseigné. \\
+\texttt{tags.amenity}, \texttt{tags.shop} & Textes & Catégorie d'équipement ou type de commerce. \\
+\texttt{tags.public\_transport} & Texte & Type d'objet de transport, notamment \texttt{stop\_position}. \\
+\texttt{osm3s.timestamp\_osm\_base} & Texte & Date de référence de la base OSM, au niveau du fichier. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Dictionnaire Bronze --- INSEE.} Les fichiers \path{bronze/insee/JEU/region_CODE_NOM/part_XXXX.json} sont des réponses JSON Melodi, réparties en sept jeux : revenus et pauvreté, population, logements, emploi, diplômes, ménages et populations historiques. Chaque réponse contient une liste \texttt{observations} et des métadonnées de pagination.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.8cm}p{2.5cm}p{7.6cm}@{}}
+\toprule
+Champ JSON & Type & Signification \\
+\midrule
+\texttt{observations} & Tableau & Liste des observations statistiques du fichier. \\
+\texttt{identifier}, \texttt{title} & Textes & Identifiant et titre du jeu de données. \\
+\texttt{paging} & Objet & Informations de pagination de la réponse. \\
+\texttt{dimensions.GEO} & Texte & Territoire et millésime du code commune. \\
+\texttt{dimensions.TIME\_PERIOD} & Texte & Année de référence de l'observation. \\
+\texttt{dimensions.*\_MEASURE} & Texte & Code de l'indicateur ; son nom dépend du jeu de données. \\
+\texttt{dimensions.UNIT\_MEASURE} & Texte éventuel & Unité de mesure, lorsqu'elle est fournie. \\
+\texttt{attributes.OBS\_STATUS} & Texte éventuel & Statut de diffusion de l'observation. \\
+\texttt{attributes.CONF\_STATUS} & Texte éventuel & Statut de confidentialité, notamment le secret statistique. \\
+\texttt{measures.}\newline\texttt{OBS\_VALUE\_NIVEAU.value} & Nombre éventuel & Valeur mesurée ; l'objet peut être vide si elle n'est pas diffusée. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\noindent\textbf{Dictionnaire Bronze --- contours communaux.} Les \num{37} fichiers GeoJSON de \path{bronze/contours/} contiennent chacun une collection de communes d'un département. La géométrie sert au rattachement spatial des points OSM.
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{4.8cm}p{2.5cm}p{7.6cm}@{}}
+\toprule
+Champ GeoJSON & Type & Signification \\
+\midrule
+\texttt{type} & Texte & \texttt{FeatureCollection} pour le fichier. \\
+\texttt{features} & Tableau & Liste des communes du département. \\
+\texttt{features[].type} & Texte & \texttt{Feature} pour chaque commune. \\
+\texttt{properties.code} & Texte & Code INSEE de la commune sur cinq caractères. \\
+\texttt{properties.nom} & Texte & Nom de la commune. \\
+\texttt{properties.codeDepartement} & Texte & Code du département. \\
+\texttt{geometry.type} & Texte & Type de géométrie : \texttt{Polygon} ou \texttt{MultiPolygon}. \\
+\texttt{geometry.coordinates} & Tableau & Coordonnées des contours dans le GeoJSON. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
 % ==================================================================
 \section{Comment le lac est organisé}
 % ==================================================================
